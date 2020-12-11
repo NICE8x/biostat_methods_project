@@ -79,6 +79,12 @@ summary(lm(hate_crimes_per_100k_splc ~ . - state - hate_crimes_log, data = hate_
 Yes, it does seem that the Gini index (income inequality) is the most significant predictor of hate crime and percent population with a HS degree is the only other significant predictor. Both of these results agree with the article.
 
 
+```{r}
+summary(lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc, data = hate_crimes_df))
+```
+
+Here we re-ran the same model, but using log of the output. We obtain the same results in terms of sigificant variables. 
+
 Lets do research to pick other covariates to include in our model
 
 Variables shown to be statistically significant in existent literature: 
@@ -96,7 +102,6 @@ hate_crimes_df = hate_crimes_df %>%
   mutate(log_hate_crimes_rate = log(hate_crimes_per_100k_splc)) %>%
   drop_na()
 
-<<<<<<< HEAD
 mult.fit <- lm(log_hate_crimes_rate ~ ., data = hate_crimes_df)
 step(mult.fit, direction = 'backward')
 ```

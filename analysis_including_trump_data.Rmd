@@ -16,4 +16,9 @@ hate_crime = read_csv(url(urlfile)) %>%
   mutate(ln_hate_crimes_rate = log(hate_crimes_per_100k_splc))
 
 skim(hate_crime)
+
+mult.fit <- lm(ln_hate_crimes_rate ~ ., data = hate_crime)
+step(mult.fit, direction = 'backward')
+
+summary(lm(ln_hate_crimes_rate ~ . - state - avg_hatecrimes_per_100k_fbi - hate_crimes_per_100k_splc, data = hate_crime))
 ```
