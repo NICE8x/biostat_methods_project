@@ -70,7 +70,14 @@ Box Cox
 2 people:Stella, Vasili
 
 
-regress given covariate
+Regress given covariate (original model given by article)
+
+```{r}
+summary(lm(hate_crimes_per_100k_splc ~ . - state - hate_crimes_log, data = hate_crimes_df))
+```
+
+Yes, it does seem that the Gini index (income inequality) is the most significant predictor of hate crime.
+
 
 Lets do research to pick other covariates to include in our model
 
