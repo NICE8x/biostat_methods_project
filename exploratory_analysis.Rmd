@@ -73,15 +73,24 @@ regress given covariate
 
 Lets do research to pick other covariates to include in our model
 
+Variables shown to be statistically significant in existent literature: 
+
+- Race, religion, sexual orientation - Source: Study of Literature And Legislation on Hate Crime in America (147 page report for the US Justice Department) (https://www.ncjrs.gov/pdffiles1/nij/grants/210300.pdf)
+- Urbanization/population density, economic considerations (median income, poverty level, job availability), cultural and education factors - Source: US FBI website (https://ucr.fbi.gov/hate-crime/2011/resources/variables-affecting-crime)
+
 Can also do a backwards stepwise selection to come up with a preliminary model and then add/subtract from that too
 
 Make the association matrix and compare covariates-look for multicollinearity
 3 people: Lily, Caroline, Tessa
 
+```{r model_stuff, message = FALSE, warning = FALSE}
+hate_crimes_df = hate_crimes_df %>%
+  mutate(log_hate_crimes_rate = log(hate_crimes_per_100k_splc)) %>%
+  drop_na()
 
-
-
-
+mult.fit <- lm(log_hate_crimes_rate ~ ., data = hate_crimes_df)
+step(mult.fit, direction = 'backward')
+```
 
 
 
