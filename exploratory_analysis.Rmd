@@ -76,7 +76,7 @@ Regress given covariate (original model given by article)
 summary(lm(hate_crimes_per_100k_splc ~ . - state - hate_crimes_log, data = hate_crimes_df))
 ```
 
-Yes, it does seem that the Gini index (income inequality) is the most significant predictor of hate crime.
+Yes, it does seem that the Gini index (income inequality) is the most significant predictor of hate crime and percent population with a HS degree is the only other significant predictor. Both of these results agree with the article.
 
 
 Lets do research to pick other covariates to include in our model
