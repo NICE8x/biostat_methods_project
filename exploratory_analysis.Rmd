@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r load libraries}
+```{r load libraries warning=FALSE, message=FALSE}
 library(tidyverse)
 library(stringr)
 ```
@@ -67,3 +67,7 @@ hate_crimes_df <- hate_crimes_df %>%
 
 
 
+=======
+library(readr)
+```
+>>>>>>> af8bf69ca9ad64c0ddead0355f9d7f8a201ea380
