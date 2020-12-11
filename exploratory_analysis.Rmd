@@ -106,16 +106,6 @@ mult.fit <- lm(log_hate_crimes_rate ~ ., data = hate_crimes_df)
 step(mult.fit, direction = 'backward')
 ```
 
-
-
-
-
-
-
-
-
-
-=======
 Correlation matrix of all numeric variables with each other:
 
 ```{r cor mat}
@@ -126,6 +116,6 @@ hate_crimes_df %>%
 ```
 
 Median household income and percentage of population with a HS degree has a correlation coefficient of 0.663, which may suggest multi-collinearity. Not sure about correlation of perc_non_white and gini_index (0.564). All other variables do not suggest multi-collinearity.
->>>>>>> e8dad9d9f2876c36d34ad13348a95ac90d0a5bee
+
 
 
