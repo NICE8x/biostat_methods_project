@@ -53,21 +53,41 @@ hate_crimes_df <- hate_crimes_df %>%
   mutate(hate_crimes_log = log(hate_crimes_per_100k_splc))
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
-library(readr)
+```{r box plot}
+hate_crimes_df %>%
+  mutate(state = fct_reorder(state, hate_crimes_log)) %>%
+ggplot(aes(x = state, y = hate_crimes_log)) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1))
 ```
->>>>>>> af8bf69ca9ad64c0ddead0355f9d7f8a201ea380
+
+DESCRIPTIVE STATISTICS 
+Table 1
+More boxplots
+etc.
+
+
+regress given covariate
+
+Lets do research to pick other covariates to include in our model
+
+Can also do a backwards stepwise selection to come up with a preliminary model and then add/subtract from that too
+
+Make the association matrix and compare covariates-look for multicollinearity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
