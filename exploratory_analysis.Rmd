@@ -12,3 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load libraries}
 library(tidyverse)
 ```
+
+
+```{r load data}
+hate_crimes_df <- read.csv("./data/HateCrimes.csv")
+```
