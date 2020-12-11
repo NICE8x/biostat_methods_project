@@ -65,6 +65,8 @@ DESCRIPTIVE STATISTICS
 Table 1
 More boxplots
 etc.
+Box Cox
+2 people:Stella, Vasili
 
 
 regress given covariate
@@ -74,6 +76,7 @@ Lets do research to pick other covariates to include in our model
 Can also do a backwards stepwise selection to come up with a preliminary model and then add/subtract from that too
 
 Make the association matrix and compare covariates-look for multicollinearity
+3 people: Lily, Caroline, Tessa
 
 
 
