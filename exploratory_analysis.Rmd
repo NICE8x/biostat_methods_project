@@ -18,6 +18,7 @@ library(stringr)
 ```{r load data}
 hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
   janitor::clean_names() %>%
+  rename(perc_pop_hs = perc_population_with_high_school_degree) %>% 
   mutate(hate_crimes_per_100k_splc = as.numeric(hate_crimes_per_100k_splc)) %>%
   drop_na(hate_crimes_per_100k_splc) %>%
   mutate(unemployment = as_factor(unemployment),
@@ -69,7 +70,14 @@ Box Cox
 2 people:Stella, Vasili
 
 
-regress given covariate
+Regress given covariate (original model given by article)
+
+```{r}
+summary(lm(hate_crimes_per_100k_splc ~ . - state - hate_crimes_log, data = hate_crimes_df))
+```
+
+Yes, it does seem that the Gini index (income inequality) is the most significant predictor of hate crime and percent population with a HS degree is the only other significant predictor. Both of these results agree with the article.
+
 
 Lets do research to pick other covariates to include in our model
 
@@ -88,6 +96,7 @@ hate_crimes_df = hate_crimes_df %>%
   mutate(log_hate_crimes_rate = log(hate_crimes_per_100k_splc)) %>%
   drop_na()
 
+<<<<<<< HEAD
 mult.fit <- lm(log_hate_crimes_rate ~ ., data = hate_crimes_df)
 step(mult.fit, direction = 'backward')
 ```
@@ -101,5 +110,17 @@ step(mult.fit, direction = 'backward')
 
 
 
+=======
+Correlation matrix of all numeric variables with each other:
+
+```{r cor mat}
+hate_crimes_df %>% 
+  select(!(state:urbanization)) %>% 
+  cor() %>% 
+  round(.,3)
+```
+
+Median household income and percentage of population with a HS degree has a correlation coefficient of 0.663, which may suggest multi-collinearity. Not sure about correlation of perc_non_white and gini_index (0.564). All other variables do not suggest multi-collinearity.
+>>>>>>> e8dad9d9f2876c36d34ad13348a95ac90d0a5bee
 
 
