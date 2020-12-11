@@ -11,9 +11,59 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r load libraries}
 library(tidyverse)
+library(stringr)
 ```
 
 
 ```{r load data}
-hate_crimes_df <- read.csv("./data/HateCrimes.csv")
+hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
+  janitor::clean_names() %>%
+  mutate(hate_crimes_per_100k_splc = as.numeric(hate_crimes_per_100k_splc)) %>%
+  drop_na(hate_crimes_per_100k_splc) %>%
+  mutate(unemployment = as_factor(unemployment),
+         urbanization = as_factor(urbanization))
 ```
+
+4 Missing states (Hawaii, North Dakota, South Dakota, Wyoming)
+
+Percent Non Citizen Maine is missing
+
+
+```{r descriptive stats}
+hate_crimes_df %>%
+  ggplot(aes(x = hate_crimes_per_100k_splc)) +
+  geom_density()
+```
+
+
+```{r attempt transformation of outcome}
+hate_crimes_df %>%
+  mutate(hate_crimes_per_100k_splc = log(hate_crimes_per_100k_splc)) %>%
+  ggplot(aes(x = hate_crimes_per_100k_splc)) +
+  geom_density()
+  
+```
+
+
+Add Box Cox Transformation Here
+
+
+```{r add log transform}
+hate_crimes_df <- hate_crimes_df %>%
+  mutate(hate_crimes_log = log(hate_crimes_per_100k_splc))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
