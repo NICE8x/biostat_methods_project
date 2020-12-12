@@ -101,21 +101,21 @@ hate_crimes_df = hate_crimes_df %>%
 
 # backwards selection
 
-mult.fit <- lm(log_hate_crimes_rate ~ . - state - hate_crimes_per_100k_splc - hate_crimes_log, data = hate_crimes_df)
+mult.fit <- lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc, data = hate_crimes_df)
 step(mult.fit, direction = 'backward')
 
 ## backwards selection found only gini index and hs education to be significant
-bw_mod = lm(formula = log_hate_crimes_rate ~ perc_pop_hs + gini_index, 
+bw_mod = lm(formula = hate_crimes_log ~ perc_pop_hs + gini_index, 
     data = hate_crimes_df)
 summary(bw_mod)
 
 # forward selection
 
-mult.fit <- lm(log_hate_crimes_rate ~ . - state - hate_crimes_per_100k_splc - hate_crimes_log, data = hate_crimes_df)
+mult.fit <- lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc, data = hate_crimes_df)
 step(mult.fit, direction = 'forward')
 
 ## forward selection found urbanization, unemployment, income, percent hs education, percent non-citizen, percent non-white and gini index to be significant
-fw_mod = lm(formula = log_hate_crimes_rate ~ perc_pop_hs + gini_index + unemployment + urbanization + median_household_income + perc_non_citizen + perc_non_white, data = hate_crimes_df)
+fw_mod = lm(formula = hate_crimes_log ~ perc_pop_hs + gini_index + unemployment + urbanization + median_household_income + perc_non_citizen + perc_non_white, data = hate_crimes_df)
 summary(fw_mod)
 
 # Printing the 2 best models of each size, using the Cp criterion:
