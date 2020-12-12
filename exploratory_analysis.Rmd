@@ -94,22 +94,36 @@ Variables shown to be statistically significant in existent literature:
 
 Can also do a backwards stepwise selection to come up with a preliminary model and then add/subtract from that too
 
-Make the association matrix and compare covariates-look for multicollinearity
-3 people: Lily, Caroline, Tessa
-
 ```{r model_stuff, message = FALSE, warning = FALSE}
 hate_crimes_df = hate_crimes_df %>%
-  mutate(log_hate_crimes_rate = log(hate_crimes_per_100k_splc)) %>%
   drop_na()
+
+# backwards selection
 
 mult.fit <- lm(log_hate_crimes_rate ~ . - state - hate_crimes_per_100k_splc - hate_crimes_log, data = hate_crimes_df)
 step(mult.fit, direction = 'backward')
 
-##backwards selection found only gini index and hs education to be significant
+## backwards selection found only gini index and hs education to be significant
 bw_mod = lm(formula = log_hate_crimes_rate ~ perc_pop_hs + gini_index, 
     data = hate_crimes_df)
 summary(bw_mod)
+
+# forward selection
+
+mult.fit <- lm(log_hate_crimes_rate ~ . - state - hate_crimes_per_100k_splc - hate_crimes_log, data = hate_crimes_df)
+step(mult.fit, direction = 'forward')
+
+## forward selection found urbanization, unemployment, income, percent hs education, percent non-citizen, percent non-white and gini index to be significant
+fw_mod = lm(formula = log_hate_crimes_rate ~ perc_pop_hs + gini_index + unemployment + urbanization + median_household_income + perc_non_citizen + perc_non_white, data = hate_crimes_df)
+summary(fw_mod)
+
+# Printing the 2 best models of each size, using the Cp criterion:
+leaps(x = hate_crimes_df[,2:9], y = hate_crimes_df[,10], nbest=2, method="Cp")
 ```
+
+
+Make the association matrix and compare covariates-look for multicollinearity
+3 people: Lily, Caroline, Tessa
 
 Correlation matrix of all numeric variables with each other:
 
