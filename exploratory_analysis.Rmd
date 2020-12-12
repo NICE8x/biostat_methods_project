@@ -102,8 +102,13 @@ hate_crimes_df = hate_crimes_df %>%
   mutate(log_hate_crimes_rate = log(hate_crimes_per_100k_splc)) %>%
   drop_na()
 
-mult.fit <- lm(log_hate_crimes_rate ~ ., data = hate_crimes_df)
+mult.fit <- lm(log_hate_crimes_rate ~ . - state - hate_crimes_per_100k_splc - hate_crimes_log, data = hate_crimes_df)
 step(mult.fit, direction = 'backward')
+
+##backwards selection found only gini index and hs education to be significant
+bw_mod = lm(formula = log_hate_crimes_rate ~ perc_pop_hs + gini_index, 
+    data = hate_crimes_df)
+summary(bw_mod)
 ```
 
 Correlation matrix of all numeric variables with each other:

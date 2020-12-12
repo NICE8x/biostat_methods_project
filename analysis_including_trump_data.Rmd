@@ -21,4 +21,6 @@ mult.fit <- lm(ln_hate_crimes_rate ~ ., data = hate_crime)
 step(mult.fit, direction = 'backward')
 
 summary(lm(ln_hate_crimes_rate ~ . - state - avg_hatecrimes_per_100k_fbi - hate_crimes_per_100k_splc, data = hate_crime))
+
+summary(lm(share_voters_voted_trump ~ . - state - avg_hatecrimes_per_100k_fbi - hate_crimes_per_100k_splc - ln_hate_crimes_rate, data = hate_crime))
 ```
