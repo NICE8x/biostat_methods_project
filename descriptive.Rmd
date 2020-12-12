@@ -15,6 +15,7 @@ Box Cox
 library(tidyverse)
 library(arsenal)
 library(MASS)
+library(car)
 ```
 
 Read in hate crime data.
@@ -48,7 +49,8 @@ h_c_df =
 
 tab1 = tableby( ~ ., data = h_c_df)
 
-summary(tab1) %>% knitr::kable()
+summary(tab1) %>% 
+  knitr::kable()
 
 xtabs(~ Unemployment + Urbanization, data = h_c_df)
 ```
@@ -56,6 +58,10 @@ xtabs(~ Unemployment + Urbanization, data = h_c_df)
 Box-Cox Transformation
 
 ```{r, eval = FALSE}
+# log transformation
+hate_crimes_df <- hate_crimes_df %>%
+  mutate(hate_crimes_log = log(hate_crimes_per_100k_splc))
+
 # Box Cox for multiple regression
 mult_fit_1 = lm(hate_crimes_per_100k_splc ~ unemployment + urbanization + median_household_income + perc_pop_hs + perc_non_citizen + gini_index + perc_non_white, data = hate_crimes_df)
 summary(mult_fit_1)
@@ -66,7 +72,10 @@ plot(mult_fit_1)
 
 mult_fit_2 = lm(hate_crimes_log ~ unemployment + urbanization + median_household_income + perc_pop_hs + perc_non_citizen + gini_index + perc_non_white, data = hate_crimes_df) 
 summary(mult_fit_2)
+
 boxcox(mult_fit_2) 
+plot(mult_fit_2)
+
 
 # To boxcox the log-transformed, we have to shift the data Y + mu. Do we need to do this though?? Or was she just showing us that the transformed data was better through another boxcox of the transformed response...
 
@@ -86,4 +95,14 @@ for (i in 1:n) lik[, i] = boxcox((y + mu[i])~x, lambda = lambda, plotit = FALSE)
 image(lik, xlab = "mu", ylab = "lambda", main = "likelihood")
 
 ```
+
+
+```{r message=FALSE, warning=FALSE }
+resid_1 = residuals(mult_fit_1)
+resid_1_df <- data.frame(resid_1 = resid_1)
+ggplot(resid_1_df, aes(x = factor(0), y = resid)) +
+geom_boxplot() + xlab(" ") + ylab("Residuals") + ggtitle("Residual Box Plot") +
+theme(axis.text.x = element_blank())
+```
+
 
