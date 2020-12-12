@@ -1,0 +1,52 @@
+---
+title: "descriptive"
+output: html_document
+---
+
+DESCRIPTIVE STATISTICS 
+Table 1
+More boxplots
+etc.
+Box Cox
+2 people:Stella, Vasili
+
+
+```{r}
+library(tidyverse)
+library(arsenal)
+```
+
+Read in hate crime data.
+
+```{r}
+hate_crimes_df = read.csv("./data/HateCrimes.csv") %>%
+  janitor::clean_names() %>%
+  rename(perc_pop_hs = perc_population_with_high_school_degree) %>% 
+  mutate(hate_crimes_per_100k_splc = as.numeric(hate_crimes_per_100k_splc)) %>%
+  drop_na(hate_crimes_per_100k_splc) %>%
+  mutate(unemployment = as_factor(unemployment),
+         urbanization = as_factor(urbanization))
+```
+
+Descriptive Statistics:
+
+```{r}
+hate_crimes_df =
+  hate_crimes_df %>%
+  rename(
+    Unemployment = "unemployment",
+    Urbanization = "urbanization",
+    "Median Household Income" = "median_household_income",
+    "% Adults >25yrs With HS Degree" = "perc_pop_hs",
+    "% of Population Not U.S. Citizens" = "perc_non_citizen",
+    "% of Population Not White" = "perc_non_white",
+    "Gini Index" = "gini_index",
+    "Hate Crime Rate Per 100k" = "hate_crimes_per_100k_splc"
+  ) %>%
+  select(-state)
+
+tab1 = tableby( ~ ., data = hate_crimes_df)
+
+summary(tab1) %>% knitr::kable()
+```
+
