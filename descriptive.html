@@ -367,16 +367,8 @@ summary {
 
 
 <p>DESCRIPTIVE STATISTICS Table 1 More boxplots etc. Box Cox 2 people:Stella, Vasili</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
-## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(arsenal)</code></pre>
+<pre class="r"><code>library(tidyverse)
+library(arsenal)</code></pre>
 <p>Read in hate crime data.</p>
 <pre class="r"><code>hate_crimes_df = read.csv(&quot;./data/HateCrimes.csv&quot;) %&gt;%
   janitor::clean_names() %&gt;%
@@ -385,10 +377,6 @@ summary {
   drop_na(hate_crimes_per_100k_splc) %&gt;%
   mutate(unemployment = as_factor(unemployment),
          urbanization = as_factor(urbanization))</code></pre>
-<pre><code>## Warning: Problem with `mutate()` input `hate_crimes_per_100k_splc`.
-## ℹ NAs introduced by coercion
-## ℹ Input `hate_crimes_per_100k_splc` is `as.numeric(hate_crimes_per_100k_splc)`.</code></pre>
-<pre><code>## Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion</code></pre>
 <p>Descriptive Statistics:</p>
 <pre class="r"><code>hate_crimes_df =
   hate_crimes_df %&gt;%

@@ -11,14 +11,14 @@ Box Cox
 2 people:Stella, Vasili
 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 library(arsenal)
 ```
 
 Read in hate crime data.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 hate_crimes_df = read.csv("./data/HateCrimes.csv") %>%
   janitor::clean_names() %>%
   rename(perc_pop_hs = perc_population_with_high_school_degree) %>% 
