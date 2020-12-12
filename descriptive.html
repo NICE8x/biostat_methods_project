@@ -376,7 +376,13 @@ summary {
 <pre><code>## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(arsenal)</code></pre>
+<pre class="r"><code>library(arsenal)
+library(MASS)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
 <p>Read in hate crime data.</p>
 <pre class="r"><code>hate_crimes_df = read.csv(&quot;./data/HateCrimes.csv&quot;) %&gt;%
   janitor::clean_names() %&gt;%
@@ -390,7 +396,7 @@ summary {
 ## ℹ Input `hate_crimes_per_100k_splc` is `as.numeric(hate_crimes_per_100k_splc)`.</code></pre>
 <pre><code>## Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion</code></pre>
 <p>Descriptive Statistics:</p>
-<pre class="r"><code>hate_crimes_df =
+<pre class="r"><code>h_c_df =
   hate_crimes_df %&gt;%
   rename(
     Unemployment = &quot;unemployment&quot;,
@@ -402,9 +408,9 @@ summary {
     &quot;Gini Index&quot; = &quot;gini_index&quot;,
     &quot;Hate Crime Rate Per 100k&quot; = &quot;hate_crimes_per_100k_splc&quot;
   ) %&gt;%
-  select(-state)
+  dplyr::select(-state)
 
-tab1 = tableby( ~ ., data = hate_crimes_df)
+tab1 = tableby( ~ ., data = h_c_df)
 
 summary(tab1) %&gt;% knitr::kable()</code></pre>
 <table>
@@ -517,6 +523,40 @@ summary(tab1) %&gt;% knitr::kable()</code></pre>
 </tr>
 </tbody>
 </table>
+<pre class="r"><code>xtabs(~ Unemployment + Urbanization, data = h_c_df)</code></pre>
+<pre><code>##             Urbanization
+## Unemployment low high
+##         high   9   15
+##         low   14    9</code></pre>
+<p>Box-Cox Transformation</p>
+<pre class="r"><code># Box Cox for multiple regression
+mult_fit_1 = lm(hate_crimes_per_100k_splc ~ unemployment + urbanization + median_household_income + perc_pop_hs + perc_non_citizen + gini_index + perc_non_white, data = hate_crimes_df)
+summary(mult_fit_1)
+
+boxcox(mult_fit_1)
+plot(mult_fit_1)
+
+
+mult_fit_2 = lm(hate_crimes_log ~ unemployment + urbanization + median_household_income + perc_pop_hs + perc_non_citizen + gini_index + perc_non_white, data = hate_crimes_df) 
+summary(mult_fit_2)
+boxcox(mult_fit_2) 
+
+# To boxcox the log-transformed, we have to shift the data Y + mu. Do we need to do this though?? Or was she just showing us that the transformed data was better through another boxcox of the transformed response...
+
+y = c(rnorm(100,3,300), rnorm(30,1600,400))
+x = 1:length(y)
+## Histogram of y shows that y is skewed
+hist(y)
+## Define parameters for boxcox
+eps = 1e-5
+n = 100;
+mu = seq(-min(y) + eps, max(y), length = n)
+lambda = seq(0, 5, length = n)
+## Initialize then calculate log likelihood values
+lik = matrix(0, n, n)
+for (i in 1:n) lik[, i] = boxcox((y + mu[i])~x, lambda = lambda, plotit = FALSE)$y
+## Plot log likelihood values
+image(lik, xlab = &quot;mu&quot;, ylab = &quot;lambda&quot;, main = &quot;likelihood&quot;)</code></pre>
 
 
 
