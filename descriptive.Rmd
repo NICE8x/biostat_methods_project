@@ -15,7 +15,6 @@ Box Cox
 library(tidyverse)
 library(arsenal)
 library(MASS)
-library(car)
 ```
 
 Read in hate crime data.
