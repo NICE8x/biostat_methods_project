@@ -15,6 +15,7 @@ Box Cox
 library(tidyverse)
 library(arsenal)
 library(MASS)
+library(patchwork)
 ```
 
 Read in hate crime data.
@@ -95,8 +96,9 @@ image(lik, xlab = "mu", ylab = "lambda", main = "likelihood")
 
 ```
 
+Residuals Boxplot
 
-```{r message=FALSE, warning=FALSE }
+```{r message=FALSE, warning=FALSE, eval = FALSE }
 resid_1 = residuals(mult_fit_1)
 resid_1_df <- data.frame(resid_1 = resid_1)
 ggplot(resid_1_df, aes(x = factor(0), y = resid)) +
@@ -104,4 +106,19 @@ geom_boxplot() + xlab(" ") + ylab("Residuals") + ggtitle("Residual Box Plot") +
 theme(axis.text.x = element_blank())
 ```
 
+Distribution of gini_index and median_household_income
+
+```{r}
+gini_dist =
+  hate_crimes_df %>%
+    ggplot(aes(x = gini_index)) +
+    geom_density()
+
+median_dist =
+  hate_crimes_df %>%
+  ggplot(aes(x = median_household_income)) +
+  geom_density()
+
+gini_dist + median_dist
+```
 
