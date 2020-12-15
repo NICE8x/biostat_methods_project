@@ -212,7 +212,7 @@ hate_crimes_df %>%
   round(.,3)
 ```
 
-Median household income and percentage of population with a HS degree has a correlation coefficient of 0.663, which may suggest multi-collinearity. Not sure about correlation of perc_non_white and gini_index (0.564). All other variables do not suggest multi-collinearity.
+Out of the continuous variables, percent non-citizen and percent non-white has a correlation coefficient of 0.753, median household income and percentage of population with a HS degree has a correlation coefficient of 0.651, both of which may suggest multi-collinearity. All other variables do not suggest multi-collinearity.
 
 Calculate VIFs for multicollinearity
 
@@ -220,6 +220,24 @@ Drop either perc non citizen or per non white
 Drop either median household income or perc pop with HS degree-drop median household income due to multicollinearity
 
 Test a model with interactions between each of the categorical variables and all the continuous variables-(pre-eliminate some continuous variables based on previous analysis).  Interaction between each categorical variable and the perc non white and perc non citizen
+
+Interaction graphs of unemployment with all continuous variables to help with testing interactions:
+
+```{r}
+hate_crimes_df %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  ggplot(aes(x = value, y = hate_crimes_log, color = unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") 
+```
+
+Interaction graphs of urbanization with all continuous variables:
+
+```{r}
+hate_crimes_df %>% 
+  pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  
+  ggplot(aes(x = value, y = hate_crimes_log, color = urbanization)) +
+  geom_point() + 
+  geom_smooth(method='lm', se=FALSE) + 
+  facet_wrap(~cont_var, scales = "free_x") 
+```
+
 
 Stratify based on significant interactions and comment
 
