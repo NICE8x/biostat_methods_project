@@ -283,7 +283,7 @@ summary(final_model_no_DC_unemploy)
 
 anova(final_model_no_DC, final_model_no_DC_unemploy)
 
-par()
+par(mfrow = c(2,2))
 plot(final_model_no_DC)
 plot(final_model_no_DC_unemploy)
 
