@@ -187,7 +187,7 @@ hate_crimes_df %>%
   round(.,3)
 ```
 
-Median household income and percentage of population with a HS degree has a correlation coefficient of 0.663, which may suggest multi-collinearity. Not sure about correlation of perc_non_white and gini_index (0.564). All other variables do not suggest multi-collinearity.
+Out of the continuous variables, percent non-citizen and percent non-white has a correlation coefficient of 0.753, median household income and percentage of population with a HS degree has a correlation coefficient of 0.651, both of which may suggest multi-collinearity. All other variables do not suggest multi-collinearity.
 
 Calculate VIFs for multicollinearity
 
