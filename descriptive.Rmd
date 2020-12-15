@@ -47,7 +47,19 @@ h_c_df =
   ) %>%
   dplyr::select(-state)
 
-tab1 = tableby( ~ ., data = h_c_df)
+my_controls = tableby.control(
+               total = T,
+               test=F,  
+               numeric.stats = c("meansd", "medianq1q3", "range", "Nmiss2"),
+               cat.stats = c("countpct", "Nmiss2"),
+               stats.labels = list(
+               meansd = "Mean (SD)",
+               medianq1q3 = "Median (Q1, Q3)",
+               range = "Min - Max",
+               Nmiss2 = "Missing",
+               countpct = "N (%)"))
+
+tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
 
 summary(tab1) %>% 
   knitr::kable()
@@ -57,7 +69,7 @@ xtabs(~ Unemployment + Urbanization, data = h_c_df)
 
 Box-Cox Transformation
 
-```{r, eval = FALSE}
+```{r}
 # log transformation
 hate_crimes_df <- hate_crimes_df %>%
   mutate(hate_crimes_log = log(hate_crimes_per_100k_splc))
@@ -68,37 +80,11 @@ summary(mult_fit_1)
 
 boxcox(mult_fit_1)
 plot(mult_fit_1)
-
-
-mult_fit_2 = lm(hate_crimes_log ~ unemployment + urbanization + median_household_income + perc_pop_hs + perc_non_citizen + gini_index + perc_non_white, data = hate_crimes_df) 
-summary(mult_fit_2)
-
-boxcox(mult_fit_2) 
-plot(mult_fit_2)
-
-
-# To boxcox the log-transformed, we have to shift the data Y + mu. Do we need to do this though?? Or was she just showing us that the transformed data was better through another boxcox of the transformed response...
-
-y = c(rnorm(100,3,300), rnorm(30,1600,400))
-x = 1:length(y)
-## Histogram of y shows that y is skewed
-hist(y)
-## Define parameters for boxcox
-eps = 1e-5
-n = 100;
-mu = seq(-min(y) + eps, max(y), length = n)
-lambda = seq(0, 5, length = n)
-## Initialize then calculate log likelihood values
-lik = matrix(0, n, n)
-for (i in 1:n) lik[, i] = boxcox((y + mu[i])~x, lambda = lambda, plotit = FALSE)$y
-## Plot log likelihood values
-image(lik, xlab = "mu", ylab = "lambda", main = "likelihood")
-
 ```
 
 Residuals Boxplot
 
-```{r message=FALSE, warning=FALSE, eval = FALSE}
+```{r message=FALSE, warning=FALSE}
 resid_1 = residuals(mult_fit_1)
 resid_1_df <- data.frame(resid_1 = resid_1)
 ggplot(resid_1_df, aes(x = factor(0), y = resid_1)) +
