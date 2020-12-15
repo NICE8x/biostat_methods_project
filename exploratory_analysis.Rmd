@@ -195,6 +195,82 @@ data.frame(
 )
 
 ```
+```{r interactions}
+full_mod = lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc + unemployment*perc_pop_hs + unemployment*median_household_income + unemployment*perc_non_citizen + unemployment*gini_index + unemployment*perc_non_white + urbanization*perc_pop_hs + urbanization*median_household_income + urbanization*perc_non_citizen + urbanization*gini_index + urbanization*perc_non_white, data = hate_crimes_df)
+
+summary(full_mod)
+
+full_mod_1 = lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc + unemployment*perc_pop_hs + unemployment*perc_non_citizen + unemployment*gini_index + unemployment*perc_non_white + urbanization*perc_pop_hs + urbanization*perc_non_citizen + urbanization*gini_index + urbanization*perc_non_white, data = hate_crimes_df)
+
+summary(full_mod_1)
+
+small_mod = lm(hate_crimes_log ~ gini_index + perc_pop_hs + gini_index*unemployment + perc_pop_hs*unemployment, data = hate_crimes_df)
+
+summary(small_mod)
+
+small_mod_1 = lm(hate_crimes_log ~ gini_index + perc_pop_hs + gini_index*urbanization + perc_pop_hs*urbanization, data = hate_crimes_df)
+
+summary(small_mod_1)
+```
+There shows to be no significant interactions between either of the categorical variables and the continuous variables. Nor did removing median_household_income (because of multicollinearity) show any significant interactions. There also shows to be no interactions between either of the categorical variables and gini_index and perc_pop_hs in the smaller models. 
+
+```{r DC code}
+hate_crimes_df_no_DC <- hate_crimes_df %>%
+  filter(state != "District of Columbia")
+
+full_mod = lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc + unemployment*perc_pop_hs + unemployment*median_household_income + unemployment*perc_non_citizen + unemployment*gini_index + unemployment*perc_non_white + urbanization*perc_pop_hs + urbanization*median_household_income + urbanization*perc_non_citizen + urbanization*gini_index + urbanization*perc_non_white, data = hate_crimes_df_no_DC)
+
+summary(full_mod)
+
+full_mod_1 = lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc + unemployment*perc_pop_hs + unemployment*perc_non_citizen + unemployment*gini_index + unemployment*perc_non_white + urbanization*perc_pop_hs + urbanization*perc_non_citizen + urbanization*gini_index + urbanization*perc_non_white, data = hate_crimes_df_no_DC)
+
+summary(full_mod_1)
+
+small_mod = lm(hate_crimes_log ~ gini_index + perc_pop_hs + gini_index*unemployment + perc_pop_hs*unemployment, data = hate_crimes_df_no_DC)
+
+summary(small_mod)
+
+small_mod_1 = lm(hate_crimes_log ~ gini_index + perc_pop_hs + gini_index*urbanization + perc_pop_hs*urbanization, data = hate_crimes_df_no_DC)
+
+summary(small_mod_1)
+
+
+hc = hate_crimes_df_no_DC %>%
+  drop_na() %>%
+  dplyr::select(-hate_crimes_per_100k_splc, -state) %>%
+  mutate(unemployment = as.numeric(unemployment),
+         urbanization = as.numeric(urbanization))
+
+leaps::leaps(x = hc[,1:7], y = hc[,8], nbest=2, method="Cp")
+
+# Printing the 2 best models of each size, using the adjusted R squared criterion:
+
+leaps::leaps(x = hc[,1:7], y = hc[,8], nbest=2, method="adjr2")
+
+b <- regsubsets(hate_crimes_log ~ ., data=hc)
+rs <- summary(b)
+rs
+
+par(mar=c(4,4,1,1))
+par(mfrow=c(1,2))
+
+plot(2:8, rs$cp, xlab="No of parameters", ylab="Cp Statistic")
+abline(0,1)
+
+plot(2:8, rs$adjr2, xlab="No of parameters", ylab="Adj R2")
+
+res.sum_1 <- summary(b_1)
+data.frame(
+  Adj.R2 = which.max(res.sum_1$adjr2),
+  CP = which.min(res.sum_1$cp),
+  BIC = which.min(res.sum_1$bic)
+)
+
+
+final_model_no_DC <- lm(hate_crimes_log ~ fini, data = hate_crimes_df_no_DC )
+```
+
+
 Article supports percent non-white as an important variable (for college campuses): https://journals-sagepub-com.proxy.lib.umich.edu/doi/full/10.1177/1043986214536666?utm_source=summon&utm_medium=discovery-provider
 
 Anti-hispanic and religious hate crimes on the rise: https://apnews.com/article/hate-crimes-rise-fbi-data-ebbcadca8458aba96575da905650120d
