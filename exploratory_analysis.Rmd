@@ -201,6 +201,11 @@ final_model_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemploy
 summary(final_model_unemploy)
 
 anova(final_model, final_model_unemploy)
+
+par(mfrow = c(2,2))
+plot(final_model)
+plot(final_model_unemploy)
+
 ```
 
 ```{r interactions}
