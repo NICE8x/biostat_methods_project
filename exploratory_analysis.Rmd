@@ -194,7 +194,15 @@ data.frame(
   BIC = which.min(res.sum_1$bic)
 )
 
+final_model <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df )
+summary(final_model)
+
+final_model_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df)
+summary(final_model_unemploy)
+
+anova(final_model, final_model_unemploy)
 ```
+
 ```{r interactions}
 full_mod = lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc + unemployment*perc_pop_hs + unemployment*median_household_income + unemployment*perc_non_citizen + unemployment*gini_index + unemployment*perc_non_white + urbanization*perc_pop_hs + urbanization*median_household_income + urbanization*perc_non_citizen + urbanization*gini_index + urbanization*perc_non_white, data = hate_crimes_df)
 
@@ -267,7 +275,18 @@ data.frame(
 )
 
 
-final_model_no_DC <- lm(hate_crimes_log ~ fini, data = hate_crimes_df_no_DC )
+final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
+summary(final_model_no_DC)
+
+final_model_no_DC_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df_no_DC)
+summary(final_model_no_DC_unemploy)
+
+anova(final_model_no_DC, final_model_no_DC_unemploy)
+
+par()
+plot(final_model_no_DC)
+plot(final_model_no_DC_unemploy)
+
 ```
 
 
