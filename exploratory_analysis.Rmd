@@ -153,21 +153,46 @@ hc = hate_crimes_df %>%
   dplyr::select(-hate_crimes_per_100k_splc, -state) %>%
   mutate(unemployment = as.numeric(unemployment),
          urbanization = as.numeric(urbanization))
+
 leaps::leaps(x = hc[,1:7], y = hc[,8], nbest=2, method="Cp")
 
 # Printing the 2 best models of each size, using the adjusted R squared criterion:
-hate_crimes_df %>%
-  drop_na() %>%
-  dplyr::select(-hate_crimes_per_100k_splc, -state) %>%
-  mutate(unemployment = as.numeric(unemployment),
-         urbanization = as.numeric(urbanization))
+
 leaps::leaps(x = hc[,1:7], y = hc[,8], nbest=2, method="adjr2")
+
+b <- regsubsets(hate_crimes_log ~ ., data=hc)
+rs <- summary(b)
+rs
+
+par(mar=c(4,4,1,1))
+par(mfrow=c(1,2))
+
+plot(2:8, rs$cp, xlab="No of parameters", ylab="Cp Statistic")
+abline(0,1)
+
+plot(2:8, rs$adjr2, xlab="No of parameters", ylab="Adj R2")
+
+
 
 # Summary of models for each size (one model per size)
 # Function regsubsets() performs a subset slection by identifying the "best" model that contains a certain number of predictors. By default "best" is chosen using SSE/RSS (smaller is better).
 
-b <- regsubsets(hate_crimes_log ~ ., data=hc)
-summary(b)
+
+hc_1 = hate_crimes_df %>%
+  drop_na() %>%
+  dplyr::select(-hate_crimes_per_100k_splc, -state) %>%
+  mutate(unemployment = as.numeric(unemployment),
+         urbanization = as.numeric(urbanization))
+
+b_1 <- regsubsets(hate_crimes_log ~ ., data=hc_1, nvmax = 7)
+summary(b_1)
+
+res.sum_1 <- summary(b_1)
+data.frame(
+  Adj.R2 = which.max(res.sum_1$adjr2),
+  CP = which.min(res.sum_1$cp),
+  BIC = which.min(res.sum_1$bic)
+)
 
 ```
 Article supports percent non-white as an important variable (for college campuses): https://journals-sagepub-com.proxy.lib.umich.edu/doi/full/10.1177/1043986214536666?utm_source=summon&utm_medium=discovery-provider
