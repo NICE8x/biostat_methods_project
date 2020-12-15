@@ -98,10 +98,10 @@ image(lik, xlab = "mu", ylab = "lambda", main = "likelihood")
 
 Residuals Boxplot
 
-```{r message=FALSE, warning=FALSE, eval = FALSE }
+```{r message=FALSE, warning=FALSE, eval = FALSE}
 resid_1 = residuals(mult_fit_1)
 resid_1_df <- data.frame(resid_1 = resid_1)
-ggplot(resid_1_df, aes(x = factor(0), y = resid)) +
+ggplot(resid_1_df, aes(x = factor(0), y = resid_1)) +
 geom_boxplot() + xlab(" ") + ylab("Residuals") + ggtitle("Residual Box Plot") +
 theme(axis.text.x = element_blank())
 ```
