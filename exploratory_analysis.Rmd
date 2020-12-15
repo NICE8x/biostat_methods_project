@@ -196,6 +196,24 @@ Drop either median household income or perc pop with HS degree-drop median house
 
 Test a model with interactions between each of the categorical variables and all the continuous variables-(pre-eliminate some continuous variables based on previous analysis).  Interaction between each categorical variable and the perc non white and perc non citizen
 
+Interaction graphs of unemployment with all continuous variables to help with testing interactions:
+
+```{r}
+hate_crimes_df %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  ggplot(aes(x = value, y = hate_crimes_log, color = unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") 
+```
+
+Interaction graphs of urbanization with all continuous variables:
+
+```{r}
+hate_crimes_df %>% 
+  pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  
+  ggplot(aes(x = value, y = hate_crimes_log, color = urbanization)) +
+  geom_point() + 
+  geom_smooth(method='lm', se=FALSE) + 
+  facet_wrap(~cont_var, scales = "free_x") 
+```
+
+
 Stratify based on significant interactions and comment
 
 Model diagnostics
