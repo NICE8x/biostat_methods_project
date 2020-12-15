@@ -198,6 +198,8 @@ Test a model with interactions between each of the categorical variables and all
 
 Stratify based on significant interactions and comment
 
+Model diagnostics
+
 Duplicate code with and without DC and comment on the effect of the outlier.
 
 Final writeup!
