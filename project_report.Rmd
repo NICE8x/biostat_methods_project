@@ -10,8 +10,24 @@ output: html_document
 
 ## Introduction
 
+Since 2014, the national rate of hate crimes has been steadily increasing in the United States. In the days following the 2016 US Presidential election, an average of 90 hate crimes per day were reported to the Southern Poverty Law Center. 
+
+Existing research suggests that community-level demographic variables such as racial breakdown, population density, level of educational attainment, and economic considerations (median income, poverty level, job availability) may be significant predictors of regional and state-level rates of hate crimes. [CITE] A 2017 FivethirtyEight article titled, "Higher Rates Of Hate Crimes Are Tied To Income Inequality," used 2016 FBI and Southern Poverty Law Center data to assess the association between hate crime rate and select community-level variables. 
+
+For this project, we used this dataset to critically analyze this research team's findings to identify state-level variables associated with rates of hate crimes, and to generate a high performing predictive model for population-adjusted hate incidents in the United States.   
+
 
 ## Methods
+
+The data used for this project contained state-level hate crime rates, as reported by the Southern Poverty Law Center, as well as numerous state-level demographic variables including:
+
+- Unemployment rate (high vs low) (as of 2016)
+- Urbanization (high vs low) (as of 2015)
+- Median household income (as of 2016)
+- Percent of residents with a high school degree (as of 2009)
+- Percent of residents who are non-citizens (as of 2015)
+- Income Gini coefficient (a measure of the extent to which the distribution of income among individuals within an economy deviates from a perfectly equal distribution; as of 2015)
+- Percent of residents who are non-White (as of 2015)
 
 
 ## Results
