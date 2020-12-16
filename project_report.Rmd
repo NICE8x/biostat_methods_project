@@ -117,7 +117,7 @@ hate_crimes_df %>%
   mutate(state = fct_reorder(state, hate_crimes_log)) %>%
 ggplot(aes(x = state, y = hate_crimes_log)) +
   geom_point() +
-  theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1)) +
+  theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 1)) +
   labs(
     x = "State",
     y = "Log Hate Crimes per 100,000 Population",
@@ -131,11 +131,20 @@ Results show that Washington, DC may be an outlier and/or influential point in t
 plot(mult_fit_1)
 ```
 
-As Washington DC is clearly outside of the Cook's distance line, we conclude that it is an outlier. During model development, we assessed 
+As Washington DC is clearly outside of the Cook's distance line, we conclude that it is an outlier.
 
 #### Tests for Association and Modeling
 
-We then began by 
+We began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the log hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini index (income inequality) is the most significant predictor, and that percent population with a high school degree is the only other significant predictor. 
+
+In the interest of maximizing model parsimony and predictive performance, we then performed several automated procedures for variable selection. Specifically, we used backward and forward selection. These results suggest that the Gini index and percent population with a high school degree variables are the only significant predictors included in the final model. 
+
+We then employed criterion based approaches in variable selection, 
+
+- We wanted to enhance model parsimony and improve performance so we first started performing automated procedures for variable selection
+- We also used criterion based approaches in variable selection, including running tests to generate the 2 best models for various criteria: Cp, adjusted R squared and SSE/RSS. 
+- We performed a lit review to see what variables are practically important to include for interpretability and application purposes
+
 
 ## Discussion/Conclusion
 
