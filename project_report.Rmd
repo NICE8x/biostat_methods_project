@@ -98,14 +98,18 @@ summary(mult_fit_1)
 boxcox(mult_fit_1)
 ```
 
+<<<<<<< HEAD
 These results suggest that a logarithmic transformation of the hate crime rate data would most closely approximate normal distribution. 
+=======
+These results suggest that a logarithmic transformation of the hate crimes rate data would most closely approximate normal distribution. Thus, we operate moving forward in model development using the log hate crimes rate as the outcome of interest. 
+>>>>>>> 8270799f6380e0e35d40a72832ad36288e8a3396
 
 ```{r, message = FALSE, warning = FALSE}
 hate_crimes_df = hate_crimes_df %>%
   mutate(hate_crimes_log = log(hate_crimes_per_100k_splc)) 
 ```
 
-To determine whether any outliers exist within the data, we first visualized the log hate crimes rate of each state. 
+To determine whether any outliers exist within the data, we first visualized the log hate crimes rate of each state.
 
 ```{r box plot}
 hate_crimes_df %>%
@@ -113,7 +117,12 @@ hate_crimes_df %>%
   mutate(state = fct_reorder(state, hate_crimes_log)) %>%
 ggplot(aes(x = state, y = hate_crimes_log)) +
   geom_point() +
-  theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1))
+  theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1)) +
+  labs(
+    x = "State",
+    y = "Log Hate Crimes per 100,000 Population",
+    title = "Log Hate Crimes Rate by State"
+  )
 ```
 
 Results show that Washington, DC may be an outlier and/or influential point in the data. To further investigate this, we generated the residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots. 
@@ -121,7 +130,8 @@ Results show that Washington, DC may be an outlier and/or influential point in t
 ```{r, message = FALSE, warning = FALSE}
 plot(mult_fit_1)
 ```
-As Washington DC is clearly outside of the Cook's distance line, we conclude that it is an outlier. 
+
+As Washington DC is clearly outside of the Cook's distance line, we conclude that it is an outlier. During model development, we assessed 
 
 ### Tests for Association and Modeling
 
