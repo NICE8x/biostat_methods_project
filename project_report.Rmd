@@ -99,14 +99,14 @@ summary(mult_fit_1)
 boxcox(mult_fit_1)
 ```
 
-These results suggest that a logarithmic transformation of the hate crimes rate data would most closely approximate normal distribution. 
+These results suggest that a logarithmic transformation of the hate crimes rate data would most closely approximate normal distribution. Thus, we operate moving forward in model development using the log hate crimes rate as the outcome of interest. 
 
 ```{r, message = FALSE, warning = FALSE}
 hate_crimes_df = hate_crimes_df %>%
   mutate(hate_crimes_log = log(hate_crimes_per_100k_splc)) 
 ```
 
-To determine whether any outliers exist within the data, we first visualized the log hate crimes rate of each state. 
+To determine whether any outliers exist within the data, we first visualized the log hate crimes rate of each state.
 
 ```{r box plot}
 hate_crimes_df %>%
@@ -127,7 +127,8 @@ Results show that Washington, DC may be an outlier and/or influential point in t
 ```{r, message = FALSE, warning = FALSE}
 plot(mult_fit_1)
 ```
-As Washington DC is clearly outside of the Cook's distance line, we conclude that it is an outlier. 
+
+As Washington DC is clearly outside of the Cook's distance line, we conclude that it is an outlier. During model development, we assessed 
 
 ### Tests for Association and Modeling
 
