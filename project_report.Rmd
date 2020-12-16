@@ -52,7 +52,7 @@ To test for any multi-collinearity between the continuous variables, we calculat
 
 ## Results
 
-### Descriptive Statistics and Data Distribution
+#### Descriptive Statistics and Data Distribution
 
 We first generated descriptive statistics for all collected variables. 
 
@@ -91,15 +91,11 @@ summary(tab1) %>%
 
 Multivariable linear regression modeling operates under several assumptions, which include residual homoscedasticity (constant variance) and normality. Initial exploration of the distribution of the hate crimes rate data showed a strong departure from standard normal distribution. Thus, we performed a Box Cox test to isolate the 'best' power transformation on the hate crimes rate variable to achieve normal residuals. 
 
-<<<<<<< HEAD
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 hate_crimes_df <-
   hate_crimes_df %>%
   drop_na(hate_crimes_per_100k_splc)
 
-=======
-```{r, message = FALSE, warning = FALSE}
->>>>>>> 5aa8499801ac94b29398267e98dc17d2f59b17e0
 mult_fit_1 = lm(hate_crimes_per_100k_splc ~ unemployment + urbanization + median_household_income + perc_pop_hs + perc_non_citizen + gini_index + perc_non_white, data = hate_crimes_df)
 summary(mult_fit_1)
 
@@ -137,7 +133,7 @@ plot(mult_fit_1)
 
 As Washington DC is clearly outside of the Cook's distance line, we conclude that it is an outlier. During model development, we assessed 
 
-### Tests for Association and Modeling
+#### Tests for Association and Modeling
 
 We then began by 
 
