@@ -89,9 +89,7 @@ To visualize the distribution of the hate crimes rate data, we first generated a
 
 The generated Box Cox plot results suggest that a logarithmic transformation of the hate crimes rate data would most closely approximate normal distribution (Figure 2). Thus, we operated moving forward in model development using the log hate crimes rate as the outcome of interest. 
 
-To investigate for any outliers in the data, we then plotted the hate crimes rate by state, and generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots (Figures 3-7). As Washington DC is clearly outside of the Cook's distance line in the residuals vs leverage plot, we concluded that this point is an outlier. 
-
-As Washington DC is clearly outside of the Cook's distance line, we conclude that it is an outlier. This data point was included in any subsequent analyses, though all analyses were also rerun on this dataset excluding Washington DC for comparison.
+To investigate for any outliers in the data, we then plotted the hate crimes rate by state, and generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots (Figures 3-7). As Washington DC is clearly outside of the Cook's distance line in the residuals vs leverage plot, we concluded that this point is an outlier. This data point was included in any subsequent analyses, though all analyses were also rerun on this dataset excluding Washington DC for comparison.
 
 A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1).
 
@@ -103,17 +101,13 @@ A table of basic descriptive statistics for the collected socioeconomic variable
 
 To first attempt to recreate the findings of the FiveThirtyEight article, we began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the log hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini Index was the most significant predictor of state hate crime rate; percent high school graduates variables was the only other statistically significant variable. 
 
-To generate our own predictive model, we employed two automated procedures: backward and forward selection. While the model proposed during forward selection contained all provided variables (Adjusted R-squared = ), the model generated through backwards selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = )
+To generate our own predictive model, we employed two automated procedures: backward and forward selection. While the model proposed during forward selection contained all provided variables (Adjusted R-squared = ), the model generated through backwards selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = ). The only included predictors were the Gini Index, and the percent of high school graduates variables. 
 
-We then employed three criterion based approaches in R, each of which generated the two best performing models for each possible number of included predictors. To visualize these results, we generated a plot containing the Cp criterion distribution for the top performing model for each number of included predictors (Figure 8). This shows that   
+We then employed three criterion based approaches in R, each of which generated the two performing models which optimize the given criterion for each possible number of included predictors. The first of these approaches used the Cp criterion, which compares the predictive ability of model subsets to the full model. To visualize these results, we generated a plot containing the Cp criterion distribution for the top performing model for each number of included predictors (Figure 8). This shows that [INPUT RESULTS HERE FOR CP CRITERION MODELING]  
 
+We also isolated the top two best performing models per number of predictors using the adjusted R squared criterion. We then generated a plot of the distribution of the adjusted R squared statistic for the top performing model for each number of included predictors (Figure 9). Results show that [INPUT RESULTS HERE FOR R SQUARED CRITERION MODELING]
 
-
-#### Tests for Association and Modeling
-
-We began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the log hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini index (income inequality) is the most significant predictor, and that percent population with a high school degree is the only other significant predictor. 
-
-The results of backward and forward selection suggest that the Gini index and percent population with a high school degree variables are the only significant predictors included in the final model. 
+Lastly, we generated the same outputs using the SSE/RSS criterion. The plot can be found in Figure 10 (Figure 10). Results show that [INPUT RESULTS HERE FOR SSE/RSS CRITERION]. 
 
 
 ## Discussion/Conclusion
