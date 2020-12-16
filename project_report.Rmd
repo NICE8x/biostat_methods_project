@@ -98,11 +98,7 @@ summary(mult_fit_1)
 boxcox(mult_fit_1)
 ```
 
-<<<<<<< HEAD
-These results suggest that a logarithmic transformation of the hate crime rate data would most closely approximate normal distribution. 
-=======
 These results suggest that a logarithmic transformation of the hate crimes rate data would most closely approximate normal distribution. Thus, we operate moving forward in model development using the log hate crimes rate as the outcome of interest. 
->>>>>>> 8270799f6380e0e35d40a72832ad36288e8a3396
 
 ```{r, message = FALSE, warning = FALSE}
 hate_crimes_df = hate_crimes_df %>%
