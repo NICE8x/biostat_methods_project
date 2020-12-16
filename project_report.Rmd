@@ -40,12 +40,14 @@ Based on the Southern Poverty Law Center data in the beginning of November 2016,
 
 Since 2014, the national rate of hate crimes has been steadily increasing in the United States [CITE]. In the days following the 2016 US Presidential election, an average of 90 hate crimes per day were reported to the Southern Poverty Law Center [CITE]. 
 
-Existing research suggests that community-level demographic variables such as racial breakdown, population density, level of educational attainment, and economic considerations (median income, poverty level, job availability) may be significant predictors of regional and state-level rates of hate crimes. [CITE] A 2017 FiveThirtyEight article titled, "Higher Rates Of Hate Crimes Are Tied To Income Inequality," used 2016 FBI and Southern Poverty Law Center data to assess the association between hate crime rate and select community-level variables [CITE]. 
+Existing research suggests that community-level socioeconomic factors such as racial breakdown, population density, level of educational attainment, and economic considerations (median income, poverty level, job availability) may be significant predictors of regional and state-level rates of hate crimes. [CITE] A 2017 FiveThirtyEight article titled, "Higher Rates Of Hate Crimes Are Tied To Income Inequality," used 2016 FBI and Southern Poverty Law Center data to assess the association between hate crime rate and select community-level variables [CITE]. 
 
 For this project, we used this dataset to critically analyze this research team's findings to identify state-level variables associated with rates of hate crimes, and to generate a high performing predictive model for population-adjusted hate incidents in the United States.   
 
 
 ## Methods
+
+### Data Exploration
 
 The data used for this project included state-level hate crime rates (hate crimes per 100,000 population), as reported by the Southern Poverty Law Center during the first weeks of November, 2016. Collected state-level demographic variables include: 
 
@@ -59,21 +61,23 @@ The data used for this project included state-level hate crime rates (hate crime
 
 First, we investigated the extent of missing data in our dataset. Four states--Hawaii, North Dakota, South Dakota, and Wyoming--did not report hate crime rate data, and thus were excluded from subsequent analyses. One additional state, Maine, did not report its percent of residents who were non-citizens. Washington DC was included as a state for the purposes of these analyses. 
 
-Using this data, our goal was to verify the significant association between hate crime rate and income inequality reported in the FiveThirtyEight article, and to construct our own multivariable linear regression model to assess which of the collected variables, if any, are associated with population-adjusted hate incidents in the United States. To do so, we first generated descriptive statistics and plotted the distribution of the outcome (population-adjusted hate incidents per 100,000 population) to determine whether any data transformations would be necessary, and to assess whether any outliers exist within the data. 
-
-Using all provided predictors, we ran multivariable 
+Using these data, our goal was to construct our own multivariable linear regression model to assess which of the collected variables, if any, are significantly associated with population-adjusted hate incidents in the United States, to altogether critically examine the article's findings. To do so, we first generated descriptive statistics and plotted the distribution of the outcome (population-adjusted hate incidents per 100,000 population) to determine whether any data transformations would be necessary, and to assess whether any outliers exist within the data. 
 
 To further elucidate the existence of outliers/influential points, we visualized the hate crime rate by state, and generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots. Any states that were deemed to be an outlier were included in subsequent analyses, but the same analyses were also run a second time on the dataset excluding the outliers for comparison.
 
-In order to investigate the existence of multi-collinearity between the continuous variables, we calculated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multi-collinearity; thus, one of those correlated variables should then be dropped from subsequent analyses.
+#### Multicollinearity and Interactions
 
-Next, we tested for significant interactions between the two categorical variables, unemployment and urbanization, and all other continuous variables. Any variables with significant interactions were then stratified and analyzed again.
+In order to investigate the existence of multi-collinearity between the continuous variables, we generated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multi-collinearity; thus, in these instances, at least one of those correlated variables were dropped during subsequent model development. 
 
-In the interest of maximizing model parsimony and predictive performance, we then performed several automated procedures for variable selection. Specifically, we used backward and forward selection. We then employed criterion based approaches in variable selection, 
+Next, we tested for significant interactions between each of the two categorical variables, unemployment and urbanization, and all other continuous variables. Any variables with significant interactions were then stratified and analyzed again.
 
-- We wanted to enhance model parsimony and improve performance so we first started performing automated procedures for variable selection
-- We also used criterion based approaches in variable selection, including running tests to generate the 2 best models for various criteria: Cp, adjusted R squared and SSE/RSS. 
-- We performed a lit review to see what variables are practically important to include for interpretability and application purposes
+#### Model Development and Validation
+
+To generate a high performing predictive model, we then performed two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP, r-squared and SSE/RSS). Using these results, we then identified a model which maximizes parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature.   
+
+All models generated during this process were recreated on a dataset excluding the single outlier, Washington DC, to determine the extent to which this data point is influential. 
+
+For validation, [ADD VALIDATION STUFF HERE]
 
 ## Results
 
