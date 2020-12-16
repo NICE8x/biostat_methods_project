@@ -21,7 +21,20 @@ hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
 ```
 
 ## Abstract
+Background: 
+Hate crimes are currently the highest priority of the FBI’s civil rights program. Data suggests that various socio-economic factors, such as income inequality, are associated with hate crimes.
 
+Objectives:
+The authors aimed to analyze the association between community-level variables with state-level hate crime rates.
+
+Methods:
+The data used for this project included state-level hate crime rates per 100,000 individuals in the population, as reported by the Southern Poverty Law Center during the first weeks of November, 2016. Data also included socio-economic factors that were suspected to be associated with hate crime. The association between these socio-economic factors and hate crime outcome were examined by using multiple linear regression analysis.
+
+Results:
+After thorough analysis of the data and variables, DC appeared to be an outlier, and thus was dropped from the dataset. Due to multicollinearity and lack of significance in stratified analysis, socio-economic factors, median household income and urbanization, were dropped to produce the most parsimonious, and predictive model. Interestingly, the final model indicated that the percent of the population with a high school degree (as of 2009) had a significant linear association with hate crimes per 100,000 individuals in the population.
+
+Conclusions:
+Based on the Southern Poverty Law Center data in the beginning of November 2016, higher percent population with a high school degree (as of 2009) was associated with increased state-level hate crime rate.
 
 ## Introduction
 
