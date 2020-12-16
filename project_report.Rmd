@@ -111,7 +111,12 @@ hate_crimes_df %>%
   mutate(state = fct_reorder(state, hate_crimes_log)) %>%
 ggplot(aes(x = state, y = hate_crimes_log)) +
   geom_point() +
-  theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1))
+  theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1)) +
+  labs(
+    x = "State",
+    y = "Log Hate Crimes per 100,000 Population",
+    title = "Log Hate Crimes Rate by State"
+  )
 ```
 
 Results show that Washington, DC may be an outlier and/or influential point in the data. To further investigate this, we generated the residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots. 
