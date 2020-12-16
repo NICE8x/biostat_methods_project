@@ -103,12 +103,67 @@ A table of basic descriptive statistics for the collected socioeconomic variable
 
 To first attempt to recreate the findings of the FiveThirtyEight article, we began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the log hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini Index was the most significant predictor of state hate crime rate; percent high school graduates variables was the only other statistically significant variable. 
 
-To generate our own predictive model, we employed two automated procedures: backward and forward selection. While the model proposed during forward selection contained all provided variables (), the model generated through backwards selection was much more parsimonious and had a substantially higher adjusted R squared ()
+To generate our own predictive model, we employed two automated procedures: backward and forward selection. While the model proposed during forward selection contained all provided variables (Adjusted R-squared = ), the model generated through backwards selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = )
 
-We then employed three criterion based approaches, each of which generated the two best performing models for each possible number of included predictors.  
+We then employed three criterion based approaches in R, each of which generated the two best performing models for each possible number of included predictors. To visualize these results, we generated a plot containing the Cp criterion distribution for the top performing model for each number of included predictors (Figure 8). This shows that   
 
+
+
+#### Tests for Association and Modeling
+
+We began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the log hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini index (income inequality) is the most significant predictor, and that percent population with a high school degree is the only other significant predictor. 
+
+The results of backward and forward selection suggest that the Gini index and percent population with a high school degree variables are the only significant predictors included in the final model. 
+
+
+## Discussion/Conclusion
+
+
+## Figures and Tables
+
+```{r}
+## FIGURE 1
+hate_crimes_df %>%
+  ggplot(aes(x = hate_crimes_per_100k_splc)) +
+  geom_histogram(aes(y=..density..)) +
+  geom_density(alpha=.1, fill="#FF6666") + 
+  labs(
+    x = "Hate Crimes Per 100k",
+    y = "Density",
+    caption = "Figure 1: Untransformed distribution of hate crimes per 100k"
+  )
+```
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+## FIGURE 2
+mult_fit_1 = lm(hate_crimes_per_100k_splc ~ unemployment + urbanization + median_household_income + perc_pop_hs + perc_non_citizen + gini_index + perc_non_white, data = hate_crimes_df)
+
+boxcox(mult_fit_1)
+```
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+## FIGURE 3
+hate_crimes_df = hate_crimes_df %>%
+  mutate(hate_crimes_log = log(hate_crimes_per_100k_splc)) 
+
+hate_crimes_df %>%
+  drop_na(hate_crimes_log) %>%
+  mutate(state = fct_reorder(state, hate_crimes_log)) %>%
+ggplot(aes(x = state, y = hate_crimes_log)) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 1)) +
+  labs(
+    x = "State",
+    y = "Log Hate Crimes per 100,000 Population",
+    title = "Figure 3. Log Hate Crimes Rate by State"
+  )
+```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
+## FIGURES 4-7
+plot(mult_fit_1)
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+## TABLE 1
 h_c_df =
   hate_crimes_df %>%
   rename(
@@ -139,71 +194,6 @@ tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
 
 summary(tab1) %>% 
   knitr::kable(caption = "Table 1: Descriptive Statistics of Tidied Dataset")
-```
-
-
-Multivariable linear regression modeling operates under several assumptions, which include residual homoscedasticity (constant variance) and normality. Initial exploration of the distribution of the hate crimes rate data showed a strong departure from a normal distribution (Figure 1). Thus, we performed a Box Cox test to isolate the 'best' power transformation on the hate crimes rate variable to achieve normal residuals (Figure 2). 
-
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-mult_fit_1 = lm(hate_crimes_per_100k_splc ~ unemployment + urbanization + median_household_income + perc_pop_hs + perc_non_citizen + gini_index + perc_non_white, data = hate_crimes_df)
-summary(mult_fit_1)
-
-boxcox(mult_fit_1)
-```
-
-These results suggest that a logarithmic transformation of the hate crimes rate data would most closely approximate normal distribution. Thus, we operate moving forward in model development using the log hate crimes rate as the outcome of interest. 
-
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-hate_crimes_df = hate_crimes_df %>%
-  mutate(hate_crimes_log = log(hate_crimes_per_100k_splc)) 
-```
-
-To determine whether any outliers exist within the data, we first visualized the log hate crimes rate of each state.
-
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-hate_crimes_df %>%
-  drop_na(hate_crimes_log) %>%
-  mutate(state = fct_reorder(state, hate_crimes_log)) %>%
-ggplot(aes(x = state, y = hate_crimes_log)) +
-  geom_point() +
-  theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 1)) +
-  labs(
-    x = "State",
-    y = "Log Hate Crimes per 100,000 Population",
-    title = "Log Hate Crimes Rate by State"
-  )
-```
-
-Results show that Washington, DC may be an outlier and/or influential point in the data. To further investigate this, we generated the residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots. 
-
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-plot(mult_fit_1)
-```
-
-As Washington DC is clearly outside of the Cook's distance line, we conclude that it is an outlier.
-
-#### Tests for Association and Modeling
-
-We began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the log hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini index (income inequality) is the most significant predictor, and that percent population with a high school degree is the only other significant predictor. 
-
-The results of backward and forward selection suggest that the Gini index and percent population with a high school degree variables are the only significant predictors included in the final model. 
-
-
-## Discussion/Conclusion
-
-
-## Figures and Tables
-
-```{r}
-hate_crimes_df %>%
-  ggplot(aes(x = hate_crimes_per_100k_splc)) +
-  geom_histogram(aes(y=..density..)) +
-  geom_density(alpha=.1, fill="#FF6666") + 
-  labs(
-    x = "Hate Crimes Per 100k",
-    y = "Density",
-    caption = "Figure 1: Untransformed distribution of hate crimes per 100k"
-  )
 ```
 
 
