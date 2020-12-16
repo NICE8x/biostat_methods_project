@@ -34,7 +34,13 @@ Percent Non Citizen Maine is missing
 ```{r descriptive stats}
 hate_crimes_df %>%
   ggplot(aes(x = hate_crimes_per_100k_splc)) +
-  geom_density()
+  geom_histogram(aes(y=..density..)) +
+  geom_density(alpha=.1, fill="#FF6666") + 
+  labs(
+    x = "Hate Crimes Per 100k",
+    y = "Density",
+    caption = "Figure 1: Untransformed distribution of hate crimes per 100k"
+  )
 ```
 
 
