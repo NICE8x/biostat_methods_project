@@ -50,7 +50,9 @@ Using this smaller dataset, our goal was to verify the significant association b
 
 To further elucidate the existence of outliers/influential points, we visualized the hate crime rate by state, and generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots. Any states that were deemed to be an outlier were kept in subsequent analyses, but the same analyses were also run a second time on a dataset excluding the outliers for comparison.
 
-To test for any multi-collinearity between the continuous variables, we calculated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multi-collinearity, thus, one of those correlated variables should then be dropped from subsequent analyses.
+In order to determine the existence of any multi-collinearity between the continuous variables, we calculated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multi-collinearity, thus, one of those correlated variables should then be dropped from subsequent analyses.
+
+Next, we tested for significant interactions between the two categorical variables, unemployment and urbanization, and all other continuous variables. Any variables with significant interactions were then stratified and analyzed again.
 
 In the interest of maximizing model parsimony and predictive performance, we then performed several automated procedures for variable selection. Specifically, we used backward and forward selection. We then employed criterion based approaches in variable selection, 
 
