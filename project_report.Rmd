@@ -15,6 +15,7 @@ hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
   janitor::clean_names() %>%
   rename(perc_pop_hs = perc_population_with_high_school_degree) %>% 
   mutate(hate_crimes_per_100k_splc = as.numeric(hate_crimes_per_100k_splc)) %>%
+  drop_na(hate_crimes_per_100k_splc) %>% 
   mutate(unemployment = as_factor(unemployment),
          urbanization = as_factor(urbanization))
 ```
@@ -43,9 +44,11 @@ The data used for this project included state-level hate crime rates (hate crime
 - Income Gini coefficient (a measure of the extent to which the distribution of income among individuals within an economy deviates from a perfectly equal distribution; as of 2015)
 - Percent of residents who are non-White (as of 2015)
 
-As seen in Table 1, four states--Hawaii, North Dakota, South Dakota, and Wyoming--did not report hate crime rate data, and thus were excluded from subsequent analyses. One state, Maine, did not report its percent of residents who were non-citizens. Washington DC was included as a state for the purposes of these analyses. 
+First, we looked for missing data points. Four states--Hawaii, North Dakota, South Dakota, and Wyoming--did not report hate crime rate data, and thus were excluded from subsequent analyses. One additional state, Maine, did not report its percent of residents who were non-citizens. Washington DC was included as a state for the purposes of these analyses. 
 
-Using this data, we generated a multivariable linear regression model to assess which of these variables, if any, are associated with population-adjusted hate incidents in the United States. To do so, we first explored the distribution of the outcome (population-adjusted hate incidents per 100,000 population) to determine whether any data transformations would be necessary, and to assess whether any outliers exist within the data. 
+Using this smaller dataset, our goal was to generate a multivariable linear regression model to assess which of these variables, if any, are associated with population-adjusted hate incidents in the United States. To do so, we first generated descriptive statistics and plotted the distribution of the outcome (population-adjusted hate incidents per 100,000 population) to determine whether any data transformations would be necessary, and to assess whether any outliers exist within the data. 
+
+To test for any multi-collinearity between the continuous variables, we calculated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multi-collinearity, thus, one of those correlated variables should then be dropped from subsequent analyses.
 
 ## Results
 
@@ -83,23 +86,19 @@ my_controls = tableby.control(
 tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
 
 summary(tab1) %>% 
-  knitr::kable(caption = "Table 1: Descriptive Statistics of Entire Dataset")
+  knitr::kable(caption = "Table 1: Descriptive Statistics of Tidied Dataset")
 ```
 
 Multivariable linear regression modeling operates under several assumptions, which include residual homoscedasticity (constant variance) and normality. Initial exploration of the distribution of the hate crimes rate data showed a strong departure from standard normal distribution. Thus, we performed a Box Cox test to isolate the 'best' power transformation on the hate crimes rate variable to achieve normal residuals. 
 
 ```{r, message = FALSE, warning = FALSE}
-hate_crimes_df <-
-  hate_crimes_df %>%
-  drop_na(hate_crimes_per_100k_splc)
-
 mult_fit_1 = lm(hate_crimes_per_100k_splc ~ unemployment + urbanization + median_household_income + perc_pop_hs + perc_non_citizen + gini_index + perc_non_white, data = hate_crimes_df)
 summary(mult_fit_1)
 
 boxcox(mult_fit_1)
 ```
 
-These results suggest that a logarithmic transformation of the hate crimes rate data would most closely approximate normal distribution. 
+These results suggest that a logarithmic transformation of the hate crime rate data would most closely approximate normal distribution. 
 
 ```{r, message = FALSE, warning = FALSE}
 hate_crimes_df = hate_crimes_df %>%
