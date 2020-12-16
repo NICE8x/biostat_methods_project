@@ -5,7 +5,7 @@ date: "12/11/2020"
 output: html_document
 ---
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, echo = FALSE}
 library(tidyverse)
 library(arsenal)
 library(MASS)
@@ -53,7 +53,7 @@ Using this data, we generated a multivariable linear regression model to assess 
 
 We first generated descriptive statistics for all collected variables. 
 
-```{r, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 h_c_df =
   hate_crimes_df %>%
   rename(
@@ -88,7 +88,7 @@ summary(tab1) %>%
 
 Multivariable linear regression modeling operates under several assumptions, which include residual homoscedasticity (constant variance) and normality. Initial exploration of the distribution of the hate crimes rate data showed a strong departure from standard normal distribution. Thus, we performed a Box Cox test to isolate the 'best' power transformation on the hate crimes rate variable to achieve normal residuals. 
 
-```{r, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 hate_crimes_df <-
   hate_crimes_df %>%
   drop_na(hate_crimes_per_100k_splc)
@@ -101,14 +101,14 @@ boxcox(mult_fit_1)
 
 These results suggest that a logarithmic transformation of the hate crimes rate data would most closely approximate normal distribution. Thus, we operate moving forward in model development using the log hate crimes rate as the outcome of interest. 
 
-```{r, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 hate_crimes_df = hate_crimes_df %>%
   mutate(hate_crimes_log = log(hate_crimes_per_100k_splc)) 
 ```
 
 To determine whether any outliers exist within the data, we first visualized the log hate crimes rate of each state.
 
-```{r box plot}
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 hate_crimes_df %>%
   drop_na(hate_crimes_log) %>%
   mutate(state = fct_reorder(state, hate_crimes_log)) %>%
@@ -124,7 +124,7 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
 
 Results show that Washington, DC may be an outlier and/or influential point in the data. To further investigate this, we generated the residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots. 
 
-```{r, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 plot(mult_fit_1)
 ```
 
