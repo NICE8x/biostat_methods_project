@@ -65,6 +65,8 @@ Using these data, our goal was to construct our own multivariable linear regress
 
 To further elucidate the existence of outliers/influential points, we visualized the hate crime rate by state, and generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots. Any states that were deemed to be an outlier were included in subsequent analyses, but the same analyses were also run a second time on the dataset excluding the outliers for comparison.
 
+To report basic descriptive statistics, we generated a table which includes the mean, median, range (min-max), interquartile range, and count of missing entries for each numeric variable, and category percent breakdowns and count of missing entries for categorical variables (Table 1).   
+
 #### Multicollinearity and Interactions
 
 In order to investigate the existence of multi-collinearity between the continuous variables, we generated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multi-collinearity; thus, in these instances, at least one of those correlated variables were dropped during subsequent model development. 
@@ -75,15 +77,23 @@ Next, we tested for significant interactions between each of the two categorical
 
 To generate a high performing predictive model, we then performed two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP, r-squared and SSE/RSS). Using these results, we then identified a model which maximizes parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature.   
 
-All models generated during this process were recreated on a dataset excluding the single outlier, Washington DC, to determine the extent to which this data point is influential. 
+Model goodness of fit was also assessed on a dataset excluding Washington DC, a previously noted outlier. 
 
 For validation, [ADD VALIDATION STUFF HERE]
 
 ## Results
 
-#### Descriptive Statistics and Data Distribution
+#### Data Exploration
 
-We first generated descriptive statistics for all collected variables. 
+To visualize the distribution of the hate crimes rate data, we first generated a density plot (Figure 1). Multivariable linear regression modeling operates under several assumptions, which include residual homoscedasticity (constant variance) and normality. Initial exploration of the distribution of the hate crimes rate data showed a strong departure from standard normal distribution. Thus, we performed a Box Cox test to isolate the 'best' power transformation on the hate crimes rate variable to achieve normal residuals. 
+
+The generated Box Cox plot results suggest that a logarithmic transformation of the hate crimes rate data would most closely approximate normal distribution (Figure 2). Thus, we operated moving forward in model development using the log hate crimes rate as the outcome of interest. 
+
+To investigate for any outliers in the data, we then plotted the hate crimes rate by state, and generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots (Figures 3-7). As Washington DC is clearly outside of the Cook's distance line in the residuals vs leverage plot, we concluded that this point is an outlier. 
+
+As Washington DC is clearly outside of the Cook's distance line, we conclude that it is an outlier. This data point was included in any subsequent analyses, though all analyses were also rerun on this dataset excluding Washington DC for comparison.
+
+A table of basic descriptive statistics is included in the appendix (Table 1). 
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 h_c_df =
@@ -118,7 +128,7 @@ summary(tab1) %>%
   knitr::kable(caption = "Table 1: Descriptive Statistics of Tidied Dataset")
 ```
 
-Multivariable linear regression modeling operates under several assumptions, which include residual homoscedasticity (constant variance) and normality. Initial exploration of the distribution of the hate crimes rate data showed a strong departure from standard normal distribution. Thus, we performed a Box Cox test to isolate the 'best' power transformation on the hate crimes rate variable to achieve normal residuals. 
+
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 hate_crimes_df <-
