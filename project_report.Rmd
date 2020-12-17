@@ -89,7 +89,7 @@ Using these results, we then identified a model which maximizes parsimony, predi
  
 Model goodness of fit was also assessed on a dataset excluding Washington DC, a previously noted outlier. 
 
-For validation, [ADD VALIDATION STUFF HERE]
+For validation, we performed 5-fold Cross Validation to check the performance of our two models.  One model included the covariates gini_index, perc_pop_hs, and unemployment and the other model included just gini_index and perc_pop_hs.  We performed 5-fold Cross Validation of both models including the entry "District of Columbia" and excluding the entry "District fo Columbia" to see if the outlier impacted our results.  
 
 ## Results
 

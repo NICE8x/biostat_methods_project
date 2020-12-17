@@ -358,7 +358,8 @@ library(caret)
 final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
 sm<-summary(final_model_no_DC)
 sm
-mean(sm$residuals^2)
+sqrt(mean(sm$residuals^2))
+
 
 set.seed(1)
 data_train<-trainControl(method="cv", number=5)
@@ -383,12 +384,19 @@ model_caret$resample
 sd(model_caret$resample$Rsquared)
 ```
 
+Model adjusted R^2: 0.1185
+Model RMSE: 0.5367246
+
+CV adjusted R^2: 0.153031
+CV MSE: 0.5554347
+
+
 
 ```{r model validation no DC part 2}
 final_model_no_DC_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df_no_DC)
 sm<-summary(final_model_no_DC_unemploy)
 sm
-mean(sm$residuals^2)
+sqrt(mean(sm$residuals^2))
 
 
 set.seed(1)
@@ -413,6 +421,11 @@ model_caret$resample
 sd(model_caret$resample$Rsquared)
 ```
 
+Model adjusted R^2: 0.125
+Model RMSE: 0.5281813
+
+CV adjusted R^2: 0.1730294
+CV RMSE: 0.560014
 
 ```{r validate the model with DC part 1}
 library(caret)
@@ -421,7 +434,7 @@ library(caret)
 final_model <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df)
 sm<-summary(final_model)
 sm
-mean(sm$residuals^2)
+sqrt(mean(sm$residuals^2))
 
 set.seed(1)
 data_train<-trainControl(method="cv", number=5)
@@ -449,11 +462,19 @@ sd(model_caret$resample$Rsquared)
 
 ```
 
+Model adjusted R^2: 0.2541
+Model RMSE: 0.5417445
+
+CV adjusted R^2: 0.2943289
+CV RMSE: 0.5948853
+
+
+
 ```{r with Dc model validation part 2}
 final_model_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df)
 sm<-summary(final_model_unemploy)
 sm
-mean(sm$residuals^2)
+sqrt(mean(sm$residuals^2))
 
 
 set.seed(1)
@@ -478,73 +499,11 @@ model_caret$resample
 sd(model_caret$resample$Rsquared)
 ```
 
+Model adjusted R^2: 0.2571 
+Model RMSE: 0.5341956
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```{r more model validation no DC}
-library(modelr)
-set.seed(1)
-final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
-#summary(final_model_no_DC)
-
-final_model_no_DC_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df_no_DC)
-#summary(final_model_no_DC_unemploy)
-
-cv_df =
-  crossv_mc(hate_crimes_df_no_DC, 100) %>% 
-  mutate(
-    train = map(train, as_tibble),
-    test = map(test, as_tibble))
-
-cv_df = 
-  cv_df %>% 
-  mutate(
-    two_cov_model = map(train, ~lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = .x)),
-    three_cov_model = map(train, ~lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = .x))
-  ) %>%
-    
-  mutate(
-    rmse_two_cov = map2_dbl(two_cov_model, test, ~rmse(model = .x, data = .y)),
-    rmse_three_cov = map2_dbl(three_cov_model, test, ~rmse(model = .x, data = .y))
-    )
-
-cv_df %>% 
-  select(starts_with("rmse")) %>% 
-  pivot_longer(
-    everything(),
-    names_to = "model", 
-    values_to = "rmse",
-    names_prefix = "rmse_") %>% 
-  mutate(model = fct_inorder(model)) %>% 
-  ggplot(aes(x = model, y = rmse)) + geom_violin() + 
-  labs(
-    title = "RMSE for Each of the Two Models",
-    x = "Model",
-    y = "RMSE"
-  )
-```
-
+CV adjusted R^2: 0.2783783
+CV RMSE: 0.6038494
 
 
 
