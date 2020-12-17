@@ -356,7 +356,9 @@ library(caret)
 
 
 final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
-summary(final_model_no_DC)
+sm<-summary(final_model_no_DC)
+sm
+mean(sm$residuals^2)
 
 set.seed(1)
 data_train<-trainControl(method="cv", number=5)
@@ -379,10 +381,16 @@ model_caret$finalModel
 model_caret$resample
 
 sd(model_caret$resample$Rsquared)
+```
 
-##############################################
+
+```{r model validation no DC part 2}
 final_model_no_DC_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df_no_DC)
-summary(final_model_no_DC_unemploy)
+sm<-summary(final_model_no_DC_unemploy)
+sm
+mean(sm$residuals^2)
+
+
 set.seed(1)
 data_train<-trainControl(method="cv", number=5)
 
@@ -405,12 +413,15 @@ model_caret$resample
 sd(model_caret$resample$Rsquared)
 ```
 
-```{r validate the model with DC}
+
+```{r validate the model with DC part 1}
 library(caret)
 
 
 final_model <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df)
-summary(final_model)
+sm<-summary(final_model)
+sm
+mean(sm$residuals^2)
 
 set.seed(1)
 data_train<-trainControl(method="cv", number=5)
@@ -436,10 +447,15 @@ model_caret$resample
 
 sd(model_caret$resample$Rsquared)
 
+```
 
-
+```{r with Dc model validation part 2}
 final_model_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df)
-summary(final_model_unemploy)
+sm<-summary(final_model_unemploy)
+sm
+mean(sm$residuals^2)
+
+
 set.seed(1)
 data_train<-trainControl(method="cv", number=5)
 
