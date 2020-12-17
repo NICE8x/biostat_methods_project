@@ -2,7 +2,7 @@
 title: "Project Report"
 author: "Caroline Andy, Vasili Fokaidis, Stella Li, Tessa Senders, Lily Wang"
 date: "12/11/2020"
-output: html_document
+output: pdf_document
 ---
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE}
