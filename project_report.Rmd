@@ -21,25 +21,25 @@ hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
 ```
 
 ## Abstract
-**Background:** 
+**Background:**\ 
 Hate crimes are currently the highest priority of the FBI’s civil rights program. Existing research suggests that various community-level socioeconomic factors, such as income inequality, are associated with hate crime rate. 
 
-**Objectives:**
+**Objectives:**\
 We aimed to analyze the association between community-level variables and state-level hate crime rates using data reported to the Southern Poverty Law Center and analyzed in a 2017 FiveThrityEight article.
 
-**Methods:**
+**Methods:**\
 The data used for this project included state-level hate crime rates per 100,000 individuals in the population, as reported by the Southern Poverty Law Center during the first weeks of November, 2016. Data elements also included socioeconomic factors that are hypothesized to be associated with hate crime. 
 
 The association between these socioeconomic factors and the hate crime rate outcome were examined using multivariable linear regression analysis. The outcome variable was first log transformed to adhere to the linear regression assumption of normal distribution. After identifying the significant predictors of state-level hate crime rate when controlling for all other covariates, we used automated and criterion-based approaches to generate a parsimonious high-performing predictive model. Multicollinearity of covariates and variable interaction were also tested for and considered in model development. 
 
-**Results:**
+**Results:**\
 Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significant predictors of state-level hate crime rate when controlling for all other covariates. 
 
 Of the continuous variables, percent non-citizen and percent non-white were found to have a correlation coefficient of 0.753; median household income and percentage of population with a HS degree had a correlation coefficient of 0.651, both of which may suggest multicollinearity. No statistically significant interactions were identified between any variables in regression modeling. 
 
 Using automated and criterion-based approaches, and considering the body of scientific evidence with regard to significant and practically important socioeconomic factors associated with hate crimes, we identified one regression model which maximizes parsimony and predictive performance. This model includes the following predictors: [ADD FINAL PREDICTORS]
 
-**Conclusions:**
+**Conclusions:**\
 Based on the November 2016 Southern Poverty Law Center data, Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significantly and independently associated of state-level hate crime rate.
 
 ## Introduction
@@ -75,7 +75,7 @@ To report basic descriptive statistics, we generated a table which includes the 
 
 #### Multicollinearity and Interactions
 
-In order to investigate the existence of multicollinearity between the continuous variables, we generated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multicollinearity; thus, in these instances, at least one of those correlated variables were dropped during subsequent model development. 
+In order to investigate the existence of multicollinearity between each of the continuous variables, we generated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multicollinearity; thus, in these instances, at least one of those correlated variables were dropped during subsequent model development. We also calculated the variance inflation factors (VIFs) for all variables, which quantify the degree of multicollinearity between the given predictor all other remaining covariates. 
 
 Next, we tested for significant interactions between each of the two categorical variables, unemployment and urbanization, and all other continuous variables. Any variables with significant interactions were then stratified and analyzed again.
 
@@ -101,11 +101,13 @@ A table of basic descriptive statistics for the collected socioeconomic variable
 
 #### Multicollinearity and Interactions
 
-Out of the continuous variables, percent non-citizen and percent non-white has a correlation coefficient of 0.753, median household income and percentage of population with a HS degree has a correlation coefficient of 0.651, both of which may suggest multi-collinearity. All other correlation coefficients do not suggest multi-collinearity (Table 2).
+Out of the continuous variables, percent non-citizen and percent non-white has a correlation coefficient of 0.753, median household income and percentage of population with a HS degree has a correlation coefficient of 0.651, both of which may suggest multicollinearity. All other correlation coefficients do not suggest multi-collinearity (Table 2).
+
+Use of variance inflation factors (VIFs) showed that the percent population without a high school degree (3.895), percent non-citizen (3.728), percent non-white (3.236) and median household income (3.108) had the highest degrees of multicollinearity between all other predictors. These values approach but do not exceed 4, the generally accepted value which denotes the need for further investigation and/or consideration of multicollinearity corrections. 
 
 #### Model Development and Validation
 
-To first attempt to recreate the findings of the FiveThirtyEight article, we began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the log hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini Index was the most significant predictor of state hate crime rate; percent high school graduates variables was the only other statistically significant variable. 
+We began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the log hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini Index was the most significant independent predictor of state hate crime rate, when controlling for all other covariates; percent high school graduates variables was the only other statistically and independently significant variable. 
 
 To generate our own predictive model, we employed two automated procedures: backward and forward selection. While the model proposed during forward selection contained all provided variables (Adjusted R-squared = ), the model generated through backwards selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = ). The only included predictors were the Gini Index, and the percent of high school graduates variables. 
 
@@ -196,7 +198,7 @@ summary(tab1) %>%
   knitr::kable(caption = "Table 1: Descriptive Statistics of Tidied Dataset")
 ```
 
-```{r cor mat}
+```{r, message = FALSE, warning = FALSE}
 ## TABLE 2
 hate_crimes_df %>% 
   drop_na(perc_non_citizen) %>%
