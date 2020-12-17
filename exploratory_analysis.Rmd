@@ -315,7 +315,7 @@ hate_crimes_df %>%
   drop_na(perc_non_citizen) %>%
   dplyr::select(!(state:urbanization)) %>% 
   cor() %>% 
-  round(.,3)
+  round(.,3) %>% knitr::kable()
 ```
 
 Out of the continuous variables, percent non-citizen and percent non-white has a correlation coefficient of 0.753, median household income and percentage of population with a HS degree has a correlation coefficient of 0.651, both of which may suggest multi-collinearity. All other variables do not suggest multi-collinearity.

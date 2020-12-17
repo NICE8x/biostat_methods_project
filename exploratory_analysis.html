@@ -1468,31 +1468,103 @@ plot(final_model_no_DC)</code></pre>
   drop_na(perc_non_citizen) %&gt;%
   dplyr::select(!(state:urbanization)) %&gt;% 
   cor() %&gt;% 
-  round(.,3)</code></pre>
-<pre><code>##                           median_household_income perc_pop_hs perc_non_citizen
-## median_household_income                     1.000       0.651            0.302
-## perc_pop_hs                                 0.651       1.000           -0.262
-## perc_non_citizen                            0.302      -0.262            1.000
-## gini_index                                 -0.130      -0.537            0.480
-## perc_non_white                              0.039      -0.496            0.753
-## hate_crimes_per_100k_splc                   0.344       0.263            0.244
-## hate_crimes_log                             0.311       0.296            0.137
-##                           gini_index perc_non_white hate_crimes_per_100k_splc
-## median_household_income       -0.130          0.039                     0.344
-## perc_pop_hs                   -0.537         -0.496                     0.263
-## perc_non_citizen               0.480          0.753                     0.244
-## gini_index                     1.000          0.548                     0.381
-## perc_non_white                 0.548          1.000                     0.111
-## hate_crimes_per_100k_splc      0.381          0.111                     1.000
-## hate_crimes_log                0.219         -0.007                     0.892
-##                           hate_crimes_log
-## median_household_income             0.311
-## perc_pop_hs                         0.296
-## perc_non_citizen                    0.137
-## gini_index                          0.219
-## perc_non_white                     -0.007
-## hate_crimes_per_100k_splc           0.892
-## hate_crimes_log                     1.000</code></pre>
+  round(.,3) %&gt;% knitr::kable()</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="17%"></col>
+<col width="16%"></col>
+<col width="8%"></col>
+<col width="11%"></col>
+<col width="7%"></col>
+<col width="10%"></col>
+<col width="17%"></col>
+<col width="10%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">median_household_income</th>
+<th align="right">perc_pop_hs</th>
+<th align="right">perc_non_citizen</th>
+<th align="right">gini_index</th>
+<th align="right">perc_non_white</th>
+<th align="right">hate_crimes_per_100k_splc</th>
+<th align="right">hate_crimes_log</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">median_household_income</td>
+<td align="right">1.000</td>
+<td align="right">0.651</td>
+<td align="right">0.302</td>
+<td align="right">-0.130</td>
+<td align="right">0.039</td>
+<td align="right">0.344</td>
+<td align="right">0.311</td>
+</tr>
+<tr class="even">
+<td align="left">perc_pop_hs</td>
+<td align="right">0.651</td>
+<td align="right">1.000</td>
+<td align="right">-0.262</td>
+<td align="right">-0.537</td>
+<td align="right">-0.496</td>
+<td align="right">0.263</td>
+<td align="right">0.296</td>
+</tr>
+<tr class="odd">
+<td align="left">perc_non_citizen</td>
+<td align="right">0.302</td>
+<td align="right">-0.262</td>
+<td align="right">1.000</td>
+<td align="right">0.480</td>
+<td align="right">0.753</td>
+<td align="right">0.244</td>
+<td align="right">0.137</td>
+</tr>
+<tr class="even">
+<td align="left">gini_index</td>
+<td align="right">-0.130</td>
+<td align="right">-0.537</td>
+<td align="right">0.480</td>
+<td align="right">1.000</td>
+<td align="right">0.548</td>
+<td align="right">0.381</td>
+<td align="right">0.219</td>
+</tr>
+<tr class="odd">
+<td align="left">perc_non_white</td>
+<td align="right">0.039</td>
+<td align="right">-0.496</td>
+<td align="right">0.753</td>
+<td align="right">0.548</td>
+<td align="right">1.000</td>
+<td align="right">0.111</td>
+<td align="right">-0.007</td>
+</tr>
+<tr class="even">
+<td align="left">hate_crimes_per_100k_splc</td>
+<td align="right">0.344</td>
+<td align="right">0.263</td>
+<td align="right">0.244</td>
+<td align="right">0.381</td>
+<td align="right">0.111</td>
+<td align="right">1.000</td>
+<td align="right">0.892</td>
+</tr>
+<tr class="odd">
+<td align="left">hate_crimes_log</td>
+<td align="right">0.311</td>
+<td align="right">0.296</td>
+<td align="right">0.137</td>
+<td align="right">0.219</td>
+<td align="right">-0.007</td>
+<td align="right">0.892</td>
+<td align="right">1.000</td>
+</tr>
+</tbody>
+</table>
 <p>Out of the continuous variables, percent non-citizen and percent non-white has a correlation coefficient of 0.753, median household income and percentage of population with a HS degree has a correlation coefficient of 0.651, both of which may suggest multi-collinearity. All other variables do not suggest multi-collinearity.</p>
 <p>Calculate VIFs for multicollinearity</p>
 <p>Drop either perc non citizen or per non white Drop either median household income or perc pop with HS degree-drop median household income due to multicollinearity</p>
