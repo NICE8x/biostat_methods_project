@@ -190,7 +190,7 @@ hc_1 = hate_crimes_df %>%
   mutate(unemployment = as.numeric(unemployment),
          urbanization = as.numeric(urbanization))
 
-b_1 <- regsubsets(hate_crimes_log ~ ., data=hc_1, nvmax = 7)
+b_1 <- leaps::regsubsets(hate_crimes_log ~ ., data=hc_1, nvmax = 7)
 summary(b_1)
 
 res.sum_1 <- summary(b_1)
@@ -316,6 +316,12 @@ hate_crimes_df %>%
   dplyr::select(!(state:urbanization)) %>% 
   cor() %>% 
   round(.,3) %>% knitr::kable()
+
+library(car)
+
+vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_df)) %>%
+  round(.,3) %>%
+  knitr::kable() 
 ```
 
 Out of the continuous variables, percent non-citizen and percent non-white has a correlation coefficient of 0.753, median household income and percentage of population with a HS degree has a correlation coefficient of 0.651, both of which may suggest multi-collinearity. All other variables do not suggest multi-collinearity.
