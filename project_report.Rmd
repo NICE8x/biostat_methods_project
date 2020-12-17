@@ -22,19 +22,25 @@ hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
 
 ## Abstract
 **Background:** 
-Hate crimes are currently the highest priority of the FBI’s civil rights program. Data suggests that various socio-economic factors, such as income inequality, are associated with hate crimes.
+Hate crimes are currently the highest priority of the FBI’s civil rights program. Existing research suggests that various community-level socioeconomic factors, such as income inequality, are associated with hate crime rate. 
 
 **Objectives:**
-The authors aimed to analyze the association between community-level variables with state-level hate crime rates.
+We aimed to analyze the association between community-level variables and state-level hate crime rates using data reported to the Southern Poverty Law Center and analyzed in a 2017 FiveThrityEight article.
 
 **Methods:**
-The data used for this project included state-level hate crime rates per 100,000 individuals in the population, as reported by the Southern Poverty Law Center during the first weeks of November, 2016. Data also included socio-economic factors that were suspected to be associated with hate crime. The association between these socio-economic factors and hate crime outcome were examined by using multiple linear regression analysis.
+The data used for this project included state-level hate crime rates per 100,000 individuals in the population, as reported by the Southern Poverty Law Center during the first weeks of November, 2016. Data elements also included socioeconomic factors that are hypothesized to be associated with hate crime. 
+
+The association between these socioeconomic factors and the hate crime rate outcome were examined using multivariable linear regression analysis. The outcome variable was first log transformed to adhere to the linear regression assumption of normal distribution. After identifying the significant predictors of state-level hate crime rate when controlling for all other covariates, we used automated and criterion-based approaches to generate a parsimonious high-performing predictive model. Multicollinearity of covariates and variable interaction were also tested for and considered in model development. 
 
 **Results:**
-After thorough analysis of the data and variables, Washington DC appeared to be an outlier, but we kept it in then reran analyses a second time with it removed. Due to multicollinearity and lack of significance in stratified analysis, socio-economic factors, median household income and urbanization, were dropped to produce the most parsimonious, and predictive model. Interestingly, the final model indicated that the percent of the population with a high school degree (as of 2009) had a significant linear association with hate crimes per 100,000 individuals in the population.
+Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significant predictors of state-level hate crime rate when controlling for all other covariates. 
+
+Of the continuous variables, percent non-citizen and percent non-white were found to have a correlation coefficient of 0.753; median household income and percentage of population with a HS degree had a correlation coefficient of 0.651, both of which may suggest multicollinearity. No statistically significant interactions were identified between any variables in regression modeling. 
+
+Using automated and criterion-based approaches, and considering the body of scientific evidence with regard to significant and practically important socioeconomic factors associated with hate crimes, we identified one regression model which maximizes parsimony and predictive performance. This model includes the following predictors: [ADD FINAL PREDICTORS]
 
 **Conclusions:**
-Based on the Southern Poverty Law Center data in the beginning of November 2016, higher percent population with a high school degree (as of 2009) was associated with increased state-level hate crime rate.
+Based on the November 2016 Southern Poverty Law Center data, Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significantly and independently associated of state-level hate crime rate.
 
 ## Introduction
 
