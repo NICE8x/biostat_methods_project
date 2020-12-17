@@ -351,6 +351,187 @@ hate_crimes_df %>%
 ```
 
 
+```{r validate the model no DC}
+library(caret)
+
+
+final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
+summary(final_model_no_DC)
+
+set.seed(1)
+data_train<-trainControl(method="cv", number=5)
+
+
+model_caret<-train(hate_crimes_log ~ gini_index + perc_pop_hs,
+                   data=hate_crimes_df_no_DC,
+                   trControl=data_train,
+                   method='lm',
+                   na.action=na.pass)
+  
+
+model_caret
+
+
+
+model_caret$finalModel
+
+
+model_caret$resample
+
+sd(model_caret$resample$Rsquared)
+
+##############################################
+final_model_no_DC_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df_no_DC)
+summary(final_model_no_DC_unemploy)
+set.seed(1)
+data_train<-trainControl(method="cv", number=5)
+
+
+model_caret<-train(hate_crimes_log ~ gini_index + perc_pop_hs +unemployment,
+                   data=hate_crimes_df_no_DC,
+                   trControl=data_train,
+                   method='lm',
+                   na.action=na.pass)
+  
+
+model_caret
+
+
+model_caret$finalModel
+
+
+model_caret$resample
+
+sd(model_caret$resample$Rsquared)
+```
+
+```{r validate the model with DC}
+library(caret)
+
+
+final_model <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df)
+summary(final_model)
+
+set.seed(1)
+data_train<-trainControl(method="cv", number=5)
+
+
+model_caret<-train(hate_crimes_log ~ gini_index + perc_pop_hs,
+                   data=hate_crimes_df,
+                   trControl=data_train,
+                   method='lm',
+                   na.action=na.pass)
+  
+ 
+model_caret
+
+
+
+
+model_caret$finalModel
+
+
+model_caret$resample
+
+
+sd(model_caret$resample$Rsquared)
+
+
+
+final_model_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df)
+summary(final_model_unemploy)
+set.seed(1)
+data_train<-trainControl(method="cv", number=5)
+
+
+model_caret<-train(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment,
+                   data=hate_crimes_df,
+                   trControl=data_train,
+                   method='lm',
+                   na.action=na.pass)
+  
+
+model_caret
+
+
+model_caret$finalModel
+
+model_caret$resample
+
+
+sd(model_caret$resample$Rsquared)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r more model validation no DC}
+library(modelr)
+set.seed(1)
+final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
+#summary(final_model_no_DC)
+
+final_model_no_DC_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df_no_DC)
+#summary(final_model_no_DC_unemploy)
+
+cv_df =
+  crossv_mc(hate_crimes_df_no_DC, 100) %>% 
+  mutate(
+    train = map(train, as_tibble),
+    test = map(test, as_tibble))
+
+cv_df = 
+  cv_df %>% 
+  mutate(
+    two_cov_model = map(train, ~lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = .x)),
+    three_cov_model = map(train, ~lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = .x))
+  ) %>%
+    
+  mutate(
+    rmse_two_cov = map2_dbl(two_cov_model, test, ~rmse(model = .x, data = .y)),
+    rmse_three_cov = map2_dbl(three_cov_model, test, ~rmse(model = .x, data = .y))
+    )
+
+cv_df %>% 
+  select(starts_with("rmse")) %>% 
+  pivot_longer(
+    everything(),
+    names_to = "model", 
+    values_to = "rmse",
+    names_prefix = "rmse_") %>% 
+  mutate(model = fct_inorder(model)) %>% 
+  ggplot(aes(x = model, y = rmse)) + geom_violin() + 
+  labs(
+    title = "RMSE for Each of the Two Models",
+    x = "Model",
+    y = "RMSE"
+  )
+```
+
+
+
+
 Stratify based on significant interactions and comment
 
 Model diagnostics
