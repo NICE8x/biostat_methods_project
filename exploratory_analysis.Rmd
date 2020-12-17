@@ -190,7 +190,7 @@ hc_1 = hate_crimes_df %>%
   mutate(unemployment = as.numeric(unemployment),
          urbanization = as.numeric(urbanization))
 
-b_1 <- regsubsets(hate_crimes_log ~ ., data=hc_1, nvmax = 7)
+b_1 <- leaps::regsubsets(hate_crimes_log ~ ., data=hc_1, nvmax = 7)
 summary(b_1)
 
 res.sum_1 <- summary(b_1)
@@ -315,7 +315,13 @@ hate_crimes_df %>%
   drop_na(perc_non_citizen) %>%
   dplyr::select(!(state:urbanization)) %>% 
   cor() %>% 
-  round(.,3)
+  round(.,3) %>% knitr::kable()
+
+library(car)
+
+vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_df)) %>%
+  round(.,3) %>%
+  knitr::kable() 
 ```
 
 Out of the continuous variables, percent non-citizen and percent non-white has a correlation coefficient of 0.753, median household income and percentage of population with a HS degree has a correlation coefficient of 0.651, both of which may suggest multi-collinearity. All other variables do not suggest multi-collinearity.
@@ -343,6 +349,203 @@ hate_crimes_df %>%
   geom_smooth(method='lm', se=FALSE) + 
   facet_wrap(~cont_var, scales = "free_x") 
 ```
+
+
+```{r validate the model no DC}
+library(caret)
+
+
+final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
+sm<-summary(final_model_no_DC)
+sm
+mean(sm$residuals^2)
+
+set.seed(1)
+data_train<-trainControl(method="cv", number=5)
+
+
+model_caret<-train(hate_crimes_log ~ gini_index + perc_pop_hs,
+                   data=hate_crimes_df_no_DC,
+                   trControl=data_train,
+                   method='lm',
+                   na.action=na.pass)
+  
+
+model_caret
+
+
+
+model_caret$finalModel
+
+
+model_caret$resample
+
+sd(model_caret$resample$Rsquared)
+```
+
+
+```{r model validation no DC part 2}
+final_model_no_DC_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df_no_DC)
+sm<-summary(final_model_no_DC_unemploy)
+sm
+mean(sm$residuals^2)
+
+
+set.seed(1)
+data_train<-trainControl(method="cv", number=5)
+
+
+model_caret<-train(hate_crimes_log ~ gini_index + perc_pop_hs +unemployment,
+                   data=hate_crimes_df_no_DC,
+                   trControl=data_train,
+                   method='lm',
+                   na.action=na.pass)
+  
+
+model_caret
+
+
+model_caret$finalModel
+
+
+model_caret$resample
+
+sd(model_caret$resample$Rsquared)
+```
+
+
+```{r validate the model with DC part 1}
+library(caret)
+
+
+final_model <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df)
+sm<-summary(final_model)
+sm
+mean(sm$residuals^2)
+
+set.seed(1)
+data_train<-trainControl(method="cv", number=5)
+
+
+model_caret<-train(hate_crimes_log ~ gini_index + perc_pop_hs,
+                   data=hate_crimes_df,
+                   trControl=data_train,
+                   method='lm',
+                   na.action=na.pass)
+  
+ 
+model_caret
+
+
+
+
+model_caret$finalModel
+
+
+model_caret$resample
+
+
+sd(model_caret$resample$Rsquared)
+
+```
+
+```{r with Dc model validation part 2}
+final_model_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df)
+sm<-summary(final_model_unemploy)
+sm
+mean(sm$residuals^2)
+
+
+set.seed(1)
+data_train<-trainControl(method="cv", number=5)
+
+
+model_caret<-train(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment,
+                   data=hate_crimes_df,
+                   trControl=data_train,
+                   method='lm',
+                   na.action=na.pass)
+  
+
+model_caret
+
+
+model_caret$finalModel
+
+model_caret$resample
+
+
+sd(model_caret$resample$Rsquared)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r more model validation no DC}
+library(modelr)
+set.seed(1)
+final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
+#summary(final_model_no_DC)
+
+final_model_no_DC_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df_no_DC)
+#summary(final_model_no_DC_unemploy)
+
+cv_df =
+  crossv_mc(hate_crimes_df_no_DC, 100) %>% 
+  mutate(
+    train = map(train, as_tibble),
+    test = map(test, as_tibble))
+
+cv_df = 
+  cv_df %>% 
+  mutate(
+    two_cov_model = map(train, ~lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = .x)),
+    three_cov_model = map(train, ~lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = .x))
+  ) %>%
+    
+  mutate(
+    rmse_two_cov = map2_dbl(two_cov_model, test, ~rmse(model = .x, data = .y)),
+    rmse_three_cov = map2_dbl(three_cov_model, test, ~rmse(model = .x, data = .y))
+    )
+
+cv_df %>% 
+  select(starts_with("rmse")) %>% 
+  pivot_longer(
+    everything(),
+    names_to = "model", 
+    values_to = "rmse",
+    names_prefix = "rmse_") %>% 
+  mutate(model = fct_inorder(model)) %>% 
+  ggplot(aes(x = model, y = rmse)) + geom_violin() + 
+  labs(
+    title = "RMSE for Each of the Two Models",
+    x = "Model",
+    y = "RMSE"
+  )
+```
+
+
 
 
 Stratify based on significant interactions and comment

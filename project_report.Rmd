@@ -2,7 +2,7 @@
 title: "Project Report"
 author: "Caroline Andy, Vasili Fokaidis, Stella Li, Tessa Senders, Lily Wang"
 date: "12/11/2020"
-output: html_document
+output: pdf_document
 ---
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE}
@@ -21,20 +21,26 @@ hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
 ```
 
 ## Abstract
-**Background:** 
-Hate crimes are currently the highest priority of the FBI’s civil rights program. Data suggests that various socio-economic factors, such as income inequality, are associated with hate crimes.
+**Background:**\ 
+Hate crimes are currently the highest priority of the FBI’s civil rights program. Existing research suggests that various community-level socioeconomic factors, such as income inequality, are associated with hate crime rate. 
 
-**Objectives:**
-The authors aimed to analyze the association between community-level variables with state-level hate crime rates.
+**Objectives:**\
+We aimed to analyze the association between community-level variables and state-level hate crime rates using data reported to the Southern Poverty Law Center and analyzed in a 2017 FiveThrityEight article.
 
-**Methods:**
-The data used for this project included state-level hate crime rates per 100,000 individuals in the population, as reported by the Southern Poverty Law Center during the first weeks of November, 2016. Data also included socio-economic factors that were suspected to be associated with hate crime. The association between these socio-economic factors and hate crime outcome were examined by using multiple linear regression analysis.
+**Methods:**\
+The data used for this project included state-level hate crime rates per 100,000 individuals in the population, as reported by the Southern Poverty Law Center during the first weeks of November, 2016. Data elements also included socioeconomic factors that are hypothesized to be associated with hate crime. 
 
-**Results:**
-After thorough analysis of the data and variables, DC appeared to be an outlier, and thus was dropped from the dataset. Due to multicollinearity and lack of significance in stratified analysis, socio-economic factors, median household income and urbanization, were dropped to produce the most parsimonious, and predictive model. Interestingly, the final model indicated that the percent of the population with a high school degree (as of 2009) had a significant linear association with hate crimes per 100,000 individuals in the population.
+The association between these socioeconomic factors and the hate crime rate outcome were examined using multivariable linear regression analysis. The outcome variable was first log transformed to adhere to the linear regression assumption of normal distribution. After identifying the significant predictors of state-level hate crime rate when controlling for all other covariates, we used automated and criterion-based approaches to generate a parsimonious high-performing predictive model. Multicollinearity of covariates and variable interaction were also tested for and considered in model development. 
 
-**Conclusions:**
-Based on the Southern Poverty Law Center data in the beginning of November 2016, higher percent population with a high school degree (as of 2009) was associated with increased state-level hate crime rate.
+**Results:**\
+Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significant predictors of state-level hate crime rate when controlling for all other covariates. 
+
+Of the continuous variables, percent non-citizen and percent non-white were found to have a correlation coefficient of 0.753; median household income and percentage of population with a HS degree had a correlation coefficient of 0.651, both of which may suggest multicollinearity. No statistically significant interactions were identified between any variables in regression modeling. 
+
+Using automated and criterion-based approaches, and considering the body of scientific evidence with regard to significant and practically important socioeconomic factors associated with hate crimes, we identified one regression model which maximizes parsimony and predictive performance. This model includes the following predictors: [ADD FINAL PREDICTORS]
+
+**Conclusions:**\
+Based on the November 2016 Southern Poverty Law Center data, Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significantly and independently associated of state-level hate crime rate.
 
 ## Introduction
 
@@ -69,14 +75,16 @@ To report basic descriptive statistics, we generated a table which includes the 
 
 #### Multicollinearity and Interactions
 
-In order to investigate the existence of multi-collinearity between the continuous variables, we generated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multi-collinearity; thus, in these instances, at least one of those correlated variables were dropped during subsequent model development. 
+In order to investigate the existence of multicollinearity between each of the continuous variables, we generated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multicollinearity; thus, in these instances, at least one of those correlated variables were dropped during subsequent model development. We also calculated the variance inflation factors (VIFs) for all variables, which quantify the degree of multicollinearity between the given predictor all other remaining covariates. 
 
 Next, we tested for significant interactions between each of the two categorical variables, unemployment and urbanization, and all other continuous variables. Any variables with significant interactions were then stratified and analyzed again.
 
 #### Model Development and Validation
 
-To generate a high performing predictive model, we then performed two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP, r-squared and SSE/RSS). Using these results, we then identified a model which maximizes parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature.   
+To generate a high performing predictive model, we then performed two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP, r-squared and SSE/RSS). We also ran an analysis of variance (ANOVA) test to identify the most optimal model subset. 
 
+Using these results, we then identified a model which maximizes parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature. 
+ 
 Model goodness of fit was also assessed on a dataset excluding Washington DC, a previously noted outlier. 
 
 For validation, [ADD VALIDATION STUFF HERE]
@@ -95,19 +103,25 @@ A table of basic descriptive statistics for the collected socioeconomic variable
 
 #### Multicollinearity and Interactions
 
+Out of the continuous variables, percent non-citizen and percent non-white has a correlation coefficient of 0.753, median household income and percentage of population with a HS degree has a correlation coefficient of 0.651, both of which may suggest multicollinearity. All other correlation coefficients do not suggest multi-collinearity (Table 2).
 
+Use of variance inflation factors (VIFs) showed that the percent population without a high school degree (3.895), percent non-citizen (3.728), percent non-white (3.236) and median household income (3.108) had the highest degrees of multicollinearity between all other predictors. These values approach but do not exceed 4, the generally accepted value which denotes the need for further investigation and/or consideration of multicollinearity corrections. 
 
 #### Model Development and Validation
 
-To first attempt to recreate the findings of the FiveThirtyEight article, we began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the log hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini Index was the most significant predictor of state hate crime rate; percent high school graduates variables was the only other statistically significant variable. 
+We began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the log hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini Index was the most significant independent predictor of state hate crime rate when controlling for all other covariates; percent high school graduates variables was the only other statistically and independently significant variable. 
 
-To generate our own predictive model, we employed two automated procedures: backward and forward selection. While the model proposed during forward selection contained all provided variables (Adjusted R-squared = ), the model generated through backwards selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = ). The only included predictors were the Gini Index, and the percent of high school graduates variables. 
+To generate our own predictive model maximizing model parsimony and predictive performance, we employed two automated procedures: backward and forward selection. While the model proposed during forward selection contained all provided variables (Adjusted R-squared = 0.1849), the model generated through backwards selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = 0.2868). The only included predictors were the Gini Index, and the percent of high school graduates variables. 
 
-We then employed three criterion based approaches in R, each of which generated the two performing models which optimize the given criterion for each possible number of included predictors. The first of these approaches used the Cp criterion, which compares the predictive ability of model subsets to the full model. To visualize these results, we generated a plot containing the Cp criterion distribution for the top performing model for each number of included predictors (Figure 8). This shows that [INPUT RESULTS HERE FOR CP CRITERION MODELING]  
+We then employed three criterion based approaches in R, each of which generated the two best performing models which optimize the given criterion for each possible number of predictors. The first of these approaches used the Cp criterion, which compares the predictive ability of model subsets to the full model. To visualize these results, we generated a plot containing the Cp criterion distribution for the top performing model for each number of predictors (Figure 8). This shows that the best performing model with 3 covariates (Gini Index, percent high school graduates, and unemployment) had the best predictive performance as compared to the top performing models of all other possible sizes. 
 
-We also isolated the top two best performing models per number of predictors using the adjusted R squared criterion. We then generated a plot of the distribution of the adjusted R squared statistic for the top performing model for each number of included predictors (Figure 9). Results show that [INPUT RESULTS HERE FOR R SQUARED CRITERION MODELING]
+We also isolated the top two best performing models per number of predictors using the adjusted R squared criterion. We then generated a plot of the distribution of the adjusted R squared statistic for the top performing model for each number of included predictors (Figure 9). Results show that the model with three predictors performed the best while maximizing parsimony. 
 
-Lastly, we generated the same outputs using the SSE/RSS criterion. The plot can be found in Figure 10 (Figure 10). Results show that [INPUT RESULTS HERE FOR SSE/RSS CRITERION]. 
+We generated the same outputs using the SSE/RSS criterion. The plot can be found in Figure 10 (Figure 10). Results show that [INPUT RESULTS HERE FOR SSE/RSS CRITERION]. 
+
+Lastly, to help distinguish the most optimal model between one with three predictors (Gini Index, percent high school graduates, and unemployment), and one with two (Gini Index and percent high school graduates), we ran an analysis of variance (ANOVA) test. Results suggest that the model containing two parameters is most optimal.
+
+[VALIDATION, CHANGES IN PERFORMANCE WHEN INCLUDING DC]
 
 
 ## Discussion/Conclusion
@@ -115,7 +129,7 @@ Lastly, we generated the same outputs using the SSE/RSS criterion. The plot can 
 
 ## Figures and Tables
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 ## FIGURE 1
 hate_crimes_df %>%
   ggplot(aes(x = hate_crimes_per_100k_splc)) +
@@ -190,5 +204,40 @@ summary(tab1) %>%
   knitr::kable(caption = "Table 1: Descriptive Statistics of Tidied Dataset")
 ```
 
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+## TABLE 2
+hate_crimes_df %>% 
+  drop_na(perc_non_citizen) %>%
+  dplyr::select(!(state:urbanization)) %>% 
+  cor() %>% 
+  round(.,3) %>% 
+  knitr::kable(caption = "Table 2: Correlation Matrix of All Continuous Variables")
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+## FIGURE 8
+# Printing the 2 best models of each size, using the Cp criterion:
+hc = hate_crimes_df %>%
+  drop_na() %>%
+  dplyr::select(-hate_crimes_per_100k_splc, -state) %>%
+  mutate(unemployment = as.numeric(unemployment),
+         urbanization = as.numeric(urbanization))
+
+# leaps::leaps(x = hc[,1:7], y = hc[,8], nbest=2, method="Cp")
+
+# Printing the 2 best models of each size, using the adjusted R squared criterion:
+
+# leaps::leaps(x = hc[,1:7], y = hc[,8], nbest=2, method="adjr2")
+
+b <- leaps::regsubsets(hate_crimes_log ~ ., data=hc)
+rs <- summary(b)
+
+par(mar=c(4,4,1,1))
+par(mfrow=c(1,2))
+
+plot(2:8, rs$cp, xlab="No of parameters", ylab="Cp Statistic")
+
+plot(2:8, rs$adjr2, xlab="No of parameters", ylab="Adj R2")
+```
 
 ## References
