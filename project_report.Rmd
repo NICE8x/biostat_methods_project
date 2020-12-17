@@ -125,14 +125,14 @@ To help distinguish the most optimal model between one with three predictors (Gi
 
 Through cross-validation, we determined that the aforementioned two-predictor model also had better predictive value (RMSE = 0.5949, MAE = 0.5050) than the  three-predictor model (RMSE = 0.6038, MAE = 0.5067) (Figure 11). 
 
-Finally, because Washington DC was deemed to be an outlier previously, we re-ran our final model excluding it. Gini index became an insignificant predictor and adjusted R-squared of the total model decreased as well (from 0.2541 to 0.1185). 
+Finally, because Washington DC was deemed to be an outlier previously, we re-ran our final model excluding it. Gini index became an insignificant predictor and adjusted R-squared of the total model decreased as well (from 0.2541 to 0.1185). However, predictive value increased (RMSE = 0.5554, MAE = 0.4741).
 
 
 ## Discussion/Conclusion
 
 After extensive analyses and modeling, we found that the optimal model in terms of goodness of fit and predictive value contained Gini index and percent population with a high school degree, with the latter variable being a more significant predictor of hate crime. However, these two predictors only accounted for 25.4% of the variability in the data. We believe that other factors not included in our dataset, such as percentage of the population who are LGBTQ+ or religious minorities, may also be important predictors of hate crime.
 
-????As for the case of Washington DC being an outlier, the district has the highest hate crime rate and the highest income inequality
+The drastic changes in predictor significance and adjusted R-squared between the model including and excluding Washington DC suggest that the district is indeed an influential point. The district has the highest hate crime rate and the highest income inequality out of all the states. 
 
 ## Figures and Tables
 
@@ -246,7 +246,7 @@ plot(2:8, rs$cp, xlab="No of parameters", ylab="Cp Statistic")
 plot(2:8, rs$adjr2, xlab="No of parameters", ylab="Adj R2")
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE, echo = FALSE}
 # FIGURE 11
 cv_df =
   crossv_mc(hate_crimes_df, 100) %>% 
