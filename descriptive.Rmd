@@ -108,3 +108,37 @@ median_dist =
 gini_dist + median_dist
 ```
 
+Stratify based on unemployment, and urbanization just to see...
+
+```{r}
+unemploy_high =
+  hate_crimes_df %>%
+    filter(unemployment == "high")
+
+unemploy_low =
+  hate_crimes_df %>%
+    filter(unemployment == "low")
+
+mod_unemply_high = lm(hate_crimes_log ~ gini_index, data = unemploy_high)
+summary(mod_unemply_high)
+
+mod_unemply_low = lm(hate_crimes_log ~ gini_index, data = unemploy_low)
+summary(mod_unemply_low)
+
+urban_high =
+  hate_crimes_df %>%
+    filter(urbanization == "high")
+
+urban_low =
+  hate_crimes_df %>%
+    filter(urbanization == "low")
+
+mod_urban_high = lm(hate_crimes_log ~ gini_index, data = urban_high)
+summary(mod_urban_high)
+
+mod_urban_low = lm(hate_crimes_log ~ gini_index, data = urban_low)
+summary(mod_urban_low)
+
+```
+
+NOTHING...
