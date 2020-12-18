@@ -170,6 +170,7 @@ hate_crimes_df %>%
 mult_fit_1 = lm(hate_crimes_per_100k_splc ~ unemployment + urbanization + median_household_income + perc_pop_hs + perc_non_citizen + gini_index + perc_non_white, data = hate_crimes_df)
 
 boxcox(mult_fit_1)
+title("Figure 2. BoxCox Transformation Plot", side = 3, line = -2, outer = TRUE)
 
 # add title here!!!!!!!
 ```
@@ -189,7 +190,7 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
     x = "State",
     y = "Log Hate Crimes per 100,000 Population",
     title = "Figure 3. Log Hate Crimes Rate by State",
-    caption = "comment on trends/what's going on"
+    caption = "States in Increasing Order by Log Hate Crime Rate"
   )
 ```
 
@@ -197,6 +198,7 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
 ## FIGURES 4
 par(mfrow = c(2,2))
 plot(mult_fit_1)
+title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
 
 # see if we can add a title to this cluster of 4 plots? 
 ```
@@ -241,7 +243,8 @@ hate_crimes_df %>%
   drop_na(perc_non_citizen) %>%
   dplyr::select(!(state:urbanization)) %>% 
   cor() %>% 
-  round(.,3)
+  corrplot::corrplot(method = "square", addCoef.col = "black", tl.col="black", tl.srt=45, insig = "blank", diag=FALSE, number.cex = .7, title = "Figure 5. Correlation Matrix" )
+
 
 # try to tidy/add title if possible? 
 ```
