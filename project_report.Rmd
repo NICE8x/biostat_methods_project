@@ -329,6 +329,7 @@ title("Figure 8. Mallow's Cp and Adjusted R-Squared by # Parameters", side = 3, 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 # FIGURE 9
 final_model_w_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df)
+par(mfrow = c(2,2))
 plot(final_model_w_DC)
 title("Figure 9. Two Predictors Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
 ```
