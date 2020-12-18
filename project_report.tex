@@ -68,6 +68,20 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
 
 \title{Project Report}
 \author{Caroline Andy, Vasili Fokaidis, Stella Li, Tessa Senders, Lily Wang}
@@ -299,14 +313,16 @@ predictors. We generated a plot of the distribution of the adjusted R
 squared statistic for the top performing model for each number of
 included predictors (Figure 9).
 
-SAY WE LOOKED AT DIAGNOSTICS FOR THE TWO COVARIATE MODEL WITH AND
-WITHOUT DC
-
 Using these results, we then identified the two best models which
 maximize parsimony, interpretability and practical application, which
 takes into account variables deemed to be significant and practically
 important in existing literature. We then compared these two models
 using an analysis of variance (a partial F-test for nested models).
+
+We ensured that the model selected after this test did not violate any
+of the assumptions of linear regression by looking at the four main
+diagnostic plots (residuals vs fitted, normal Q-Q, scale-location, and
+residuals vs leverage).
 
 We repeated this process of model selection on the dataset excluding any
 observed outliers.
@@ -585,29 +601,24 @@ perc\_non\_white & 3.236\tabularnewline
 
 \includegraphics{project_report_files/figure-latex/unnamed-chunk-11-1.pdf}
 
-\begin{longtable}[]{@{}lrrrr@{}}
-\caption{Comparison of Adjusted R\^{}2 and RMSE for All
-Models}\tabularnewline
-\toprule
-& Model adjusted R\^{}2 & Model RMSE & CV adjusted R\^{}2 & CV
-RMSE\tabularnewline
-\midrule
-\endfirsthead
-\toprule
-& Model adjusted R\^{}2 & Model RMSE & CV adjusted R\^{}2 & CV
-RMSE\tabularnewline
-\midrule
-\endhead
-Two predictors with DC & 0.2541 & 0.5417445 & 0.2943289 &
-0.5948853\tabularnewline
-Three predictors with DC & 0.2571 & 0.5341956 & 0.2783783 &
-0.6038494\tabularnewline
-Two predictors without DC & 0.1185 & 0.5367246 & 0.1530310 &
-0.5554347\tabularnewline
-Three predictors without DC & 0.1250 & 0.5281813 & 0.1730294 &
-0.5600140\tabularnewline
-\bottomrule
-\end{longtable}
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-12}Comparison of Adjusted R^2 and RMSE for All Models}
+\centering
+\begin{tabular}[t]{l|r|r|r|r}
+\hline
+  & Model adjusted R\textasciicircum{}2 & Model RMSE & CV adjusted R\textasciicircum{}2 & CV RMSE\\
+\hline
+Two predictors with DC & 0.2541 & 0.5417445 & 0.2943289 & 0.5948853\\
+\hline
+Three predictors with DC & 0.2571 & 0.5341956 & 0.2783783 & 0.6038494\\
+\hline
+Two predictors without DC & 0.1185 & 0.5367246 & 0.1530310 & 0.5554347\\
+\hline
+Three predictors without DC & 0.1250 & 0.5281813 & 0.1730294 & 0.5600140\\
+\hline
+\end{tabular}
+\end{table}
 
 \hypertarget{references}{%
 \subsection{References}\label{references}}
