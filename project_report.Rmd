@@ -39,15 +39,12 @@ Multicollinearity of covariates, outliers, and variable interaction were also te
 
 Model goodness of fit and predictive performance through model diagnostics and validation. All abovementioned steps were performed before and after removing any outlier in the data.
 
-**Results:**\
-Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significant predictors of state-level hate crime rate when controlling for all other covariates.  When these two predictors are the only predictors in the model they are both positively associated with the outcome. 
+**Results and Conclusions:**\
+Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significant predictors of state-level hate crime rate when controlling for all other covariates.  When these two predictors are the only parameters included in the model they are both positively associated with the outcome. 
 
 Multicollinearity tests showed possible correlation between median household income and percentage of population with a high school degree, as well as the percent non-citizen and percent non-white variables. No statistically significant interactions were identified between any variables in regression modeling. 
 
 Our identified model optimizing goodness of fit and predictive performance contained only the Gini Index and percent population with a high school degree as parameters, both of which were significant. Washington DC, the single outlier in the data, was found to be an influential point, as its absence from the data nullified the significance of the Gini Index predictor in the two-parameter model. 
-
-**Conclusions:**\
-Based on the November 2016 Southern Poverty Law Center data, Gini Index and percent population with a high school degree were both statistically significantly and independently associated with state-level hate crime rate. 
 
 ## Introduction
 
@@ -128,9 +125,11 @@ We began our regression analyses by running linear regression models containing 
 
 The model proposed during forward stepwise selection contained all variables provided in the original dataset (Adjusted R-squared = 0.1849). The model generated through backward stepwise selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = 0.2868). The only included predictors were the Gini Index, and the percent of high school graduates, both of which were significant.  When the District of Columbia is removed from the dataset, however, the Gini Index is no longer statistically significant at a 0.05 significance level, indicating that the District of Columbia is an influential point. The adjusted R-squared of the two-predictor model decreases as well when the District of Columbia is removed (from 0.2541 to 0.1185).
 
-DESCRIBE ASSOCIATIONS BETWEEN COVARIATES AND OUTCOME (DIRECTION) AND DISCUSS DIAGNOSTIC PLOTS
-
 Both Mallow's Cp and the adjusted r-squared criterion confirmed that the best model that includes two variables contains Gini Index and the percent of high school graduates.  Further, the plot for Mallow's Cp showed that the model with only two predictors had the lowest Cp value as compared to the best performing model of all other possible numbers of predictors.  The plot for the adjusted r-squared criterion showed that the model with 3 predictors (Gini Index, the percent of high school graduates, and unemployment) had the highest adjusted r-squared value. However, the adjusted r-squared for this model was less than 6% greater than the adjusted r-squared for the model with only 2 covariates, suggesting that their performance is not significantly different with regard to this criterion.  Further the partial F-test for nested models shows that adding the unemployment variable does not significantly improve the model.  All of these results hold true when the District of Columbia is removed from the dataset.
+
+Looking at the diagnostic plots for the two-covariate model that includes the District of Columbia shows no obvious violation of the assumptions.  The points in the Residuals vs Fitted plot seem randomly scattered around the line at 0 indicating the assumption of homoscedasticity is met.  The points follow a straight line in the Q-Q plot indicating the assumption of normality is met.  The Residuals vs Leverage plot however indicates that point 9 (the District of Columbia) may be an outlier.  When the District of Columbia is removed all the diagnostic plots remain similar except that there is no longer any outliers indicated by the Residuals vs Leverage plot.
+
+The association between the two variables and the natural log of hate crime rates is positive whether the District of Columbia is included in the data or not.  For a one unit increase in the gini index, there is a 16.486 expected increase in the natural log of hate crime rates holding the percent of HS graduates constant (when excluding DC the expected increase is 10.811). For a one unit increase in the percent of HS graduates, there is a 11.554 expected increase in the natural log of hate crime rates holding the gini index constant (when excluding DC the expected increase is 9.509 ). 
 
 Through cross-validation, we determined that the aforementioned two-predictor model also had better predictive performance than the three-predictor model when including the District of Columbia.  The CV root mean squared error (RMSE) values are essentially equivalent (0.5948853 for 2 covariates vs 0.6038494 for 3 covariates) and the CV adjusted r-squared is slightly higher for the two-predictor model (0.2943289 vs 0.2783783).  When excluding the District of Columbia, the two different models have virtually the same predictive performance.  Both have similar CV RMSE values and the CV adjusted r-squared for the three-predictor model is only slightly higher than the two-predictor model(0.1730294 vs 0.1530310).  This indicates that the addition of unemployment as a third predictor did not significantly add to model performance whether the District of Columbia is included or not (Table 4).  The two-predictor model, whether the District of Columbia is included or not, performs well as a predictive model since the model's RMSE and adjusted r-squared are very similar to the CV average RMSE and adjusted r-squared.
 
