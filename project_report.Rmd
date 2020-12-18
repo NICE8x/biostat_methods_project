@@ -146,8 +146,6 @@ Finally, because Washington DC was deemed to be an outlier previously, we re-ran
 
 After extensive analyses and modeling, we found that the optimal models in terms of goodness of fit and predictive value contained Gini index and percent population with a high school degree, with the latter variable being a more significant predictor of hate crime. However, these two predictors only accounted for 25.4% of the variability in the data. 
 
-[ADD IN MODEL W 3 PARAMETERS TOO]. 
-
 The drastic changes in predictor significance and adjusted R-squared between the model including and excluding Washington DC suggest that the district is indeed an influential point. The district has the highest hate crime rate and the highest income inequality out of all the states. 
 
 It is possible that other factors not included in our dataset, such as percentage of the population who are LGBTQ+ or religious minorities, may also be important predictors of hate crime.
