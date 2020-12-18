@@ -314,7 +314,7 @@ colnames(table_rmse_rsquare) <- c("Model adjusted R^2","Model RMSE", "CV adjuste
 rownames(table_rmse_rsquare) <- c("Two predictors with DC","Three predictors with DC","Two predictors without DC","Three predictors without DC")
 table_rmse_rsquare <- as.table(table_rmse_rsquare)
 table_rmse_rsquare %>%
-  knitr::kable(caption = "Comparison of adjusted R^2 and RMSE with all models")
+  knitr::kable(caption = "Comparison of Adjusted R^2 and RMSE for All Models")
 ```
 
 ## References
