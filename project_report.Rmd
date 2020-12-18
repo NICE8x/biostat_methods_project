@@ -108,9 +108,7 @@ The generated Box Cox plot results suggest that a natural logarithmic transforma
 
 To identify any outliers in the data, we then plotted the hate crimes rate by state, and generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots (Figures 3-4). As Washington DC is clearly outside of the Cook's distance line in the residuals vs leverage plot, we concluded that this point is an outlier. This data point was included in any subsequent analyses, though all analyses were also rerun on this dataset excluding Washington DC for comparison.
 
-A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). 
-
-[WRITE SUMMARY OF TABLE RESULTS - Vasili]
+A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). Continuous variables show their mean, standard deviation, median, quartiles 1 and 3, their minimum to maximum range of values, and number of missing values. Categorical variables show their factor levels (i.e. high and low), percents of each factor level within the data set, and number of missing values as well. Percent of population that are not U.S. citizens is the only variable containing missing values (2 missing).
 
 #### Multicollinearity and Interactions
 
