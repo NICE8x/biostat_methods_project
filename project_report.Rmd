@@ -202,7 +202,7 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
 ## FIGURES 4
 par(mfrow = c(2,2))
 plot(mult_fit_1)
-title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE, sub = "Data comes from FiveThirtyEight Hate Crimes data")
+title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
 
 
 hate_crimes_df_no_DC <- hate_crimes_df %>%
@@ -280,9 +280,7 @@ hate_crimes_vif =
 
 vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data = hate_crimes_vif)) %>%
   round(.,3) %>%
-  knitr::kable(col.names = "VIF", caption = "VIF Values") %>%
-  kableExtra::kable_styling(full_width = F) %>%
-  kableExtra::footnote(general = "This table shows the variance inflation factors for each variable.")
+  knitr::kable(col.names = "VIF", caption = "VIF Values") 
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
