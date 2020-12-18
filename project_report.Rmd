@@ -83,7 +83,7 @@ To elucidate the existence of outliers and thus potential influential points, we
 
 In order to investigate the existence of multicollinearity between each of the continuous variables, we generated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multicollinearity; thus, in these instances, at least one of those correlated variables were dropped during subsequent model development. Additionally, we calculated the variance inflation factors (VIFs) for all variables, which quantify the degree of multicollinearity between the given predictor all other remaining covariates. 
 
-Next, we plotted potential interactions between the continuous variables and each categorical variable: urbanization and unemployment. These plots were created once including outliers and once excluding outliers. We then formally tested for significant interactions between any variable pairs with intersecting lines. All interaction tests were performed on datasets containing and not containing any observed outliers. 
+Next, we plotted potential interactions between the continuous variables and each categorical variable, urbanization and unemployment, to see if the effect of each continuosu variable on the log rate of hate crimes is different with respect to the levels of either urbanization or unemployment. These plots were created once including outliers and once excluding outliers. We then formally tested for significant interactions between any variable pairs with intersecting lines. All interaction tests were performed on datasets containing and not containing any observed outliers. 
 
 #### Model Development and Validation
 
