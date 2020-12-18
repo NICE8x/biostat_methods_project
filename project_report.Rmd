@@ -90,7 +90,7 @@ Next, we plotted potential interactions between the continuous variables and eac
 
 #### Model Development and Validation
 
-To generate our multivariable linear regression model, we began by performing two automated procedures (forward and backward selection) and several criterion based approaches (CP, adjusted r-squared and SSE/RSS) for model variable selection.
+We began by performing two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP, adjusted r-squared and SSE/RSS). We also ran an analysis of variance (ANOVA) test to identify the most optimal model subset. 
 
 Using these results, we then identified two models which maximize parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature. 
  
@@ -171,8 +171,7 @@ hate_crimes_df %>%
   labs(
     title = "Figure 1. Untransformed distribution of hate crimes per 100k population",
     x = "Hate Crimes Per 100k",
-    y = "Density",
-    caption = "Data comes from [where it comes from]"
+    y = "Density"
   )
 ```
 
@@ -182,8 +181,6 @@ mult_fit_1 = lm(hate_crimes_per_100k_splc ~ unemployment + urbanization + median
 
 boxcox(mult_fit_1)
 title("Figure 2. BoxCox Transformation Plot", side = 3, line = -2, outer = TRUE)
-
-# add title here!!!!!!!
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -200,8 +197,7 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
   labs(
     x = "State",
     y = "Log Hate Crimes per 100,000 Population",
-    title = "Figure 3. Log Hate Crimes Rate by State",
-    caption = "States in Increasing Order by Log Hate Crime Rate"
+    title = "Figure 3. Log Hate Crimes Rate by State"
   )
 ```
 
@@ -210,8 +206,6 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
 par(mfrow = c(2,2))
 plot(mult_fit_1)
 title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
-
-# see if we can add a title to this cluster of 4 plots? 
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -245,44 +239,39 @@ my_controls = tableby.control(
 tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
 
 summary(tab1) %>% 
-  knitr::kable(caption = "Table 1: Descriptive Statistics of States Reporting Hate Crimes")
+  knitr::kable(caption = "Descriptive Statistics of States Reporting Hate Crimes")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
-## TABLE 2
+## Figure 5
 hate_crimes_df %>% 
   drop_na(perc_non_citizen) %>%
   dplyr::select(!(state:urbanization)) %>% 
   cor() %>% 
   corrplot::corrplot(method = "square", addCoef.col = "black", tl.col="black", tl.srt=45, insig = "blank", diag=FALSE, number.cex = .7, title = "Figure 5. Correlation Matrix", mar = c(0,0,1,0))
-
-
-# try to tidy/add title if possible? 
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
-# TABLE 3
+# TABLE 2
 vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_df)) %>%
   round(.,3) %>%
-  knitr::kable(col.names = "VIF") 
- 
-
-# use kableextra package to rename column 
+  knitr::kable(col.names = "VIF", caption = "VIF Values")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
-# FIGURE
-hate_crimes_df %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  ggplot(aes(x = value, y = hate_crimes_log, color = unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") 
+# FIGURE 6
+hate_crimes_df %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>% rename(Unemployment = "unemployment") %>% ggplot(aes(x = value, y = hate_crimes_log, color = Unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") + labs(title = "Figure 6. Interaction Plots Between Hate Crime and All Continuous Variables by Unemployment Level", y = "Hate Crime (log)", x = "Value")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
-# FIGURE
+# FIGURE 7 
 hate_crimes_df %>% 
-  pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  
-  ggplot(aes(x = value, y = hate_crimes_log, color = urbanization)) +
+  pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%
+  rename(Urbanization = "urbanization") %>%
+  ggplot(aes(x = value, y = hate_crimes_log, color = Urbanization)) +
   geom_point() + 
   geom_smooth(method='lm', se=FALSE) + 
-  facet_wrap(~cont_var, scales = "free_x")
+  facet_wrap(~cont_var, scales = "free_x") + labs(title = "Figure 7. Interaction Plots Between Hate Crime and All Continuous Variables by Urbanization Level", y = "Hate Crime (log)", x = "Value")
 ```
 
 
@@ -304,15 +293,14 @@ hc = hate_crimes_df %>%
 b <- leaps::regsubsets(hate_crimes_log ~ ., data=hc)
 rs <- summary(b)
 
-par(mar=c(4,4,1,1))
+par(mar=c(4,4,4,4))
 par(mfrow=c(1,2))
 
-plot(2:8, rs$cp, xlab="No of parameters", ylab="Cp Statistic")
+plot(2:8, rs$cp, xlab="No. of parameters", ylab="Cp Statistic")
 abline(0,1)
 
-plot(2:8, rs$adjr2, xlab="No of parameters", ylab="Adj R2")
-
-# title? 
+plot(2:8, rs$adjr2, xlab="No. of parameters", ylab="Adj R2")
+title("Figure 8. CP Statistic and Adjusted R-Squared Plots", side = 3, line = -2, outer = TRUE)
 ```
 ^^^ check these plots since the numbers seem weird 
 
