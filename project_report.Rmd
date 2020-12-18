@@ -33,16 +33,20 @@ We aimed to analyze the association between community-level variables and state-
 **Methods:**\
 The data used for this project included state-level hate crime rates per 100,000 individuals in the population, as reported by the Southern Poverty Law Center during the first weeks of November, 2016. Data elements also included socioeconomic factors that are hypothesized to be associated with hate crime. 
 
-The association between these socioeconomic factors and the hate crime rate outcome were examined using multivariable linear regression analysis. The outcome variable was first log transformed to adhere to the linear regression assumption of normal distribution. After identifying the significant predictors of state-level hate crime rate when controlling for all other covariates, we used automated and criterion-based approaches to generate a parsimonious high-performing predictive model. Multicollinearity of covariates and variable interaction were also tested for and considered in model development. 
+The association between these socioeconomic factors and the hate crime rate outcome were examined using multivariable linear regression analysis. The outcome variable was first natural log transformed to adhere to the linear regression assumption of normal distribution. After identifying the significant predictors of state-level hate crime rate when controlling for all other covariates, we used automated and criterion-based approaches to generate a parsimonious high-performing predictive model. 
+
+Multicollinearity of covariates, outliers and variable interaction were also tested for and considered in model development. 
+
+Finally, we assessed model goodness of fit and predictive performance through model validation. All steps of model development and validation were performed before and after removing Washington DC, an outlier in the data. 
 
 **Results:**\
 Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significant predictors of state-level hate crime rate when controlling for all other covariates. 
 
-Of the continuous variables, percent non-citizen and percent non-white were found to have a correlation coefficient of 0.753; median household income and percentage of population with a HS degree had a correlation coefficient of 0.651, both of which may suggest multicollinearity. No statistically significant interactions were identified between any variables in regression modeling. 
+Of the continuous variables, percent non-citizen and percent non-white were found to have a correlation coefficient of 0.753; median household income and percentage of population with a high school degree had a correlation coefficient of 0.651, both of which may suggest multicollinearity. No statistically significant interactions were identified between any variables in regression modeling. 
 
-Using automated and criterion-based approaches, and considering the body of scientific evidence with regard to significant and practically important socioeconomic factors associated with hate crimes, we identified several regression model which optimize parsimony and goodness of fit. This model includes the following predictors: [ADD FINAL PREDICTORS]
+Using automated and criterion-based approaches, and considering the body of scientific evidence with regard to significant and practically important socioeconomic factors associated with hate crimes, we identified a regression model which optimizes parsimony and goodness of fit. This model contains only the Gini Index and percent population with a high school degree as predictors. 
 
-[DC AS OUTLIER AND INFLUENTIAL POINT - NOTHING IS SIGNIFICANT ANYMORE AFTER REMOVING DC FOR MODEL WITH ALL VARIABLES; FOR SMALL MODEL, ONLY HS EDUCATION IS SIGNIFICANT]
+All steps of model development and validation were performed before and after removing Washington DC, an outlier in the data. After removing Washington DC, the Gini Index is no longer a significant predictor of hate crime rate; instead, the percentage of the population with a high school is the only significant variable, making Washington DC an influential point. 
 
 **Conclusions:**\
 Based on the November 2016 Southern Poverty Law Center data, Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significantly and independently associated of state-level hate crime rate. 
