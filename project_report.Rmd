@@ -73,11 +73,9 @@ First, we investigated the extent of missing data in our dataset. Four states --
 
 Using these data, our goal was to assess which of the collected variables, if any, are statistically significantly associated (at a 0.05 significance level) with population-adjusted hate incidents in the United States, to altogether critically examine the article's findings. To do so, we first generated descriptive statistics, including the mean, median, range (min-max), interquartile range, and count of missing entries for each numeric variable, and category percent breakdowns and count of missing entries for categorical variables (Table 1). 
 
-
 In order to determine whether any data transformations would be necessary we visualized the distribution of the outcome (population-adjusted hate incidents per 100,000 population) by generating an overlaid density and histogram plot (Figure 1). Multivariable linear regression modeling operates under several assumptions, which include residual homoscedasticity (constant variance) and normality. Initial exploration of the distribution of the hate crimes rate data showed a strong departure from standard normal distribution with significant right skewness. Thus, we performed a Box Cox transformation to isolate the 'best' power transformation on the hate crimes rate variable to achieve normal residuals. 
 
 To elucidate the existence of outliers and thus potential influential points, we visualized the hate crime rate by state (Figure 3). We then generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots for a linear regression model that regressed the transformed hate crime rate onto all possible covariates (Figure 4). Specifically, we used the Residuals vs Leverage plot to identify any outliers. Any points outside of Cook's Distance were considered potential influential points. Any states that were deemed to be outliers were included in the subsequent analyses, but the same analyses were also run a second time on the dataset excluding the outliers for comparison in order to determine if the outlier was indeed influencing the results of our analyses.
-
 
 #### Multicollinearity and Interactions
 
@@ -96,6 +94,7 @@ We ensured that the model selected after this test did not violate any of the as
 We repeated this process of model selection on the dataset excluding any observed outliers. 
 
 To assess the two models' predictive performance, we performed 5-fold Cross Validation (CV) on each including and excluding outliers.  We evaluated the models based on their root mean square error (RMSE) and adjusted r-squared values generated from CV.  A lower RMSE is desirable as it indicates a larger proportion of variance explained by the model. We also compared the values generated from CV to the values from the original regression model to ensure the model performs well on new data.
+
 
 ## Results
 
@@ -129,7 +128,7 @@ Both Mallow's Cp and the adjusted r-squared criterion confirmed that the best mo
 
 Looking at the diagnostic plots for the two-covariate model that includes the District of Columbia shows no obvious violation of the assumptions.  The points in the Residuals vs Fitted plot seem randomly scattered around the line at 0 indicating the assumption of homoscedasticity is met.  The points follow a straight line in the Q-Q plot indicating the assumption of normality is met.  The Residuals vs Leverage plot however indicates that point 9 (the District of Columbia) may be an outlier.  When the District of Columbia is removed all the diagnostic plots remain similar except that there is no longer any outliers indicated by the Residuals vs Leverage plot.
 
-The association between the two variables and the natural log of hate crime rates is positive whether the District of Columbia is included in the data or not.  For a one unit increase in the gini index, there is a 16.486 expected increase in the natural log of hate crime rates holding the percent of HS graduates constant (when excluding DC the expected increase is 10.811). For a one unit increase in the percent of HS graduates, there is a 11.554 expected increase in the natural log of hate crime rates holding the gini index constant (when excluding DC the expected increase is 9.509 ). 
+The association between the two variables and the natural log of hate crime rates is positive whether the District of Columbia is included in the data or not.  For a one unit increase in the gini index, there is a 16.486 expected increase in the natural log of hate crime rates holding the percent of HS graduates constant (when excluding DC the expected increase is 10.811). For a one unit increase in the percent of HS graduates, there is a 11.554 expected increase in the natural log of hate crime rates holding the gini index constant (when excluding DC the expected increase is 9.509). 
 
 Through cross-validation, we determined that the aforementioned two-predictor model also had better predictive performance than the three-predictor model when including the District of Columbia.  The CV root mean squared error (RMSE) values are essentially equivalent (0.5948853 for 2 covariates vs 0.6038494 for 3 covariates) and the CV adjusted r-squared is slightly higher for the two-predictor model (0.2943289 vs 0.2783783).  When excluding the District of Columbia, the two different models have virtually the same predictive performance.  Both have similar CV RMSE values and the CV adjusted r-squared for the three-predictor model is only slightly higher than the two-predictor model(0.1730294 vs 0.1530310).  This indicates that the addition of unemployment as a third predictor did not significantly add to model performance whether the District of Columbia is included or not (Table 4).  The two-predictor model, whether the District of Columbia is included or not, performs well as a predictive model since the model's RMSE and adjusted r-squared are very similar to the CV average RMSE and adjusted r-squared.
 
@@ -154,6 +153,7 @@ It is important to note that a natural logarithmic transformation of the outcome
 - suggestions for possible future studies 
 
 "Each figure and table should be of publishable quality and well notated, i.e., labeled and/or captioned"
+
 
 ## Figures and Tables
 
