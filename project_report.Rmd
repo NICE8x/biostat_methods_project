@@ -258,7 +258,7 @@ hate_crimes_df %>%
   dplyr::select(!(state:urbanization), -hate_crimes_per_100k_splc) %>%
   rename(
     "Median Hh Income" = "median_household_income",
-    "% Adults >25yrs With HS Degree" = "perc_pop_hs",
+    "% Adults >25yrs HS Degree" = "perc_pop_hs",
     "% Pop. Not U.S. Citizens" = "perc_non_citizen",
     "% Pop. Not White" = "perc_non_white",
     "Gini Index" = "gini_index",
