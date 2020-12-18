@@ -155,10 +155,7 @@ While testing for variable interactions, we also only considered interactions be
 
 #### Take-aways
 
-Overall, this project identified several significant state-level demographic variables that are associated with hate crime rates. This is of practical importance in health and crime policy implementation and resource allocation. Future work might seek to hone model goodness of fit and predictive performance through consideration of 
-
-To investigate the independent associations of several additional variables not include
-
+Overall, this project identified several significant state-level demographic variables that are associated with hate crime rates. This is of practical importance for health and crime policy implementation and resource allocation. Future work might seek to hone model goodness of fit and predictive performance through consideration of additional variables, such as percent religious minorities. 
 
 ## Figures and Tables
 
