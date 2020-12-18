@@ -86,11 +86,11 @@ To report basic descriptive statistics, we generated a table which includes the 
 
 In order to investigate the existence of multicollinearity between each of the continuous variables, we generated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multicollinearity; thus, in these instances, at least one of those correlated variables were dropped during subsequent model development. Furthermore, we calculated the variance inflation factors (VIFs) for all variables, which quantify the degree of multicollinearity between the given predictor all other remaining covariates. 
 
-Next, we plotted potential interactions between the continuous variables and each categorical variable, urbanization and unemployment. We then formally tested for significant interactions between each of the two categorical variables and all other continuous variables. All interaction tests were performed on datasets containing and not containing any observed outliers. 
+Next, we plotted potential interactions between the continuous variables and each categorical variable, urbanization and unemployment. We then formally tested for significant interactions between any variable pairs with intersecting lines. All interaction tests were performed on datasets containing and not containing any observed outliers. 
 
 #### Model Development and Validation
 
-We began by performing two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP, adjusted r-squared and SSE/RSS). We also ran an analysis of variance (ANOVA) test to identify the most optimal model subset. 
+To generate our multivariable linear regression model, we began by performing two automated procedures (forward and backward selection) and several criterion based approaches (CP, adjusted r-squared and SSE/RSS) for model variable selection.
 
 Using these results, we then identified two models which maximize parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature. 
  
