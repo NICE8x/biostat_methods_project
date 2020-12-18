@@ -104,7 +104,15 @@ par(mfrow=c(2,2))
 plot(mult_fit_1)
 ```
 
+Residuals Boxplot
 
+```{r message=FALSE, warning=FALSE}
+resid_1 = residuals(mult_fit_1)
+resid_1_df <- data.frame(resid_1 = resid_1)
+ggplot(resid_1_df, aes(x = factor(0), y = resid_1)) +
+geom_boxplot() + xlab(" ") + ylab("Residuals") + ggtitle("Residual Box Plot") +
+theme(axis.text.x = element_blank())
+```
 
 
 Distribution of outcome after natural log transformation
@@ -202,6 +210,39 @@ Drop either perc non citizen or per non white
 Drop median household income due to multicollinearity with perc pop with HS degree
 
 
+
+Stratify based on unemployment, and urbanization to check for confounding variables:
+
+```{r}
+unemploy_high =
+  hate_crimes_df %>%
+    filter(unemployment == "high")
+
+unemploy_low =
+  hate_crimes_df %>%
+    filter(unemployment == "low")
+
+mod_unemply_high = lm(hate_crimes_log ~ gini_index, data = unemploy_high)
+summary(mod_unemply_high)
+
+mod_unemply_low = lm(hate_crimes_log ~ gini_index, data = unemploy_low)
+summary(mod_unemply_low)
+
+urban_high =
+  hate_crimes_df %>%
+    filter(urbanization == "high")
+
+urban_low =
+  hate_crimes_df %>%
+    filter(urbanization == "low")
+
+mod_urban_high = lm(hate_crimes_log ~ gini_index, data = urban_high)
+summary(mod_urban_high)
+
+mod_urban_low = lm(hate_crimes_log ~ gini_index, data = urban_low)
+summary(mod_urban_low)
+
+```
 
 
 Backwards stepwise selection to come up with a preliminary model 
