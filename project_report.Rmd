@@ -81,7 +81,7 @@ Using these data, our goal was to construct our own multivariable linear regress
 
 In order to determine whether any data transformations would be necessary we visualized the distribution of the outcome(population-adjusted hate incidents per 100,000 population) by generating an overlaid density and histogram plot (Figure 1). Multivariable linear regression modeling operates under several assumptions, which include residual homoscedasticity (constant variance) and normality. Initial exploration of the distribution of the hate crimes rate data showed a strong departure from standard normal distribution with significant right skewness. Thus, we performed a Box Cox transformation to isolate the 'best' power transformation on the hate crimes rate variable to achieve normal residuals. 
 
-To elucidate the existence of outliers and thus potential influential points, we visualized the hate crime rate by state. We then generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots for a linear regression model that regressed the transformed hate crime rate onto all possible covariates. We looked at the Residuals vs Leverage plot specifically to find any outliers.  Any points outside of Cook's Distance were considered potential influential points.  Any states that were deemed to be an outlier were included in the subsequent analyses, but the same analyses were also run a second time on the dataset excluding the outliers for comparison in order to determine if the outlier was indeed influencing the results of our analyses.
+To elucidate the existence of outliers and thus potential influential points, we visualized the hate crime rate by state. We then generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots for a linear regression model that regressed the transformed hate crime rate onto all possible covariates (Figures 3-4). We looked at the Residuals vs Leverage plot specifically to find any outliers.  Any points outside of Cook's Distance were considered potential influential points.  Any states that were deemed to be outliers were included in the subsequent analyses, but the same analyses were also run a second time on the dataset excluding the outliers for comparison in order to determine if the outlier was indeed influencing the results of our analyses.
 
 
 #### Multicollinearity and Interactions
@@ -92,21 +92,19 @@ Next, we plotted potential interactions between the continuous variables and eac
 
 #### Model Development and Validation
 
-We began by performing two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP and adjusted r-squared). Using these results, we then identified two models which maximize parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature. 
+We began by performing two automated procedures for model variable selection (forward and backward stepwise selection). We then used two criterion based approaches (Mallow's Cp and adjusted r-squared). Using these results, we then identified the two best models which maximize parsimony, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature. 
  
 We repeated this process of model selection on the dataset excluding any observed outliers. 
 
-To assess the model's predictive performance, we performed 5-fold Cross Validation when including and excluding outliers.
+To assess the two models' predictive performance, we performed 5-fold Cross Validation on each including and excluding outliers.
 
 ## Results
 
 #### Data Exploration
 
-To visualize the distribution of the hate crimes rate data, we first generated an overlaid density and histogram plot (Figure 1). Multivariable linear regression modeling operates under several assumptions, which include residual homoscedasticity (constant variance) and normality. Initial exploration of the distribution of the hate crimes rate data showed a strong departure from standard normal distribution with significant right skewness. Thus, we performed a Box Cox test to isolate the 'best' power transformation on the hate crimes rate variable to achieve normal residuals. 
+The generated Box Cox transformation plot indicates that a lambda of 0 (i.e. a natural logarithmic transformation of the hate crimes rate outcome) would most closely approximate normal distribution (Figure 2). Thus, we operated moving forward in model development using the natural log of hate crimes rate as the outcome of interest. 
 
-The generated Box Cox plot results suggest that a natural logarithmic transformation of the hate crimes rate data would most closely approximate normal distribution (Figure 2). Thus, we operated moving forward in model development using the natural log of hate crimes rate as the outcome of interest. 
-
-To identify any outliers in the data, we then plotted the hate crimes rate by state, and generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots (Figures 3-4). As Washington DC is clearly outside of the Cook's distance line in the residuals vs leverage plot, we concluded that this point is an outlier. This data point was included in any subsequent analyses, though all analyses were also rerun on this dataset excluding Washington DC for comparison.
+Looking at the Residuals vs Leverage plot generated from the regression model including all possible covariates, the District of Columbia is clearly outside of the Cook's Distance line, and thus we concluded that this point is an outlier and a potential influential point.
 
 A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). 
 
