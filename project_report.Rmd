@@ -145,7 +145,7 @@ It is possible that other factors not included in our dataset, such as percentag
 
 ADD PARAGRAPH-WHY IS THIS STUDY IMPORTANT???
 
-Unfortunately the data for hate crime rates was missing for four states.  These four states may have drastically different hate crime rates than the rest of the states and could potentially change the significance of the predictors and impact the predictive ability of our models.  
+Unfortunately the data for hate crime rates was missing for four states.  These four states may have drastically different hate crime rates than the rest of the states and could potentially change the significance of the predictors and impact the predictive ability of our models.  Another limiattion of our analyses is that we only tested for interactions between the two ctageorical variables and each of the continuous variables because these interactions are easier to understand and stratify the data by.  However, there could be interactions between the continuous variables and even three-way interactions that explain more of the variability in the data.  
 
 It is important to note that a natural logarithmic transformation of the outcome was performed in order to satisfy the assumptions of linear regression (residual homoscedasticity and normality) which impacts the modeling results.  
 
