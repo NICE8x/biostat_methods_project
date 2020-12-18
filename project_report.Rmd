@@ -273,7 +273,7 @@ hate_crimes_df %>%
          "% Population Non-White" = "perc_non_white",
          "Gini Index" = "gini_index") %>% 
   pivot_longer("Median Household Income":"% Population Non-White", names_to = "cont_var", values_to = "value") %>% 
-  mutate(cont_var = str_wrap(cont_var, width = 15)) %>% 
+  mutate(cont_var = stringr::str_wrap(cont_var, width = 15)) %>% 
   ggplot(aes(x = value, y = hate_crimes_log, color = Unemployment)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1)) +
@@ -292,7 +292,7 @@ hate_crimes_df %>%
          "% Population Non-White" = "perc_non_white",
          "Gini Index" = "gini_index") %>% 
   pivot_longer("Median Household Income":"% Population Non-White", names_to = "cont_var", values_to = "value") %>% 
-  mutate(cont_var = str_wrap(cont_var, width = 15)) %>% 
+  mutate(cont_var = stringr::str_wrap(cont_var, width = 15)) %>% 
   ggplot(aes(x = value, y = hate_crimes_log, color = Urbanization)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1)) +
