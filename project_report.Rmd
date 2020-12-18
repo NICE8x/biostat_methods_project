@@ -139,28 +139,24 @@ The two-predictor model, whether DC is included or not, performs well as a predi
 
 ## Discussion/Conclusion
 
+#### Interpretation of findings
+
 After extensive analyses and modeling, the Gini Index and percent population with a high school degree variables were the only covariates found to be significantly and independently associated with hate crime rate. However, the model containing only these parameters, despite having the most optimal goodness of fit and predictive performance, accounted for only 25.4% of the variability in the data.  
 
 This implies that there may be other variables yet unaccounted for in model development which may predict hate crime rate. For example, existing research has found sexuality, gender identity, and religion to be factors significantly associated with hate crime rate (“FBI: Incidents and Offenses,” 2019).  
 
-The positive association between Gini Index and log transformed hate crime rate indicates that high wealth inequality is associated with high hate crime rate. Interestingly, the association between percent high school graduates and log transformed hate crime was also positive. This result may be a reflection of the presence of an unmeasured confounding variable causing a spurious association or a more complex phenomenon occurring altogether. For example, the US Department of Justice has reported dramatic increases in school-based hate crimes in recent years, which could serve as an explanation for higher hate crime rates among populations with high proportions of high school graduates (Keierleber, 2018).
+The positive association between Gini Index and log transformed hate crime rate indicates that high wealth inequality is associated with high hate crime rate. Interestingly, the association between percent high school graduates and log transformed hate crime was also positive. This result may be a reflection of the presence of an unmeasured confounding variable causing a spurious association or a more complex phenomenon occurring altogether. For example, the US Department of Justice has reported dramatic increases in school-based hate crimes in recent years, which could serve as an explanation for higher hate crime rates among states with high proportions of high school graduates (Keierleber, 2018).
 
-It makes sense that gini index is positively associated with the log hate crime rate since a a higher gini index represents an increase in wealth inequality.  One expects where there is wealth inequality there may be tension and as a result a higher rate of hate crimes.  It is interesting that the percent of HS graduates is also positively associated with the log hate crime rate.  One would intuitively expect that the less people educated, the more hate crimes there would be however the data supports that a higher percent of HS graduates is associated with a higher log hate crime rate.  It may be that there is a confounding variable not included in the data causing a spurious association or a more complex phenomenon altogether occurring.  It may be that areas with more HS graduates cause more tension among the few people without a HS degree thus causing a higher rate of hate crimes.
+#### Limitations
 
-The change in predictor significance of Gini Index and the adjusted r-squared between the model including and excluding DC suggests it is indeed an influential point. DC has the highest hate crime rate and the highest income inequality out of all the states. 
+Unfortunately the data for hate crime rates was missing for four states. These four states may have drastically different hate crime rates than the rest of the country and could potentially influence the significance of the predictors and/or the predictive ability of our models. As a result, these results may not be generalizable to the entire United States.
 
-ADD PARAGRAPH-WHY IS THIS STUDY IMPORTANT???
-
-Unfortunately the data for hate crime rates was missing for four states.  These four states may have drastically different hate crime rates than the rest of the states and could potentially change the significance of the predictors and impact the predictive ability of our models, therefore the results of this study may not be generalizable to the entire US. Another limitation of our analyses is that we only tested for interactions between the two ctageorical variables and each of the continuous variables because these interactions are easier to understand and stratify the data by.  However, there could be interactions between the continuous variables and even three-way interactions that explain more of the variability in the data.  
-
-It is important to note that a natural logarithmic transformation of the outcome was performed in order to satisfy the assumptions of linear regression (residual homoscedasticity and normality) which impacts the modeling results.  
+While testing for variable interactions, we also only considered interactions between the categorical variables and each continuous covariate due to their practical interpretability. However, it is possible that other interactions may exist between the continuous variables, and even three-way interactions that could be incorporated in model development to explain more variability in the data.  
 
 -why is this important?
 - limitations
 -assumptions
 - suggestions for possible future studies 
-
-"Each figure and table should be of publishable quality and well notated, i.e., labeled and/or captioned"
 
 
 ## Figures and Tables
