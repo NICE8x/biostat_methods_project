@@ -110,17 +110,13 @@ A table of basic descriptive statistics for the collected socioeconomic variable
 
 #### Multicollinearity and Interactions
 
-Out of the continuous variables, percent non-citizen and percent non-white has a correlation coefficient of 0.753, median household income and percentage of population with a HS degree has a correlation coefficient of 0.651, both of which may suggest multicollinearity. All other correlation coefficients do not suggest multi-collinearity (Table 2).
+Out of the continuous variables, percent non-citizen and percent non-white have a correlation coefficient of 0.753, and median household income and percentage of population with a HS degree have a correlation coefficient of 0.651, both of which may suggest multicollinearity. All other correlation coefficients do not suggest multi-collinearity (Table 2).
 
-Use of variance inflation factors (VIFs) showed that the percent population without a high school degree (3.895), percent non-citizen (3.728), percent non-white (3.236) and median household income (3.108) had the highest degrees of multicollinearity between all other predictors. These values approach but do not exceed 4, the generally accepted value which denotes the need for further investigation and/or consideration of multicollinearity corrections. 
+Use of variance inflation factors (VIFs) showed that the percent population without a high school degree (3.895), percent non-citizen (3.728), percent non-white (3.236) and median household income (3.108) have the highest degrees of multicollinearity between all other predictors. These values approach but do not exceed 4, the generally accepted value which denotes the need for further investigation and/or consideration of multicollinearity corrections. 
 
-For the dataset containing Washington DC, the interaction plots suggest potential interactions between unemployment and median household income, as well as between unemployment and percent population of high school graduates, as seen by the differing directions in slope (crossing lines). 
+For the dataset containing the District of Columbia, the interaction plots suggest potential interactions between unemployment and median household income, as well as between unemployment and percent population of high school graduates, as seen by the differing directions in slope (crossing lines). The urbanization interaction plots for these data suggest that there may be potential interaction between urbanization and each of the following variables: gini index, median household income, percent non-citizen, and percent population of high school graduates.
 
-The urbanization interaction plots for these data suggest that there may be potential interaction bewteen urbanization and each of the following variables: gini index, median household income, percent non-citizen, and percent population of high school graduates.
-
-For the dataset excluding Washington DC, the interaction plots show potential interaction between unemployment and gini index as well as between unemployment and percent population of high school graduates.
-
-The urbanization interaction plots for these data suggest potential interaction between urbanization and median household income as well as between urbanization and percent population of high school graduates.
+For the dataset excluding the District of Columbia, the interaction plots show potential interaction between unemployment and gini index as well as between unemployment and percent population of high school graduates. The urbanization interaction plots for these data suggest potential interaction between urbanization and median household income as well as between urbanization and percent population of high school graduates.
 
 When performing regression analyses for all of the above interactions for each dataset, no interactions were found to be statistically significant at a 0.05 significance level.
 
