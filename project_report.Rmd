@@ -267,8 +267,14 @@ vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 # FIGURE 6
 hate_crimes_df %>%
-  pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>% 
-  rename(Unemployment = "unemployment") %>% 
+  rename(Unemployment = "unemployment",
+         "Median Household Income" = "median_household_income",
+         "% Adults with HS Degree" = "perc_pop_hs",
+         "% Population Non-Citizen" = "perc_non_citizen",
+         "% Population Non-White" = "perc_non_white",
+         "Gini Index" = "gini_index") %>% 
+  pivot_longer("Median Household Income":"% Population Non-White", names_to = "cont_var", values_to = "value") %>% 
+  mutate(cont_var = str_wrap(cont_var, width = 15)) %>% 
   ggplot(aes(x = value, y = hate_crimes_log, color = Unemployment)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1)) +
@@ -280,13 +286,20 @@ hate_crimes_df %>%
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 # FIGURE 7 
 hate_crimes_df %>% 
-  pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%
-  rename(Urbanization = "urbanization") %>%
-  ggplot(aes(x = value, y = hate_crimes_log, color = Urbanization)) +
+  rename(Urbanization = "urbanization",
+          "Median Household Income" = "median_household_income",
+         "% Adults with HS Degree" = "perc_pop_hs",
+         "% Population Non-Citizen" = "perc_non_citizen",
+         "% Population Non-White" = "perc_non_white",
+         "Gini Index" = "gini_index") %>% 
+  pivot_longer("Median Household Income":"% Population Non-White", names_to = "cont_var", values_to = "value") %>% 
+  mutate(cont_var = str_wrap(cont_var, width = 15)) %>% 
+  ggplot(aes(x = value, y = hate_crimes_log, color = Urbanization)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1)) +
   geom_smooth(method='lm', se=FALSE) + 
-  facet_wrap(~cont_var, scales = "free_x") + labs(title = "Figure 7. Interaction Plots Between Hate Crime and All Continuous Variables by Urbanization Level", y = "Hate Crime (log)", x = "Value")
+  facet_wrap(~cont_var, scales = "free_x") + 
+  labs(title = "Figure 7. Interaction Plots Between Hate Crime and All Continuous Variables by Urbanization Level", y = "Hate Crime (log)", x = "Value")
 ```
 
 
