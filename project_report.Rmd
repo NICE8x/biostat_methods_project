@@ -25,10 +25,10 @@ hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
 
 ## Abstract
 **Background:**\ 
-Hate crimes are currently the highest priority of the FBI’s civil rights program. Existing research suggests that various community-level socioeconomic factors, such as income inequality, are associated with hate crime rate. 
+Hate crimes are a growing public health threat in the United States and are the highest priority of the FBI’s civil rights program (Miller et al., 2016). Existing research suggests that various community-level socioeconomic factors, such as income inequality, are associated with hate crime rate. 
 
 **Objectives:**\
-We aimed to analyze the association between community-level variables and state-level hate crime rates using data reported to the Southern Poverty Law Center and analyzed in a 2017 FiveThrityEight article.
+We aimed to analyze the association between community-level variables and state-level hate crime rates using data reported to the Southern Poverty Law Center and analyzed in a 2017 FiveThrityEight article (Majumder, 2017).
 
 **Methods:**\
 The data used for this project included state-level hate crime rates per 100,000 individuals in the population, as reported by the Southern Poverty Law Center during the first weeks of November, 2016. Data elements also included socioeconomic factors that are hypothesized to be associated with hate crime. 
@@ -53,7 +53,7 @@ Based on the November 2016 Southern Poverty Law Center data, Gini Index (an indi
 
 ## Introduction
 
-Since 2014, the national rate of hate crimes has been steadily increasing in the United States [CITE]. In the days following the 2016 US Presidential election, an average of 90 hate crimes per day were reported to the Southern Poverty Law Center [CITE]. 
+As of 2020, the national rate of hate crimes in the United States is at its highest level in over a decade ["FBI Incidents and Offenses," 2019]. In the days following the 2016 US Presidential election, an average of 90 hate crimes per day were reported to the Southern Poverty Law Center (Miller et al., 2016). 
 
 Existing research suggests that community-level socioeconomic factors such as racial breakdown, population density, level of educational attainment, and economic considerations (median income, poverty level, job availability) may be significant predictors of regional and state-level rates of hate crimes. [CITE] A 2017 FiveThirtyEight article titled, "Higher Rates Of Hate Crimes Are Tied To Income Inequality," used 2016 FBI and Southern Poverty Law Center data to assess the association between hate crime rate and select community-level variables [CITE]. 
 
@@ -300,4 +300,7 @@ title("Figure 8. CP Statistic and Adjusted R-Squared Plots", side = 3, line = -2
 
 ## References
 
-(caroline)
+- “Incidents and Offenses.” FBI, FBI, 29 Oct. 2019, ucr.fbi.gov/hate-crime/2019/topic-pages/incidents-and-offenses. 
+- Majumder, M. “Higher Rates Of Hate Crimes Are Tied To Income Inequality.” FiveThirtyEight, FiveThirtyEight, 23 Jan. 2017, fivethirtyeight.com/features/higher-rates-of-hate-crimes-are-tied-to-income-inequality/. 
+- Miller, C., Werner-Winslow, A. “Ten Days After: Harassment and Intimidation in the Aftermath of the Election.” Southern Poverty Law Center, 29 Nov. 2016, www.splcenter.org/20161129/ten-days-after-harassment-and-intimidation-aftermath-election.  
+- Shively, Michael. Abt Associates Inc, 2005, Study of Literature and Legislation on Hate Crime in America. 
