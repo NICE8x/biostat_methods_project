@@ -115,7 +115,7 @@ Variables shown to be statistically significant in existent literature:
 - Urbanization/population density, economic considerations (median income, poverty level, job availability), cultural and education factors - Source: US FBI website (https://ucr.fbi.gov/hate-crime/2011/resources/variables-affecting-crime)
 -Article supports percent non-white as an important variable (for college campuses): https://journals-sagepub-com.proxy.lib.umich.edu/doi/full/10.1177/1043986214536666?utm_source=summon&utm_medium=discovery-provider
 -Anti-hispanic and religious hate crimes on the rise: https://apnews.com/article/hate-crimes-rise-fbi-data-ebbcadca8458aba96575da905650120d
-
+- “Variables Affecting Crime.” FBI, FBI, 5 Nov. 2012, ucr.fbi.gov/hate-crime/2011/resources/variables-affecting-crime. 
 
 
 

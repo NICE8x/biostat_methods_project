@@ -25,10 +25,10 @@ hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
 
 ## Abstract
 **Background:**\ 
-Hate crimes are currently the highest priority of the FBI’s civil rights program. Existing research suggests that various community-level socioeconomic factors, such as income inequality, are associated with hate crime rate. 
+Hate crimes are a growing public health threat in the United States and are the highest priority of the FBI’s civil rights program (Miller et al., 2016). Existing research suggests that various community-level socioeconomic factors, such as income inequality, are associated with hate crime rate. 
 
 **Objectives:**\
-We aimed to analyze the association between community-level variables and state-level hate crime rates using data reported to the Southern Poverty Law Center and analyzed in a 2017 FiveThrityEight article.
+We aimed to analyze the association between community-level variables and state-level hate crime rates using data reported to the Southern Poverty Law Center and analyzed in a 2017 FiveThrityEight article (Majumder, 2017).
 
 **Methods:**\
 The data used for this project included state-level hate crime rates per 100,000 individuals in the population, as reported by the Southern Poverty Law Center during the first weeks of November, 2016. Data elements also included socioeconomic factors that are hypothesized to be associated with hate crime. 
@@ -53,9 +53,9 @@ Based on the November 2016 Southern Poverty Law Center data, Gini Index (an indi
 
 ## Introduction
 
-Since 2014, the national rate of hate crimes has been steadily increasing in the United States [CITE]. In the days following the 2016 US Presidential election, an average of 90 hate crimes per day were reported to the Southern Poverty Law Center [CITE]. 
+As of 2020, the national rate of hate crimes in the United States is at its highest level in over a decade ["FBI Incidents and Offenses," 2019]. In the days following the 2016 US Presidential election, an average of 90 hate crimes per day were reported to the Southern Poverty Law Center (Miller et al., 2016). 
 
-Existing research suggests that community-level socioeconomic factors such as racial breakdown, population density, level of educational attainment, and economic considerations (median income, poverty level, job availability) may be significant predictors of regional and state-level rates of hate crimes. [CITE] A 2017 FiveThirtyEight article titled, "Higher Rates Of Hate Crimes Are Tied To Income Inequality," used 2016 FBI and Southern Poverty Law Center data to assess the association between hate crime rate and select community-level variables [CITE]. 
+Existing research suggests that community-level socioeconomic factors such as racial breakdown, population density, level of educational attainment, and economic considerations (median income, poverty level, job availability) may be significant predictors of regional and state-level rates of hate crimes (Shively, 2005, “FBI: Variables Affecting Crime,” 2012). A 2017 FiveThirtyEight article titled, "Higher Rates Of Hate Crimes Are Tied To Income Inequality," used 2016 FBI and Southern Poverty Law Center data to assess the association between hate crime rate and select community-level variables (Majumder, 2017).  
 
 For this project, we used this dataset to critically analyze this research team's findings to identify state-level variables associated with rates of hate crimes, and to generate a high performing predictive model for population-adjusted hate incidents in the United States.   
 
@@ -118,7 +118,15 @@ Out of the continuous variables, percent non-citizen and percent non-white has a
 
 Use of variance inflation factors (VIFs) showed that the percent population without a high school degree (3.895), percent non-citizen (3.728), percent non-white (3.236) and median household income (3.108) had the highest degrees of multicollinearity between all other predictors. These values approach but do not exceed 4, the generally accepted value which denotes the need for further investigation and/or consideration of multicollinearity corrections. 
 
-[NEED TO ADD INTERACTIONS!!! - Tessa]
+Looking at the interaction plots for unemployment for the data containing the outlier(District of Columbia i.e. DC), there seemed to be potential interaction between unemployment and median household income as well as between unemployment and perc pop HS due to the differing directions in slope (the "lines crossing").
+
+Looking at the interaction plots for urbanization for the data containing DC, there seemed to be potential interaction between urbanization and the following variables: gini index, median household income, perc non citizen, and perc pop HS. 
+
+Looking at the interaction plots for unemployment for the data excluding DC, there seemed to be potential interaction between unemployment and gini index as well as between unemployment and perc pop HS.
+
+Looking at the interaction plots for urbanization for the data excluding DC, there seemed to be potential interaction between urbanization and median household income as well as between urbanization and perc pop HS.
+
+When performing regression analyses for all of the above interactions for each dataset, none of the interactions were statistically significant at a 0.05 significance level.
 
 #### Model Development and Validation
 
@@ -130,7 +138,6 @@ We then employed three criterion based approaches in R, each of which generated 
 
 We also isolated the top two best performing models per number of predictors using the adjusted R squared criterion. We then generated a plot of the distribution of the adjusted R squared statistic for the top performing model for each number of included predictors (Figure 9). Results show that the model with three predictors performed the best while maximizing parsimony. 
 
-We generated the same outputs using the SSE/RSS criterion. The plot can be found in Figure 10. Results show that [INPUT RESULTS HERE FOR SSE/RSS CRITERION - Tessa]. 
 
 To help distinguish the most optimal model between one with three predictors (Gini Index, percent high school graduates, and unemployment), and one with two (Gini Index and percent high school graduates), we ran an analysis of variance (ANOVA) test. Results suggest that the model containing two parameters is most optimal. [TESSA HELP!] The adjusted R-squared of the two-predictor model was 0.2541, while that of the three-predictor model was 0.2571, which is not a large enough increase in proportion of variance explained to justify keeping unemployment in the model.
 
@@ -314,4 +321,8 @@ table_rmse_rsquare %>%
 
 ## References
 
-(caroline)
+- “Incidents and Offenses.” FBI, FBI, 29 Oct. 2019, ucr.fbi.gov/hate-crime/2019/topic-pages/incidents-and-offenses. 
+- Majumder, M. “Higher Rates Of Hate Crimes Are Tied To Income Inequality.” FiveThirtyEight, FiveThirtyEight, 23 Jan. 2017, fivethirtyeight.com/features/higher-rates-of-hate-crimes-are-tied-to-income-inequality/. 
+- Miller, C., Werner-Winslow, A. “Ten Days After: Harassment and Intimidation in the Aftermath of the Election.” Southern Poverty Law Center, 29 Nov. 2016, www.splcenter.org/20161129/ten-days-after-harassment-and-intimidation-aftermath-election.  
+- Shively, Michael. Abt Associates Inc, 2005, Study of Literature and Legislation on Hate Crime in America. 
+- “Variables Affecting Crime.” FBI, FBI, 5 Nov. 2012, ucr.fbi.gov/hate-crime/2011/resources/variables-affecting-crime. 
