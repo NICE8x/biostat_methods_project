@@ -49,7 +49,7 @@ Using automated and criterion-based approaches, and considering the body of scie
 All steps of model development and validation were performed before and after removing the District of Columbia, an outlier in the data. After removing the District of Columbia, the Gini Index is no longer a statistically significant predictor of hate crime rate; instead, the percentage of the population with a high school degree is the only significant variable, making the District of Columbia an influential point. 
 
 **Conclusions:**\
-Based on the November 2016 Southern Poverty Law Center data, Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significantly and independently associated of state-level hate crime rate. 
+Based on the November 2016 Southern Poverty Law Center data, Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both statistically significantly and independently associated with state-level hate crime rate. 
 
 ## Introduction
 
