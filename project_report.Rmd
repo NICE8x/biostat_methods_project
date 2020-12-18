@@ -40,7 +40,7 @@ Multicollinearity of covariates, outliers, and variable interaction were also te
 Finally, we assessed model goodness of fit and predictive performance through model validation. All steps of model development and validation were performed before and after removing the District of Columbia, an outlier in the data. 
 
 **Results:**\
-Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significant predictors of state-level hate crime rate when controlling for all other covariates. 
+Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significant predictors of state-level hate crime rate when controlling for all other covariates.  When these two predictors are the only predictors in the model they are both positively associated with the outcome. 
 
 Of the continuous variables, percent non-citizen and percent non-white were found to have a correlation coefficient of 0.753; median household income and percentage of population with a high school degree had a correlation coefficient of 0.651, both of which may suggest multicollinearity. No statistically significant interactions were identified between any variables in regression modeling. 
 
