@@ -167,7 +167,8 @@ hate_crimes_df %>%
   labs(
     title = "Figure 1. Untransformed distribution of hate crimes per 100k population",
     x = "Hate Crimes Per 100k",
-    y = "Density"
+    y = "Density",
+    caption = "Data comes from FiveThirtyEight Hate Crimes data"
   )
 ```
 
@@ -193,14 +194,15 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
   labs(
     x = "State",
     y = "Log Hate Crimes per 100,000 Population",
-    title = "Figure 3. Log Hate Crimes Rate by State"
+    title = "Figure 3. Log Hate Crimes Rate by State",
+    caption = "Data comes from FiveThirtyEight Hate Crimes data"
   )
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 ## FIGURES 4
 par(mfrow = c(2,2))
-plot(mult_fit_1)
+plot(mult_fit_1, caption = "Data comes from FiveThirtyEight Hate Crimes data")
 title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
 
 hate_crimes_df_no_DC <- hate_crimes_df %>%
@@ -208,7 +210,7 @@ hate_crimes_df_no_DC <- hate_crimes_df %>%
   mutate(hate_crimes_log = log(hate_crimes_per_100k_splc))
 
 final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
-plot(final_model_no_DC)
+plot(final_model_no_DC, caption = "Data comes from FiveThirtyEight Hate Crimes data")
 title("Figure #. Two predictors without DC model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
 ```
 
@@ -252,7 +254,7 @@ hate_crimes_df %>%
   drop_na(perc_non_citizen) %>%
   dplyr::select(!(state:urbanization)) %>% 
   cor() %>% 
-  corrplot::corrplot(method = "square", addCoef.col = "black", tl.col="black", tl.srt=45, insig = "blank", diag=FALSE, number.cex = .7, title = "Figure 5. Correlation Matrix", mar = c(0,0,1,0))
+  corrplot::corrplot(method = "square", addCoef.col = "black", tl.col="black", tl.srt=45, insig = "blank", diag=FALSE, number.cex = .7, title = "Figure 5. Correlation Matrix", mar = c(0,0,1,0), caption = "Data comes from FiveThirtyEight Hate Crimes data")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -275,7 +277,7 @@ hate_crimes_df %>%
   ggplot(aes(x = value, y = hate_crimes_log, color = Urbanization)) +
   geom_point() + 
   geom_smooth(method='lm', se=FALSE) + 
-  facet_wrap(~cont_var, scales = "free_x") + labs(title = "Figure 7. Interaction Plots Between Hate Crime and All Continuous Variables by Urbanization Level", y = "Hate Crime (log)", x = "Value")
+  facet_wrap(~cont_var, scales = "free_x") + labs(title = "Figure 7. Interaction Plots Between Hate Crime and All Continuous Variables by Urbanization Level", y = "Hate Crime (log)", x = "Value", caption = "Data comes from FiveThirtyEight Hate Crimes data")
 ```
 
 
@@ -303,7 +305,7 @@ par(mfrow=c(1,2))
 plot(1:7, rs$cp, xlab="No. of parameters", ylab="Cp Statistic")
 abline(0,1)
 
-plot(1:7, rs$adjr2, xlab="No. of parameters", ylab="Adj R2")
+plot(1:7, rs$adjr2, xlab="No. of parameters", ylab="Adj R2", caption = "Data comes from FiveThirtyEight Hate Crimes data")
 title("Figure 8. Mallow's Cp and Adjusted R-Squared by # Parameters", side = 3, line = -2, outer = TRUE)
 ```
 
