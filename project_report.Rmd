@@ -243,7 +243,7 @@ hate_crimes_df %>%
   drop_na(perc_non_citizen) %>%
   dplyr::select(!(state:urbanization)) %>% 
   cor() %>% 
-  corrplot::corrplot(method = "square", addCoef.col = "black", tl.col="black", tl.srt=45, insig = "blank", diag=FALSE, number.cex = .7, title = "Figure 5. Correlation Matrix" )
+  corrplot::corrplot(method = "square", addCoef.col = "black", tl.col="black", tl.srt=45, insig = "blank", diag=FALSE, number.cex = .7, title = "Figure 5. Correlation Matrix", mar = c(0,0,1,0))
 
 
 # try to tidy/add title if possible? 
@@ -253,7 +253,8 @@ hate_crimes_df %>%
 # TABLE 3
 vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_df)) %>%
   round(.,3) %>%
-  knitr::kable()
+  knitr::kable(col.names = "VIF") 
+ 
 
 # use kableextra package to rename column 
 ```
