@@ -118,19 +118,26 @@ Out of the continuous variables, percent non-citizen and percent non-white has a
 
 Use of variance inflation factors (VIFs) showed that the percent population without a high school degree (3.895), percent non-citizen (3.728), percent non-white (3.236) and median household income (3.108) had the highest degrees of multicollinearity between all other predictors. These values approach but do not exceed 4, the generally accepted value which denotes the need for further investigation and/or consideration of multicollinearity corrections. 
 
-[NEED TO ADD INTERACTIONS!!! - Tessa]
+Looking at the interaction plots for unemployment for the data containing the outlier(District of Columbia i.e. DC), there seemed to be potential interaction between unemployment and median household income as well as between unemployment and perc pop HS due to the differing directions in slope (the "lines crossing").
+
+Looking at the interaction plots for urbanization for the data containing DC, there seemed to be potential interaction between urbanization and the following variables: gini index, median household income, perc non citizen, and perc pop HS. 
+
+Looking at the interaction plots for unemployment for the data excluding DC, there seemed to be potential interaction between unemployment and gini index as well as between unemployment and perc pop HS.
+
+Looking at the interaction plots for urbanization for the data excluding DC, there seemed to be potential interaction between urbanization and median household income as well as between urbanization and perc pop HS.
+
+When performing regression analyses for all of the above interactions for each dataset, none of the interactions were statistically significant at a 0.05 significance level.
 
 #### Model Development and Validation
 
 We began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the log hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini Index was the most significant independent predictor of state hate crime rate when controlling for all other covariates; percent high school graduates variables was the only other statistically and independently significant variable. 
 
-To generate our own models maximizing model parsimony and predictive performance, we employed two automated procedures: backward and forward selection. While the model proposed during forward selection contained all provided variables (Adjusted R-squared = 0.1849), the model generated through backwards selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = 0.2868). The only included predictors in this model were the Gini Index, and the percent of high school graduates variables. 
+To generate our own models maximizing model parsimony and predictive performance, we employed two automated procedures: backward and forward selection. While the model proposed during forward selection contained all provided variables (Adjusted R-squared = 0.1849), the model generated through backwards selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = 0.2868). The only included predictors were the Gini Index, and the percent of high school graduates variables. 
 
-We then employed three criterion based approaches in R, each of which generated the two best performing models which optimize the given criterion for each possible number of predictors. The first of these approaches used the Cp criterion, which compares the predictive ability of model subsets to the full model. To visualize these results, we generated a plot containing the Cp criterion distribution for the top performing model for each number of predictors (Figure 8). This shows that the best performing model with two covariates (Gini Index and percent high school graduates) had the best predictive performance as compared to the top performing models of all other possible sizes. 
+We then employed three criterion based approaches in R, each of which generated the two best performing models which optimize the given criterion for each possible number of predictors. The first of these approaches used the Cp criterion, which compares the predictive ability of model subsets to the full model. To visualize these results, we generated a plot containing the Cp criterion distribution for the top performing model for each number of predictors (Figure 8). This shows that the best performing model with 3 covariates (Gini Index, percent high school graduates, and unemployment) had the best predictive performance as compared to the top performing models of all other possible sizes. 
 
 We also isolated the top two best performing models per number of predictors using the adjusted R squared criterion. We then generated a plot of the distribution of the adjusted R squared statistic for the top performing model for each number of included predictors (Figure 9). Results show that the model with three predictors performed the best while maximizing parsimony. 
 
-We generated the same outputs using the SSE/RSS criterion. The plot can be found in Figure 10. Results show that [INPUT RESULTS HERE FOR SSE/RSS CRITERION - Tessa]. 
 
 To help distinguish the most optimal model between one with three predictors (Gini Index, percent high school graduates, and unemployment), and one with two (Gini Index and percent high school graduates), we ran an analysis of variance (ANOVA) test. Results suggest that the model containing two parameters is most optimal. [TESSA HELP!] The adjusted R-squared of the two-predictor model was 0.2541, while that of the three-predictor model was 0.2571, which is not a large enough increase in proportion of variance explained to justify keeping unemployment in the model.
 
@@ -143,6 +150,8 @@ Finally, because Washington DC was deemed to be an outlier previously, we re-ran
 ## Discussion/Conclusion
 
 After extensive analyses and modeling, we found that the optimal models in terms of goodness of fit and predictive value contained Gini index and percent population with a high school degree, with the latter variable being a more significant predictor of hate crime. However, these two predictors only accounted for 25.4% of the variability in the data. 
+
+[ADD IN MODEL W 3 PARAMETERS TOO]. 
 
 The drastic changes in predictor significance and adjusted R-squared between the model including and excluding Washington DC suggest that the district is indeed an influential point. The district has the highest hate crime rate and the highest income inequality out of all the states. 
 
@@ -230,7 +239,7 @@ my_controls = tableby.control(
 tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
 
 summary(tab1) %>% 
-  knitr::kable(caption = "Table 1: Descriptive Statistics of States Reporting Hate Crimes")
+  knitr::kable(caption = "Descriptive Statistics of States Reporting Hate Crimes")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -246,7 +255,7 @@ hate_crimes_df %>%
 # TABLE 2
 vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_df)) %>%
   round(.,3) %>%
-  knitr::kable(col.names = "VIF", caption = "Table 2. VIF Values")
+  knitr::kable(col.names = "VIF", caption = "VIF Values")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
