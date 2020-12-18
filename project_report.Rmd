@@ -137,20 +137,15 @@ Through cross-validation, we determined that the aforementioned two-predictor mo
 
 ## Discussion/Conclusion
 
-After extensive analyses and modeling, we found that the optimal model in terms of goodness of fit and predictive value contained the Gini Index and percent population with a high school degree, with the latter variable being a more significant predictor of hate crime in this two-parameter model. However, these two predictors only accounted for 25.4% of the variability in the data. 
+After extensive analyses and modeling, we found that the optimal model in terms of goodness of fit and predictive value contained the Gini Index and percent population with a high school degree, with the latter variable being a more significant predictor of hate crime in this two-parameter model. However, these two predictors only accounted for 25.4% of the variability in the data. This implies other variables not in the data should be included in future studies of hate crime rates.  Such variables may include variables related to the politics of people in the state or the percent of the population that are LGBTQ+ or percent of the population that belongs to a religious minority as one study showed that religious hate crimes are on the rise(“Incidents and Offenses.” FBI, FBI, 29 Oct. 2019).
 
 The change in predictor significance of Gini Index and the adjusted r-squared between the model including and excluding the District of Columbia suggests it is indeed an influential point. The District of Columbia has the highest hate crime rate and the highest income inequality out of all the states. 
 
-It is possible that other factors not included in our dataset, such as percentage of the population who are LGBTQ+ or religious minorities, may also be important predictors of hate crime.
-
 ADD PARAGRAPH-WHY IS THIS STUDY IMPORTANT???
 
-Unfortunately the data for hate crime rates was missing for four states.  These four states may have drastically different hate crime rates than the rest of the states and could potentially change the significance of the predictors and impact the predictive ability of our models.  
+Unfortunately the data for hate crime rates was missing for four states.  These four states may have drastically different hate crime rates than the rest of the states and could potentially change the significance of the predictors and impact the predictive ability of our models, therefore the results of this study may not be generalizable to the entire US.  
 
 It is important to note that a natural logarithmic transformation of the outcome was performed in order to satisfy the assumptions of linear regression (residual homoscedasticity and normality) which impacts the modeling results.  
-
-Our final model which included significant predictors did not account for much of the variance in the data which implies other variables not in the data should be included in future studies of hate crime rates.  Such variables may include variables related to the politics of people in the state or the percent of the population that are LGBTQ+ or percent of the population that belongs to a religious minority as one study showed that religious hate crimes are on the rise(“Incidents and Offenses.” FBI, FBI, 29 Oct. 2019).
-
 
 -why is this important?
 - limitations
@@ -320,12 +315,6 @@ table_rmse_rsquare <- as.table(table_rmse_rsquare)
 table_rmse_rsquare %>%
   knitr::kable(caption = "Comparison of adjusted R^2 and RMSE with all models")
 ```
-
-
-^^^ check these plots since the numbers seem weird 
-
-
-
 
 ## References
 
