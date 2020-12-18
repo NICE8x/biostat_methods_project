@@ -295,9 +295,21 @@ abline(0,1)
 plot(2:8, rs$adjr2, xlab="No. of parameters", ylab="Adj R2")
 title("Figure 8. CP Statistic and Adjusted R-Squared Plots", side = 3, line = -2, outer = TRUE)
 ```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+# ADD TABLE FOR RMSE AND ADJ R SQUARED RESULTS
+table_rmse_rsquare <- matrix(c(0.2541,0.5417445,0.2943289,0.5948853,0.2571, 0.5341956,0.2783783,0.6038494,0.1185,0.5367246,0.153031,0.5554347,0.125,0.5281813,0.1730294,0.560014),ncol=4,byrow=TRUE)
+colnames(table_rmse_rsquare) <- c("Model adjusted R^2","Model RMSE", "CV adjusted R^2", "CV RMSE")
+rownames(table_rmse_rsquare) <- c("Two predictors with DC","Three predictors with DC","Two predictors without DC","Three predictors without DC")
+table_rmse_rsquare <- as.table(table_rmse_rsquare)
+table_rmse_rsquare %>%
+  knitr::kable(caption = "Comparison of adjusted R^2 and RMSE with all models")
+```
+
+
 ^^^ check these plots since the numbers seem weird 
 
-[ADD DIAGNOSTIC PLOTS FOR DIFFERENT MODELS (2 and 3 covariate models for both DC and not DC) (stella/vasili), ADD TABLE FOR RMSE AND ADJ R SQUARED RESULTS (lily) AND LILY'S INTERACTION PLOTS]
+
 
 
 ## References
