@@ -334,29 +334,21 @@ high urbanization and unemployment (51.1\% each) (Table 1).
 \paragraph{Multicollinearity and
 Interactions}\label{multicollinearity-and-interactions-1}}
 
-Of the continuous variables, percent non-citizen and percent non-white
-have a correlation coefficient of 0.753, and median household income and
-percentage of population with a high school degree have a correlation
-coefficient of 0.651, both of which may suggest multicollinearity. All
-other correlation coefficients do not suggest multi-collinearity (Table
-2).
-
-Use of variance inflation factors (VIFs) showed that the percent
-population without a high school degree (3.895), percent non-citizen
-(3.728), percent non-white (3.236) and median household income (3.108)
-have the highest degrees of multicollinearity between all other
-predictors. These values approach but do not exceed 4, the generally
-accepted value which denotes the need for further investigation and/or
-consideration of multicollinearity corrections.
+The correlation matrix and variance inflation factors (VIFs) show
+potential multicollinearity between percent non-citizen and percent
+non-white, and median household income and percentage of population with
+a high school degree. All other correlation coefficients do not suggest
+multi-collinearity. Correlation matrix and VIF results are visualized in
+Table 2 and Figure \#, respectively (Table 2, Figure \#).
 
 For the dataset containing DC, the interaction plots suggest potential
 interaction between unemployment and median household income, as well as
 between unemployment and percent population of high school graduates, as
-seen by the differing directions in slope (crossing lines). The
-urbanization interaction plots for these data suggest that there may be
-potential interaction between urbanization and each of the following
-variables: Gini Index, median household income, percent non-citizen, and
-percent population of high school graduates.
+seen by the intersecting slopes. The urbanization interaction plots for
+these data suggest that there may be potential interaction between
+urbanization and each of the following variables: Gini Index, median
+household income, percent non-citizen, and percent population of high
+school graduates.
 
 For the dataset excluding DC, the interaction plots show potential
 interaction between unemployment and Gini Index as well as between
@@ -378,92 +370,120 @@ containing all possible predictors for both the untransformed hate crime
 rate and the natural log transformed hate crime rate. Our results
 support the conclusions drawn in the FiveThirtyEight article: that the
 Gini Index was the most significant independent predictor of state hate
-crime rate when controlling for all other covariates and that the
+crime rate when controlling for all other covariates. and that the
 percent high school graduates variable was the only other statistically
-and independently significant variable (Majumder, 2017).
+and independently significant variable (Majumder, 2017). All subsequent
+model development used only the natural log transformed outcome.
 
 The model proposed during forward stepwise selection contained all
 variables provided in the original dataset (Adjusted R-squared =
 0.1849). The model generated through backward stepwise selection was
 much more parsimonious and had a substantially higher adjusted R squared
-(Adjusted R-squared = 0.2868). The only included predictors were the
-Gini Index, and the percent of high school graduates, both of which were
-significant. When DC is removed from the dataset, however, the Gini
-Index is no longer statistically significant at a 0.05 significance
-level, indicating that DC is an influential point. The adjusted
-R-squared of the two-predictor model decreases as well when DC is
-removed (from 0.2541 to 0.1185).
+(Adjusted R-squared = 0.2868). The only included predictors in this
+model were the Gini Index, and the percent of high school graduates,
+both of which were significant. When DC was removed from the dataset,
+however, the Gini Index was no longer statistically significant at a
+0.05 significance level in the two-parameter model, indicating that DC
+is an influential point. The adjusted R-squared of the two-predictor
+model decreases as well when DC is removed (from 0.2541 to 0.1185).
 
 Both Mallow's Cp and the adjusted r-squared criterion confirmed that the
 best model that includes two variables contains Gini Index and the
 percent of high school graduates. Further, the plot for Mallow's Cp
 showed that the model with only two predictors had the lowest Cp value
 as compared to the best performing model of all other possible numbers
-of predictors. The plot for the adjusted r-squared criterion showed that
-the model with 3 predictors (Gini Index, the percent of high school
-graduates, and unemployment) had the highest adjusted r-squared value.
+of predictors (Figure \#).
+
+The plot for the adjusted r-squared criterion showed that the model with
+3 predictors (Gini Index, the percent of high school graduates, and
+unemployment) had the highest adjusted r-squared value (Figure \#).
 However, the adjusted r-squared for this model was less than 6\% greater
 than the adjusted r-squared for the model with only 2 covariates,
 suggesting that their performance is not significantly different with
 regard to this criterion. Further the partial F-test for nested models
-shows that adding the unemployment variable does not significantly
+showed that adding the unemployment variable did not significantly
 improve the model. All of these results hold true when DC is removed
 from the dataset.
 
-Looking at the diagnostic plots for the two-covariate model that
-includes DC shows no obvious violation of the assumptions. The points in
-the Residuals vs Fitted plot seem randomly scattered around the line at
-0 indicating the assumption of homoscedasticity is met. The points
-follow a straight line in the Q-Q plot indicating the assumption of
-normality is met. The Residuals vs Leverage plot however indicates that
-point 9 (DC) may be an outlier. When DC is removed all the diagnostic
-plots remain similar except that there is no longer any outliers
-indicated by the Residuals vs Leverage plot.
+The diagnostic plots for the two-covariate model including DC showed no
+obvious violation of the linear regression assumptions (Figure \#). The
+points in the Residuals vs Fitted plot were randomly scattered around
+the line at 0 indicating the assumption of homoscedasticity was met. The
+points followed a straight line in the Q-Q plot indicating the
+assumption of normality was met. The Residuals vs Leverage plot,
+however, indicated that point 9 (DC) may be an outlier. When DC was
+removed, all diagnostic plots remained similar except that there is no
+longer any outliers indicated in the Residuals vs Leverage plot.
 
-The association between the two variables and the natural log of hate
-crime rates is positive whether DC is included in the data or not. For a
-one unit increase in the gini index, there is a 16.486 expected increase
-in the natural log of hate crime rates holding the percent of HS
-graduates constant (when excluding DC the expected increase is 10.811).
-For a one unit increase in the percent of HS graduates, there is a
-11.554 expected increase in the natural log of hate crime rates holding
-the gini index constant (when excluding DC the expected increase is
-9.509).
+The association between each of the two included variables and the
+natural log of hate crime rates was positive whether DC was included in
+the data or not. For a one unit increase in the Gini Index, there was a
+16.486 expected increase in the natural log of hate crime rates, holding
+the percent of high school graduates constant (when excluding DC this
+expected increase is 10.811). For a one unit increase in the percent of
+high school graduates, there was a 11.554 expected increase in the
+natural log of hate crime rates holding the gini index constant (when
+excluding DC the expected increase is 9.509).
 
 Through cross-validation, we determined that the aforementioned
 two-predictor model also had better predictive performance than the
 three-predictor model when including DC. The CV root mean squared error
-(RMSE) values are essentially equivalent (0.5948853 for 2 covariates vs
-0.6038494 for 3 covariates) and the CV adjusted r-squared is slightly
-higher for the two-predictor model (0.2943289 vs 0.2783783). When
-excluding DC, the two different models have virtually the same
-predictive performance. Both have similar CV RMSE values and the CV
-adjusted r-squared for the three-predictor model is only slightly higher
-than the two-predictor model (0.1730294 vs 0.1530310). This indicates
-that the addition of unemployment as a third predictor did not
-significantly add to model performance whether DC is included or not
-(Table 3). The two-predictor model, whether DC is included or not,
-performs well as a predictive model since the model's RMSE and adjusted
-r-squared are very similar to the CV average RMSE and adjusted
-r-squared.
+(RMSE) values were essentially equivalent (0.5948853 for 2 covariates vs
+0.6038494 for 3 covariates) and the CV adjusted r-squared were slightly
+higher for the two-predictor model (0.2943289 vs 0.2783783)
+(Figure/Table \#). When excluding DC, the two different models had
+virtually the same predictive performance. Both had similar CV RMSE
+values and the CV adjusted r-squared for the three-predictor model was
+only slightly higher than the two-predictor model (0.1730294 vs
+0.1530310) (Figure/Table \#). This indicated that the addition of
+unemployment as a third predictor did not significantly add to model
+performance whether DC was included or not (Table 3).
 
-{[}ADD FIGURE NUMBER AND THEN CITE SOMEWHERE ABOVE{]}
+The two-predictor model, whether DC is included or not, performs well as
+a predictive model since the model's RMSE and adjusted r-squared were
+very similar to the CV average RMSE and adjusted r-squared.
 
 \hypertarget{discussionconclusion}{%
 \subsection{Discussion/Conclusion}\label{discussionconclusion}}
 
-After extensive analyses and modeling, we found that the optimal model
-in terms of goodness of fit and predictive value contained the Gini
-Index and percent population with a high school degree, with the latter
-variable being a more significant predictor of hate crime in this
-two-parameter model. However, these two predictors only accounted for
-25.4\% of the variability in the data. This implies other variables not
-in the data should be included in future studies of hate crime rates.
-Such variables may include variables related to the politics of people
-in the state or the percent of the population that are LGBTQ+ or percent
-of the population that belongs to a religious minority as one study
-showed that religious hate crimes are on the rise (``Incidents and
-Offenses.'' FBI, FBI, 29 Oct.~2019).
+After extensive analyses and modeling, the Gini Index and percent
+population with a high school degree variables were the only covariates
+found to be significantly and independently associated with hate crime
+rate. However, the model containing only these parameters, despite
+having the most optimal goodness of fit and predictive performance,
+accounted for only 25.4\% of the variability in the data.
+
+This implies that there may be other variables yet unaccounted for in
+model development which may predict hate crime rate. For example,
+existing research has found sexuality, gender identity, and religion to
+be factors significantly associated with hate crime rate (``FBI:
+Incidents and Offenses,'' 2019).
+
+The positive association between Gini Index and log transformed hate
+crime rate indicates that high wealth inequality is associated with high
+hate crime rate. Interestingly, the association between percent high
+school graduates and log transformed hate crime was also positive. This
+result may be a reflection of the presence of an unmeasured confounding
+variable causing a spurious association or a more complex phenomenon
+occurring altogether. For example, the US Department of Justice has
+reported dramatic increases in school-based hate crimes in recent years,
+which could serve as an explanation for higher hate crime rates among
+populations with high proportions of high school graduates (Keierleber,
+2018).
+
+It makes sense that gini index is positively associated with the log
+hate crime rate since a a higher gini index represents an increase in
+wealth inequality. One expects where there is wealth inequality there
+may be tension and as a result a higher rate of hate crimes. It is
+interesting that the percent of HS graduates is also positively
+associated with the log hate crime rate. One would intuitively expect
+that the less people educated, the more hate crimes there would be
+however the data supports that a higher percent of HS graduates is
+associated with a higher log hate crime rate. It may be that there is a
+confounding variable not included in the data causing a spurious
+association or a more complex phenomenon altogether occurring. It may be
+that areas with more HS graduates cause more tension among the few
+people without a HS degree thus causing a higher rate of hate crimes.
 
 The change in predictor significance of Gini Index and the adjusted
 r-squared between the model including and excluding DC suggests it is
@@ -582,8 +602,6 @@ notated, i.e., labeled and/or captioned''
 \hline
 \&nbsp;\&nbsp;\&nbsp;Missing & 0\\
 \hline
-\multicolumn{2}{l}{\rule{0pt}{1em}\textit{Note: }}\\
-\multicolumn{2}{l}{\rule{0pt}{1em}This table shows the adjusted R\textasciicircum{}2 and RMSE values for two models with DC and two models without DC for two and three predictors in each type of model.}\\
 \end{tabular}
 \end{table}
 
@@ -656,6 +674,10 @@ Three predictors without DC & 0.1250 & 0.5281813 & 0.1730294 & 0.5600140\\
 \item
   ``Incidents and Offenses.'' FBI, FBI, 29 Oct.~2019,
   ucr.fbi.gov/hate-crime/2019/topic-pages/incidents-and-offenses.
+\item
+  Keierleber, M. ``New FBI Data: School-Based Hate Crimes Jumped 25
+  Percent Last Year - for the Second Year in a Row.'' 2018,
+  www.the74million.org/new-fbi-data-school-based-hate-crimes-jumped-25-percent-last-year-for-the-second-year-in-a-row/.
 \item
   Majumder, M. ``Higher Rates Of Hate Crimes Are Tied To Income
   Inequality.'' FiveThirtyEight, FiveThirtyEight, 23 Jan.~2017,

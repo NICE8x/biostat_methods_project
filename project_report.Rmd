@@ -141,11 +141,9 @@ The two-predictor model, whether DC is included or not, performs well as a predi
 
 After extensive analyses and modeling, the Gini Index and percent population with a high school degree variables were the only covariates found to be significantly and independently associated with hate crime rate. However, the model containing only these parameters, despite having the most optimal goodness of fit and predictive performance, accounted for only 25.4% of the variability in the data.  
 
-This implies that there may be other variables yet unaccounted for in model development which may predict hate crime rate. For example, existing research has found sexuality, gender identity, and religion to be factors significantly associated with hate crime rate (“FBI: Incidents and Offenses,” 2019). 
+This implies that there may be other variables yet unaccounted for in model development which may predict hate crime rate. For example, existing research has found sexuality, gender identity, and religion to be factors significantly associated with hate crime rate (“FBI: Incidents and Offenses,” 2019).  
 
-The positive association between Gini Index and log transformed hate crime rate indicates that high wealth inequality is associated with high hate crime rate. Interestingly, the association between percent high school graduates and log transformed hate crime was also positive. This result may be a reflection of the presence of an unmeasured confounding variable causing a spurious association or a more complex phenomenon occurring altogether. For example, US Department of Justice data in
-
-
+The positive association between Gini Index and log transformed hate crime rate indicates that high wealth inequality is associated with high hate crime rate. Interestingly, the association between percent high school graduates and log transformed hate crime was also positive. This result may be a reflection of the presence of an unmeasured confounding variable causing a spurious association or a more complex phenomenon occurring altogether. For example, the US Department of Justice has reported dramatic increases in school-based hate crimes in recent years, which could serve as an explanation for higher hate crime rates among populations with high proportions of high school graduates (Keierleber, 2018).
 
 It makes sense that gini index is positively associated with the log hate crime rate since a a higher gini index represents an increase in wealth inequality.  One expects where there is wealth inequality there may be tension and as a result a higher rate of hate crimes.  It is interesting that the percent of HS graduates is also positively associated with the log hate crime rate.  One would intuitively expect that the less people educated, the more hate crimes there would be however the data supports that a higher percent of HS graduates is associated with a higher log hate crime rate.  It may be that there is a confounding variable not included in the data causing a spurious association or a more complex phenomenon altogether occurring.  It may be that areas with more HS graduates cause more tension among the few people without a HS degree thus causing a higher rate of hate crimes.
 
@@ -374,9 +372,12 @@ table_rmse_rsquare %>%
 ## References
 
 - “Incidents and Offenses.” FBI, FBI, 29 Oct. 2019, ucr.fbi.gov/hate-crime/2019/topic-pages/incidents-and-offenses. 
+- Keierleber, M. “New FBI Data: School-Based Hate Crimes Jumped 25 Percent Last Year - for the Second Year in a Row.” 2018, www.the74million.org/new-fbi-data-school-based-hate-crimes-jumped-25-percent-last-year-for-the-second-year-in-a-row/. 
 - Majumder, M. “Higher Rates Of Hate Crimes Are Tied To Income Inequality.” FiveThirtyEight, FiveThirtyEight, 23 Jan. 2017, fivethirtyeight.com/features/higher-rates-of-hate-crimes-are-tied-to-income-inequality/. 
 - Miller, C., Werner-Winslow, A. “Ten Days After: Harassment and Intimidation in the Aftermath of the Election.” Southern Poverty Law Center, 29 Nov. 2016, www.splcenter.org/20161129/ten-days-after-harassment-and-intimidation-aftermath-election.  
 - Shively, Michael. Abt Associates Inc, 2005, Study of Literature and Legislation on Hate Crime in America. 
 - Van Dyke, N., and Tester, G. “Dangerous Climates.” Journal of Contemporary Criminal Justice, vol. 30, no. 3, 2014, pp. 290–309., doi:10.1177/1043986214536666. 
-- “Variables Affecting Crime.” FBI, FBI, 5 Nov. 2012, ucr.fbi.gov/hate-crime/2011/resources/variables-affecting-crime. 
+- “Variables Affecting Crime.” FBI, FBI, 5 Nov. 2012, ucr.fbi.gov/hate-crime/2011/resources/variables-affecting-crime.
+
+
 
