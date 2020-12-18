@@ -101,7 +101,7 @@ The correlation matrix and variance inflation factors (VIFs) show potential mult
 
 For the dataset containing DC, the interaction plots suggest potential interaction between unemployment and median household income, as well as between unemployment and percent population of high school graduates, as seen by the intersecting slope lines (Figure 6). The urbanization interaction plots for these data suggest that there may be potential interaction between urbanization and each of the following variables: Gini Index, median household income, percent non-citizen, and percent population of high school graduates (Figure 7).
 
-For the dataset excluding DC, the interaction plots show potential interaction between unemployment and Gini Index as well as between unemployment and percent population of high school graduates (Figure 8). The urbanization interaction plots for these data suggest potential interaction between urbanization and median household income as well as between urbanization and percent population of high school graduates (Figure 8).
+For the dataset excluding DC, the interaction plots show potential interaction between unemployment and Gini Index as well as between unemployment and percent population of high school graduates. The urbanization interaction plots for these data suggest potential interaction between urbanization and median household income as well as between urbanization and percent population of high school graduates.
 
 When performing regression analyses for all of the above interactions for each dataset, no interactions were found to be statistically significant at a 0.05 significance level.
 
