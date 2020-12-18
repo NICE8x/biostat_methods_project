@@ -162,8 +162,7 @@ hate_crimes_df %>%
   labs(
     title = "Figure 1. Untransformed distribution of hate crimes per 100k population",
     x = "Hate Crimes Per 100k",
-    y = "Density",
-    caption = "Data comes from [where it comes from]"
+    y = "Density"
   )
 ```
 
@@ -189,8 +188,7 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
   labs(
     x = "State",
     y = "Log Hate Crimes per 100,000 Population",
-    title = "Figure 3. Log Hate Crimes Rate by State",
-    caption = "States in Increasing Order by Log Hate Crime Rate"
+    title = "Figure 3. Log Hate Crimes Rate by State"
   )
 ```
 
