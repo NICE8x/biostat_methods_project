@@ -39,15 +39,12 @@ Multicollinearity of covariates, outliers, and variable interaction were also te
 
 Model goodness of fit and predictive performance through model diagnostics and validation. All abovementioned steps were performed before and after removing any outlier in the data.
 
-**Results:**\
-Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significant predictors of state-level hate crime rate when controlling for all other covariates.  When these two predictors are the only predictors in the model they are both positively associated with the outcome. 
+**Results and Conclusions:**\
+Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significant predictors of state-level hate crime rate when controlling for all other covariates.  When these two predictors are the only parameters included in the model they are both positively associated with the outcome. 
 
 Multicollinearity tests showed possible correlation between median household income and percentage of population with a high school degree, as well as the percent non-citizen and percent non-white variables. No statistically significant interactions were identified between any variables in regression modeling. 
 
 Our identified model optimizing goodness of fit and predictive performance contained only the Gini Index and percent population with a high school degree as parameters, both of which were significant. Washington DC, the single outlier in the data, was found to be an influential point, as its absence from the data nullified the significance of the Gini Index predictor in the two-parameter model. 
-
-**Conclusions:**\
-Based on the November 2016 Southern Poverty Law Center data, Gini Index and percent population with a high school degree were both statistically significantly and independently associated with state-level hate crime rate. 
 
 ## Introduction
 
@@ -169,7 +166,8 @@ hate_crimes_df %>%
   labs(
     title = "Figure 1. Untransformed distribution of hate crimes per 100k population",
     x = "Hate Crimes Per 100k",
-    y = "Density"
+    y = "Density",
+    caption = "Data comes from FiveThirtyEight Hate Crimes data"
   )
 ```
 
@@ -195,14 +193,15 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
   labs(
     x = "State",
     y = "Log Hate Crimes per 100,000 Population",
-    title = "Figure 3. Log Hate Crimes Rate by State"
+    title = "Figure 3. Log Hate Crimes Rate by State",
+    caption = "Data comes from FiveThirtyEight Hate Crimes data"
   )
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 ## FIGURES 4
 par(mfrow = c(2,2))
-plot(mult_fit_1)
+plot(mult_fit_1, caption = "Data comes from FiveThirtyEight Hate Crimes data")
 title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
 
 hate_crimes_df_no_DC <- hate_crimes_df %>%
@@ -210,7 +209,7 @@ hate_crimes_df_no_DC <- hate_crimes_df %>%
   mutate(hate_crimes_log = log(hate_crimes_per_100k_splc))
 
 final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
-plot(final_model_no_DC)
+plot(final_model_no_DC, caption = "Data comes from FiveThirtyEight Hate Crimes data")
 title("Figure #. Two predictors without DC model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
 ```
 
@@ -254,7 +253,7 @@ hate_crimes_df %>%
   drop_na(perc_non_citizen) %>%
   dplyr::select(!(state:urbanization)) %>% 
   cor() %>% 
-  corrplot::corrplot(method = "square", addCoef.col = "black", tl.col="black", tl.srt=45, insig = "blank", diag=FALSE, number.cex = .7, title = "Figure 5. Correlation Matrix", mar = c(0,0,1,0))
+  corrplot::corrplot(method = "square", addCoef.col = "black", tl.col="black", tl.srt=45, insig = "blank", diag=FALSE, number.cex = .7, title = "Figure 5. Correlation Matrix", mar = c(0,0,1,0), caption = "Data comes from FiveThirtyEight Hate Crimes data")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -327,7 +326,7 @@ par(mfrow=c(1,2))
 plot(1:7, rs$cp, xlab="No. of parameters", ylab="Cp Statistic")
 abline(0,1)
 
-plot(1:7, rs$adjr2, xlab="No. of parameters", ylab="Adj R2")
+plot(1:7, rs$adjr2, xlab="No. of parameters", ylab="Adj R2", caption = "Data comes from FiveThirtyEight Hate Crimes data")
 title("Figure 8. Mallow's Cp and Adjusted R-Squared by # Parameters", side = 3, line = -2, outer = TRUE)
 ```
 
