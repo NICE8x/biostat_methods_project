@@ -92,7 +92,9 @@ Next, we plotted potential interactions between the continuous variables and eac
 
 #### Model Development and Validation
 
-We began by performing two automated procedures for model variable selection (forward and backward stepwise selection). We then used two criterion based approaches (Mallow's Cp and adjusted r-squared). Using these results, we then identified the two best models which maximize parsimony, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature. 
+We began by performing two automated procedures for model variable selection (forward and backward stepwise selection). We then used two criterion based approaches (Mallow's Cp and adjusted r-squared). These two criterion based approaches in R, each generated the best performing model which optimizes the given criterion for each possible number of predictors. The first of these approaches used Mallow's Cp criterion, which compares the predictive ability of model subsets to the full model. To visualize these results, we generated a plot containing the Cp criterion distribution for the top performing model for each number of predictors (Figure 8).  The next approach used adjusted r-squared which favors models with a smaller SSE but also penalizes for additional predictors. We generated a plot of the distribution of the adjusted R squared statistic for the top performing model for each number of included predictors (Figure 9). 
+
+Using these results, we then identified the two best models which maximize parsimony, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature.  We then compared these two models using an analysis of variance (a partial F-test for nested models). 
  
 We repeated this process of model selection on the dataset excluding any observed outliers. 
 
@@ -106,7 +108,7 @@ The generated Box Cox transformation plot indicates that a lambda of 0 (i.e. a n
 
 Looking at the Residuals vs Leverage plot generated from the regression model including all possible covariates, the District of Columbia is clearly outside of the Cook's Distance line, and thus we concluded that this point is an outlier and a potential influential point.
 
-A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). Continuous variables show their mean, standard deviation, median, quartiles 1 and 3, their minimum to maximum range of values, and number of missing values. Categorical variables show their factor levels (i.e. high and low), percents of each factor level within the data set, and number of missing values as well. Percent of population that are not U.S. citizens is the only variable containing missing values (2 missing).
+A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). Continuous variables show their mean, standard deviation, median, quartiles 1 and 3, their minimum to maximum range of values, and number of missing values. Categorical variables show their factor levels (i.e. high and low), percents of each factor level within the data set, and number of missing values as well. Percent of population that are not U.S. citizens is the only variable containing missing values (2 missing).  FIX THIS PARAGRAPH!
 
 #### Multicollinearity and Interactions
 
@@ -122,30 +124,40 @@ When performing regression analyses for all of the above interactions for each d
 
 #### Model Development and Validation
 
-We began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the log hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini Index was the most significant independent predictor of state hate crime rate when controlling for all other covariates; percent high school graduates variables was the only other statistically and independently significant variable (Majumder, 2017). 
+We began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the natural log transformed hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini Index was the most significant independent predictor of state hate crime rate when controlling for all other covariates and that the percent high school graduates variable was the only other statistically and independently significant variable (Majumder, 2017). 
 
-To generate our own models maximizing model parsimony and predictive performance, we employed two automated procedures: backward and forward selection. While the model proposed during forward selection contained all provided variables (Adjusted R-squared = 0.1849), the model generated through backwards selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = 0.2868). The only included predictors were the Gini Index, and the percent of high school graduates variables. 
+The model proposed during forward stepwise selection contained all variables provided in the original dataset (Adjusted R-squared = 0.1849).  The model generated through backward stepwise selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = 0.2868). The only included predictors were the gini index, and the percent of high school graduates; both of which were significant.  When the District of Columbia is removed from the dataset however, the gini index is no longer statistically significant at a 0.05 significance level indicating that the District of Columbia is an influential point.  The adjusted R-squared of the two-predictor model decreases as well when the District of Columbia is removed(from 0.2541 to 0.1185).
 
-We then employed two criterion based approaches in R, each of which generated the two best performing models which optimize the given criterion for each possible number of predictors. The first of these approaches used the Cp criterion, which compares the predictive ability of model subsets to the full model. To visualize these results, we generated a plot containing the Cp criterion distribution for the top performing model for each number of predictors (Figure 8). This shows that the best performing model with 2 covariates (Gini Index and percent high school graduates) had the best predictive performance as compared to the top performing models of all other possible sizes. 
+Both Mallow's Cp and the adjusted r-squared criterion confirmed that the best model that includes two variables includes gini index and the percent of high school graduates.  Further, looking at the plot for Mallow's Cp showed that the model with only two predictors had the lowest Cp value.  Looking at the plot for adjusted r-squared showed that the model with 3 predictors (gini index, the percent of hs graduates, and unemployment) had the highest adjusted r-squared value.  However, the adjusted r-squared for the model with 3 covariates was less than 6% greater than the adjusted r-squared for the model with only 2 covariates.  Further the partial F-test for nested models shows that adding the unemployment variable does not significantly improve the model.  All of these results hold true when the District of Columbia is removed from the dataset.
 
-We also isolated the top two best performing models per number of predictors using the adjusted R squared criterion. We then generated a plot of the distribution of the adjusted R squared statistic for the top performing model for each number of included predictors (Figure 9). Results show that the model with three predictors performed the best, with an R squared value marginally higher than that of the two parameter model. This three-predictor model contains the following variables: Gini Index, percent high school graduates, and unemployment. 
+Through cross-validation, we determined that the aforementioned two-predictor model also had better predictive performance when including the District of Columbia.  The CV RMSE values are essentially the same (0.5948853 for 2 covariates vs 0.6038494 for 3 covariates and the CV adjusted r-squared is slightly higher for the two-predictor model(0.2943289 vs 0.2783783).  When excluding the District of Columbia, the two different models essentially perform the same.  Both models have similar CV RMSE values and the CV adjusted r-squared for the three-predictor model is only slightly higher than the two-predictor model(0.1730294 vs 0.1530310).  This indicates that the addition of unemployment as a third predictor did not significantly add to model performance whether the District of Columbia is included or not (Table 4).  The two-predictor model, whether the District of Columbia is included or not, performs well as a predictive model since the model's RMSE and adjusted r-squared are very similar to the CV average RMSE and adjusted r-squared.
 
-Through cross-validation, we determined that the aforementioned two-predictor model also had better predictive performance (RMSE = 0.5949 than the  three-predictor model (RMSE = 0.6038), indicating that the addition of unemployment as a third predictor did not significantly add to model performance (Table 4). This is particularly apparent as this variable is not significant when added to the model.
 
-Finally, because Washington DC was previously determined to be an outlier, we replicated all model generation steps excluding it. When including all possible parameters, no variables were found to be significant predictors of hate crime rate, controlling for all other variables. When running the two-parameter model on the data excluding Washington DC, the Gini Index became an insignificant predictor; only the percent population of high school graduates variable was a significant parameter. The adjusted R-squared of the total model decreased as well (from 0.2541 to 0.1185). However, predictive value increased (RMSE = 0.5554, MAE = 0.4741).
-
-[INCLUDE TABLE OF RMSE AND ADJUSTED R SQUARED FOR MODELS CONTAINING DC AND NOT CONTAINING DC - TESSA]
+[ADD FIGURE NUMBER AND THEN CITE SOMEWHERE ABOVE]
 
 ## Discussion/Conclusion
 
-After extensive analyses and modeling, we found that the optimal models in terms of goodness of fit and predictive value contained Gini index and percent population with a high school degree, with the latter variable being a more significant predictor of hate crime. However, these two predictors only accounted for 25.4% of the variability in the data. 
+After extensive analyses and modeling, we found that the optimal model in terms of goodness of fit and predictive value contained Gini index and percent population with a high school degree, with the latter variable being a more significant predictor of hate crime. However, these two predictors only accounted for 25.4% of the variability in the data. 
 
-The drastic changes in predictor significance and adjusted R-squared between the model including and excluding Washington DC suggest that the district is indeed an influential point. The district has the highest hate crime rate and the highest income inequality out of all the states. 
+The change in predictor significance of gini index and the adjusted r-squared between the model including and excluding the District of Columbia suggests it is indeed an influential point. The District of Columbia has the highest hate crime rate and the highest income inequality out of all the states. 
 
 It is possible that other factors not included in our dataset, such as percentage of the population who are LGBTQ+ or religious minorities, may also be important predictors of hate crime.
 
+ADD PARAGRAPH-WHY IS THIS STUDY IMPORTANT???
+
+Unfortunately the data for hate crime rates was missing for four states.  These four states may have drastically different hate crime rates than the rest of the states and could potentially change the significance of the predictors and impact the predictive ability of our models.  
+
+It is important to note that a natural logarithmic transformation of the outcome was performed in order to satisfy the assumptions of linear regression (residual homoscedasticity and normality) which impacts the modeling results.  
+
+Our final model which included significant predictors did not account for much of the variance in the data which implies other variables not in the data should be included in future studies of hate crime rates.  Such variables may include variables related to the politics of people in the state or the percent of the population that are LGBTQ+ or percent of the population that belongs to a religious minority as one study showed that religious hate crimes are on the rise(“Incidents and Offenses.” FBI, FBI, 29 Oct. 2019).
+
+
+-why is this important?
 - limitations
+-assumptions
 - suggestions for possible future studies 
+
+"Each figure and table should be of publishable quality and well notated, i.e., labeled and/or captioned"
 
 ## Figures and Tables
 
@@ -279,11 +291,11 @@ hc = hate_crimes_df %>%
   mutate(unemployment = as.numeric(unemployment),
          urbanization = as.numeric(urbanization))
 
-# leaps::leaps(x = hc[,1:7], y = hc[,8], nbest=2, method="Cp")
+# leaps::leaps(x = hc[,1:7], y = hc[,8], nbest=1, method="Cp")
 
 # Printing the 2 best models of each size, using the adjusted R squared criterion:
 
-# leaps::leaps(x = hc[,1:7], y = hc[,8], nbest=2, method="adjr2")
+# leaps::leaps(x = hc[,1:7], y = hc[,8], nbest=1, method="adjr2")
 
 b <- leaps::regsubsets(hate_crimes_log ~ ., data=hc)
 rs <- summary(b)
@@ -300,6 +312,7 @@ title("Figure 8. CP Statistic and Adjusted R-Squared Plots", side = 3, line = -2
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 # ADD TABLE FOR RMSE AND ADJ R SQUARED RESULTS
+#ADD FIGURE NUMBER
 table_rmse_rsquare <- matrix(c(0.2541,0.5417445,0.2943289,0.5948853,0.2571, 0.5341956,0.2783783,0.6038494,0.1185,0.5367246,0.153031,0.5554347,0.125,0.5281813,0.1730294,0.560014),ncol=4,byrow=TRUE)
 colnames(table_rmse_rsquare) <- c("Model adjusted R^2","Model RMSE", "CV adjusted R^2", "CV RMSE")
 rownames(table_rmse_rsquare) <- c("Two predictors with DC","Three predictors with DC","Two predictors without DC","Three predictors without DC")
