@@ -153,8 +153,6 @@ Unfortunately the data for hate crime rates was missing for four states. These f
 
 While testing for variable interactions, we also only considered interactions between the categorical variables and each continuous covariate due to their practical interpretability. However, it is possible that other interactions may exist between the continuous variables, and even three-way interactions that could be incorporated in model development to explain more variability in the data.  
 
-
-=======
 #### Take-aways
 
 Overall, this project identified several significant state-level demographic variables that are associated with hate crime rates. This is of practical importance in health and crime policy implementation and resource allocation. Future work might seek to hone model goodness of fit and predictive performance through consideration of 
@@ -162,7 +160,7 @@ Overall, this project identified several significant state-level demographic var
 To investigate the independent associations of several additional variables not include
 
 
->>>>>>> 95ff44bb0e9069ad398d37da3c14d3d895a7725e
+
 ## Figures and Tables
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
