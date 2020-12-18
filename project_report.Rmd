@@ -106,9 +106,7 @@ The generated Box Cox transformation plot indicates that a lambda of 0 (i.e. a n
 
 Looking at the Residuals vs Leverage plot generated from the regression model including all possible covariates, the District of Columbia is clearly outside of the Cook's Distance line, and thus we concluded that this point is an outlier and a potential influential point.
 
-A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). 
-
-[WRITE SUMMARY OF TABLE RESULTS - Vasili]
+A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). Continuous variables show their mean, standard deviation, median, quartiles 1 and 3, their minimum to maximum range of values, and number of missing values. Categorical variables show their factor levels (i.e. high and low), percents of each factor level within the data set, and number of missing values as well. Percent of population that are not U.S. citizens is the only variable containing missing values (2 missing).
 
 #### Multicollinearity and Interactions
 
