@@ -153,12 +153,6 @@ Unfortunately the data for hate crime rates was missing for four states. These f
 
 While testing for variable interactions, we also only considered interactions between the categorical variables and each continuous covariate due to their practical interpretability. However, it is possible that other interactions may exist between the continuous variables, and even three-way interactions that could be incorporated in model development to explain more variability in the data.  
 
--why is this important?
-- limitations
--assumptions
-- suggestions for possible future studies 
-
-
 ## Figures and Tables
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
