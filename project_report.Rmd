@@ -92,9 +92,9 @@ Next, we plotted potential interactions between the continuous variables and eac
 
 We began by performing two automated procedures for model variable selection (forward and backward stepwise selection). We then used two criterion based approaches (Mallow's Cp and adjusted r-squared). These two criterion based approaches in R each generated the best performing model which optimizes the given criterion for each possible number of predictors. The first of these approaches used Mallow's Cp criterion, which compares the predictive ability of model subsets to the full model. To visualize these results, we generated a plot containing the Cp criterion distribution for the top performing model for each number of predictors (Figure 8).  The next approach used adjusted r-squared which favors models with a smaller SSE but also penalizes for additional predictors. We generated a plot of the distribution of the adjusted R squared statistic for the top performing model for each number of included predictors (Figure 9). 
 
-SAY WE LOOKED AT DIAGNOSTICS FOR THE TWO COVARIATE MODEL WITH AND WITHOUT DC
-
 Using these results, we then identified the two best models which maximize parsimony, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature.  We then compared these two models using an analysis of variance (a partial F-test for nested models). 
+
+We ensured that the model selected after this test did not violate any of the assumptions of linear regression by looking at the four main diagnostic plots (residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage).
  
 We repeated this process of model selection on the dataset excluding any observed outliers. 
 
@@ -226,7 +226,7 @@ h_c_df =
     "Gini Index" = "gini_index",
     "Hate Crime Rate Per 100k" = "hate_crimes_per_100k_splc"
   ) %>%
-  dplyr::select(-state)
+  dplyr::select(-state, -hate_crimes_log)
 
 my_controls = tableby.control(
                total = T,
@@ -259,12 +259,12 @@ hate_crimes_df %>%
 # TABLE 2
 vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_df)) %>%
   round(.,3) %>%
-  knitr::kable(col.names = "VIF", caption = "VIF Values")
+  knitr::kable(col.names = "VIF", caption = "VIF Values") 
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 # FIGURE 6
-hate_crimes_df %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>% rename(Unemployment = "unemployment") %>% ggplot(aes(x = value, y = hate_crimes_log, color = Unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") + labs(title = "Figure 6. Interaction Plots Between Hate Crime and All Continuous Variables by Unemployment Level", y = "Hate Crime (log)", x = "Value")
+hate_crimes_df %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>% rename(Unemployment = "unemployment") %>% ggplot(aes(x = value, y = hate_crimes_log, color = Unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") + labs(title = "Figure 6. Interaction Plots Between Hate Crime and All Continuous Variables by Unemployment Level", y = "Hate Crime (log)", x = "Value", caption = "Data comes from FiveThirtyEight Hate Crimes data")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -315,7 +315,7 @@ colnames(table_rmse_rsquare) <- c("Model adjusted R^2","Model RMSE", "CV adjuste
 rownames(table_rmse_rsquare) <- c("Two predictors with DC","Three predictors with DC","Two predictors without DC","Three predictors without DC")
 table_rmse_rsquare <- as.table(table_rmse_rsquare)
 table_rmse_rsquare %>%
-  knitr::kable(caption = "Comparison of Adjusted R^2 and RMSE for All Models")
+  knitr::kable(caption = "Comparison of Adjusted R^2 and RMSE for All Models") 
 ```
 
 ## References
