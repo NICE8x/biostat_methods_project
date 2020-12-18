@@ -252,7 +252,14 @@ summary(tab1) %>%
 ## Figure 5
 hate_crimes_df %>% 
   drop_na(perc_non_citizen) %>%
-  dplyr::select(!(state:urbanization)) %>% 
+  dplyr::select(!(state:urbanization), -hate_crimes_per_100k_splc) %>%
+  rename(
+    "Median Hh Income" = "median_household_income",
+    "% Adults >25yrs With HS Degree" = "perc_pop_hs",
+    "% Pop. Not U.S. Citizens" = "perc_non_citizen",
+    "% Pop. Not White" = "perc_non_white",
+    "Gini Index" = "gini_index",
+    "Hate Crimes Rate (log)" = "hate_crimes_log") %>%
   cor() %>% 
   corrplot::corrplot(method = "square", addCoef.col = "black", tl.col="black", tl.srt=45, insig = "blank", diag=FALSE, number.cex = .7, title = "Figure 5. Correlation Matrix", mar = c(0,0,1,0), caption = "Data comes from FiveThirtyEight Hate Crimes data")
 ```
