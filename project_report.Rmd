@@ -71,7 +71,7 @@ The data used for this project included state-level hate crime rates (hate crime
 
 First, we investigated the extent of missing data in our dataset. Four states -- Hawaii, North Dakota, South Dakota, and Wyoming -- did not report hate crime rate data, and thus were excluded from subsequent analyses. Three states -- Maine, Mississippi, and South Dakota -- did not report their percent of residents who were non-citizens. The District of Columbia was included as a state for the purposes of these analyses. 
 
-Using these data, our goal was to assess which of the collected variables, if any, are statistically significantly associated (at a 0.05 significance level) with population-adjusted hate incidents in the United States, to altogether critically examine the article's findings. To do so, we first generated descriptive statistics, including the mean, median, range (min-max), interquartile range, and count of missing entries for each numeric variable, and category percent breakdowns and count of missing entries for categorical variables (Table 1). Notably, the hate crime rate per 100,000 individuals had a mean of 0.315 and range of 0.067 to 1.522, indicating considerable variation in hate crime crimes per 100,000 individuals on a state-level. The mean Gini Index value was 0.456, ranged from 0.419 to 0.532 across the included states, together indicating substantial state-level income inequality in the overall dataset. For categorical variables, the data showed that majority of states had high unemployment and high urbanization at 51.1% each.
+Using these data, our goal was to assess which of the collected variables, if any, are statistically significantly associated (at a 0.05 significance level) with population-adjusted hate incidents in the United States, to altogether critically examine the article's findings. To do so, we first generated descriptive statistics, including the mean, median, range (min-max), interquartile range, and count of missing entries for each numeric variable, and category percent breakdowns and count of missing entries for categorical variables (Table 1). 
 
 
 In order to determine whether any data transformations would be necessary we visualized the distribution of the outcome (population-adjusted hate incidents per 100,000 population) by generating an overlaid density and histogram plot (Figure 1). Multivariable linear regression modeling operates under several assumptions, which include residual homoscedasticity (constant variance) and normality. Initial exploration of the distribution of the hate crimes rate data showed a strong departure from standard normal distribution with significant right skewness. Thus, we performed a Box Cox transformation to isolate the 'best' power transformation on the hate crimes rate variable to achieve normal residuals. 
@@ -105,7 +105,7 @@ The generated Box Cox transformation plot indicates that a lambda of 0 (i.e. a n
 
 Examining the Residuals vs Leverage plot generated from the regression model including all possible covariates, we see that the District of Columbia is clearly outside of the Cook's Distance line; thus we concluded that this point is an outlier and a potential influential point.
 
-A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). Continuous variables show their mean, standard deviation, median, quartiles 1 and 3, their minimum to maximum range of values, and number of missing values. Categorical variables show their factor levels (i.e. high and low), percents of each factor level within the data set, and number of missing values as well. Percent of population that are not U.S. citizens is the only variable containing missing values (2 missing).  FIX THIS PARAGRAPH!
+A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). Notably, the hate crime rate per 100,000 individuals had a mean of 0.315 and range of 0.067 to 1.522, indicating considerable variation in hate crime crimes per 100,000 individuals on a state-level. The mean Gini Index value was 0.456, ranged from 0.419 to 0.532 across the included states, together indicating substantial state-level income inequality in the overall dataset. For categorical variables, the data showed that majority of states had high unemployment and high urbanization at 51.1% each.
 
 #### Multicollinearity and Interactions
 
@@ -156,6 +156,40 @@ It is important to note that a natural logarithmic transformation of the outcome
 "Each figure and table should be of publishable quality and well notated, i.e., labeled and/or captioned"
 
 ## Figures and Tables
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+## TABLE 1
+h_c_df =
+  hate_crimes_df %>%
+  rename(
+    Unemployment = "unemployment",
+    Urbanization = "urbanization",
+    "Median Household Income" = "median_household_income",
+    "% Adults >25yrs With HS Degree" = "perc_pop_hs",
+    "% of Population Not U.S. Citizens" = "perc_non_citizen",
+    "% of Population Not White" = "perc_non_white",
+    "Gini Index" = "gini_index",
+    "Hate Crime Rate Per 100k" = "hate_crimes_per_100k_splc"
+  ) %>%
+  dplyr::select(-state, -hate_crimes_log)
+
+my_controls = tableby.control(
+               total = T,
+               test=F,  
+               numeric.stats = c("meansd", "medianq1q3", "range", "Nmiss2"),
+               cat.stats = c("countpct", "Nmiss2"),
+               stats.labels = list(
+               meansd = "Mean (SD)",
+               medianq1q3 = "Median (Q1, Q3)",
+               range = "Min - Max",
+               Nmiss2 = "Missing",
+               countpct = "N (%)"))
+
+tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
+
+summary(tab1) %>% 
+  knitr::kable(caption = "Descriptive Statistics of States Reporting Hate Crimes")
+```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 ## FIGURE 1
@@ -212,40 +246,6 @@ hate_crimes_df_no_DC <- hate_crimes_df %>%
 final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
 plot(final_model_no_DC)
 title("Figure #. Two predictors without DC model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE, sub = "Data comes from FiveThirtyEight Hate Crimes data")
-```
-
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-## TABLE 1
-h_c_df =
-  hate_crimes_df %>%
-  rename(
-    Unemployment = "unemployment",
-    Urbanization = "urbanization",
-    "Median Household Income" = "median_household_income",
-    "% Adults >25yrs With HS Degree" = "perc_pop_hs",
-    "% of Population Not U.S. Citizens" = "perc_non_citizen",
-    "% of Population Not White" = "perc_non_white",
-    "Gini Index" = "gini_index",
-    "Hate Crime Rate Per 100k" = "hate_crimes_per_100k_splc"
-  ) %>%
-  dplyr::select(-state, -hate_crimes_log)
-
-my_controls = tableby.control(
-               total = T,
-               test=F,  
-               numeric.stats = c("meansd", "medianq1q3", "range", "Nmiss2"),
-               cat.stats = c("countpct", "Nmiss2"),
-               stats.labels = list(
-               meansd = "Mean (SD)",
-               medianq1q3 = "Median (Q1, Q3)",
-               range = "Min - Max",
-               Nmiss2 = "Missing",
-               countpct = "N (%)"))
-
-tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
-
-summary(tab1) %>% 
-  knitr::kable(caption = "Descriptive Statistics of States Reporting Hate Crimes")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
