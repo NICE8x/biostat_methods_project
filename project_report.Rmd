@@ -24,39 +24,31 @@ hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
 ```
 
 ## Abstract
-**Background:**\ 
+**Background:**
 Hate crimes are a growing public health threat in the United States and are the highest priority of the FBI’s civil rights program (Miller et al., 2016). Existing research suggests that various community-level socioeconomic factors, such as income inequality, are associated with hate crime rate. 
 
-**Objectives:**\
+**Objectives:**
 We aimed to analyze the association between state-level variables and rate of population-adjusted hate incidents using data reported to the Southern Poverty Law Center and analyzed in a 2017 FiveThrityEight article (Majumder, 2017).
 
-**Methods:**\
-The data used for this project included state-level hate crime rates per 100,000 individuals in the population, as reported by the Southern Poverty Law Center in 2016. Data elements also included socioeconomic factors that are hypothesized to be associated with hate crime. 
-
-The association between these socioeconomic factors and the hate crime rate outcome were examined using multivariable linear regression analysis. We then used automated and criterion-based approaches, considering the body of scientific evidence with regard to significant and practically important factors associated with hate crimes, to identify a regression model which optimizes parsimony and goodness of fit.
+**Methods:**
+We used data containing state-level hate crime rates per 100,000 individuals and several socioeconomic factors hypothesized to be associated with hate crime. The association between these socioeconomic factors and the hate crime rate outcome were examined using multivariable linear regression analysis. We then used automated and criterion-based approaches to identify a regression model which optimizes parsimony and goodness of fit.
 
 Multicollinearity of covariates, outliers, and variable interaction were also tested for and considered in model development. Model goodness of fit and predictive performance were assessed through model diagnostics and validation. All abovementioned steps were performed before and after removing any outliers in the data.
 
-**Results and Conclusions:**\
+**Results and Conclusions:**
 Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significant predictors of state-level hate crime rate when controlling for all other covariates.  When these two predictors were the only parameters included in the model they were both positively associated with the outcome. 
 
-Multicollinearity tests showed possible correlation between median household income and percentage of population with a high school degree, as well as the percent non-citizen and percent non-white variables. No statistically significant interactions were identified between any variables in regression modeling. 
+Multicollinearity tests showed possible correlation between median household income and percentage of population with a high school degree, as well as the percent non-citizen and percent non-white variables.
 
 Our identified model optimizing goodness of fit and predictive performance contained only the Gini Index and percent population with a high school degree as parameters, both of which were significant. Washington DC, the single outlier in the data, was found to be an influential point, as its absence from the data nullified the significance of the Gini Index predictor in the two-parameter model. 
 
 ## Introduction
+Hate crimes are a growing public health threat in the United States; as of 2020, the national rate of hate crimes in the United States is at its highest level in over a decade ["FBI Incidents and Offenses," 2019]. Existing research suggests that community-level socioeconomic factors such as racial breakdown, population density, level of educational attainment, and economic considerations (median income, poverty level, job availability) may be significant predictors of regional and state-level rates of hate crimes (“FBI: Variables Affecting Crime,” 2012, Shively, 2005, Van Dyke et al., 2014). A 2017 FiveThirtyEight article titled, "Higher Rates Of Hate Crimes Are Tied To Income Inequality," used 2016 FBI and Southern Poverty Law Center data to assess the association between state-level hate crime rate and select socioeconomic variables (Majumder, 2017).  
 
-As of 2020, the national rate of hate crimes in the United States is at its highest level in over a decade ["FBI Incidents and Offenses," 2019]. In the days following the 2016 US Presidential election, an average of 90 hate crimes per day were reported to the Southern Poverty Law Center (Miller et al., 2016). 
-
-Existing research suggests that community-level socioeconomic factors such as racial breakdown, population density, level of educational attainment, and economic considerations (median income, poverty level, job availability) may be significant predictors of regional and state-level rates of hate crimes (“FBI: Variables Affecting Crime,” 2012, Shively, 2005, Van Dyke et al., 2014). A 2017 FiveThirtyEight article titled, "Higher Rates Of Hate Crimes Are Tied To Income Inequality," used 2016 FBI and Southern Poverty Law Center data to assess the association between state-level hate crime rate and select socioeconomic variables (Majumder, 2017).  
-
-For this project, we used this dataset to critically analyze this research team's findings to identify state-level variables associated with rates of hate crimes, and to generate a high performing predictive model for population-adjusted hate incidents in the United States.   
-
+For this project, we used this dataset to critically analyze this article's findings to identify state-level socioeconomic variables significantly associated with hate crime rate, and to generate a high performing predictive model for population-adjusted hate incidents in the United States.   
 
 ## Methods
-
 #### Data Exploration
-
 The data used for this project included state-level hate crime rates (hate crimes per 100,000 population), as reported by the Southern Poverty Law Center during the first weeks of November, 2016. Collected state-level demographic variables include: 
 
 - Unemployment rate (high vs low) (as of 2016)
@@ -78,13 +70,11 @@ To identify any outliers, and thus potential influential points, we plotted the 
 Any states that were deemed to be outliers were included in the subsequent analyses, but the same analyses were also run a second time on the dataset excluding the outliers for comparison in order to determine if the outlier was indeed influencing the results of our analyses.
 
 #### Multicollinearity and Interactions
-
 To investigate the existence of multicollinearity between each of the continuous variables, we generated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multicollinearity; thus, in these instances, at least one of those correlated variables were dropped during subsequent model development. Additionally, we calculated the variance inflation factors (VIFs) for all variables, which quantify the degree of multicollinearity between the given predictor all other remaining covariates. 
 
 Next, we plotted potential interactions between the continuous variables and each categorical variable, urbanization and unemployment, to see if the effect of each continuous variable on the log rate of hate crimes is different with respect to the levels of either urbanization or unemployment. These plots were created once including outliers and once excluding outliers. We then formally tested for significant interactions between any variable pairs with intersecting lines. All interaction tests were performed on datasets containing and not containing any observed outliers. 
 
 #### Model Development and Validation
-
 We began by performing two automated procedures for model variable selection (forward and backward stepwise selection). We then used two criterion based approaches (Mallow's Cp and adjusted r-squared). These two criterion based approaches each generated the best performing model which optimizes the given criterion for each possible number of predictors. The first of these approaches used Mallow's Cp criterion, which compares the predictive ability of model subsets to the full model. The most ideal model will have a Cp value less than or equal to the number of predictors in the model.  To visualize these results, we generated a plot containing the Cp criterion distribution for the top performing model for each number of predictors (Figure 8).  
 
 The next approach used adjusted r-squared which favors models with a smaller sum of squares error (the sum of the differences between each observed value and predicted value) but also penalizes for additional predictors. By this criterion, the best model will have the highest adjusted r-squared value. We generated a plot of the distribution of the adjusted R squared statistic for the top performing model for each number of included predictors (Figure 9). 
@@ -99,9 +89,7 @@ To assess the predictive performance of the top two identified models, we perfor
 
 
 ## Results
-
 #### Data Exploration
-
 The generated Box Cox transformation plot indicates that a lambda of 0 (i.e. a natural logarithmic transformation of the hate crimes rate outcome) would most closely approximate normal distribution (Figure 2). Thus, we operated moving forward in model development using the natural log of hate crimes rate as the outcome of interest. 
 
 Examining the Residuals vs Leverage plot generated from the regression model including all possible covariates, we see that District of Columbia is clearly outside of the Cook's Distance line; thus we concluded that this point is an outlier and a potential influential point (Figure #).
@@ -109,7 +97,6 @@ Examining the Residuals vs Leverage plot generated from the regression model inc
 A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). Notably, the hate crime rate per 100,000 individuals had a mean of 0.315 and range of 0.067 to 1.522, indicating considerable variation in state-level hate crime rates per 100,000 individuals. The Gini Index values, ranging from 0.419 to 0.532 across the included states, indicating substantial state-level income inequality in the overall dataset. A majority of states had both high urbanization and unemployment (51.1% each) (Table 1). 
 
 #### Multicollinearity and Interactions
-
 The correlation matrix and variance inflation factors (VIFs) show potential multicollinearity between percent non-citizen and percent non-white, and median household income and percentage of population with a high school degree. All other correlation coefficients do not suggest multi-collinearity. Correlation matrix and VIF results are visualized in Table 2 and Figure #, respectively (Table 2, Figure #). 
 
 For the dataset containing DC, the interaction plots suggest potential interaction between unemployment and median household income, as well as between unemployment and percent population of high school graduates, as seen by the differing directions in slope ("crossing lines"). The urbanization interaction plots for these data suggest that there may be potential interaction between urbanization and each of the following variables: Gini Index, median household income, percent non-citizen, and percent population of high school graduates.
@@ -119,7 +106,6 @@ For the dataset excluding DC, the interaction plots show potential interaction b
 When performing regression analyses for all of the above interactions for each dataset, no interactions were found to be statistically significant at a 0.05 significance level.
 
 #### Model Development and Validation
-
 We began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the natural log transformed hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini Index was the most significant independent predictor of state hate crime rate when controlling for all other covariates. and that the percent high school graduates variable was the only other statistically and independently significant variable (Majumder, 2017). All subsequent model development used only the natural log transformed outcome. 
 
 The model proposed during forward stepwise selection contained all variables provided in the original dataset (Adjusted R-squared = 0.1849). The model generated through backward stepwise selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = 0.2868). The only included predictors in this model were the Gini Index, and the percent of high school graduates, both of which were significant.  When DC was removed from the dataset, however, the Gini Index was no longer statistically significant at a 0.05 significance level in the two-parameter model, indicating that DC is an influential point. The adjusted R-squared of the two-predictor model decreases as well when DC is removed (from 0.2541 to 0.1185).
@@ -137,9 +123,7 @@ Through cross-validation, we determined that the aforementioned two-predictor mo
 The two-predictor model, whether DC is included or not, performs well as a predictive model since the model's RMSE and adjusted r-squared were very similar to the CV average RMSE and adjusted r-squared.
 
 ## Discussion/Conclusion
-
 #### Interpretation of findings
-
 After extensive analyses and modeling, the Gini Index and percent population with a high school degree variables were the only covariates found to be significantly and independently associated with hate crime rate. However, the model containing only these parameters, despite having the most optimal goodness of fit and predictive performance, accounted for only 25.4% of the variability in the data.  
 
 This implies that there may be other variables yet unaccounted for in model development which may predict hate crime rate. For example, existing research has found sexuality, gender identity, and religion to be factors significantly associated with hate crime rate (“FBI: Incidents and Offenses,” 2019).  
@@ -147,19 +131,17 @@ This implies that there may be other variables yet unaccounted for in model deve
 The positive association between Gini Index and log transformed hate crime rate indicates that high wealth inequality is associated with high hate crime rate. Interestingly, the association between percent high school graduates and log transformed hate crime was also positive. This result may be a reflection of the presence of an unmeasured confounding variable causing a spurious association or a more complex phenomenon occurring altogether. For example, the US Department of Justice has reported dramatic increases in school-based hate crimes in recent years, which could serve as an explanation for higher hate crime rates among states with high proportions of high school graduates (Keierleber, 2018).
 
 #### Limitations
-
 Unfortunately the data for hate crime rates was missing for four states. These four states may have drastically different hate crime rates than the rest of the country and could potentially influence the significance of the predictors and/or the predictive ability of our models. As a result, these findings may not be generalizable to the entire United States.
 
 While testing for variable interactions, we also only considered interactions between the categorical variables and each continuous covariate due to their practical interpretability. However, it is possible that other interactions may exist between the continuous variables, and even three-way interactions that could be incorporated in model development to explain more variability in the data.  
 
 #### Take-aways
-
 Overall, this project identified several significant state-level demographic variables that are associated with hate crime rates. This is of practical importance for health and crime policy implementation and resource allocation. Future work might seek to hone model goodness of fit and predictive performance through consideration of additional variables, such as percent religious minorities. 
 
 
 ## Figures and Tables
 
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
+```{r message = FALSE, warning = FALSE, echo = FALSE}
 ## TABLE 1
 h_c_df =
   hate_crimes_df %>%
@@ -203,7 +185,7 @@ hate_crimes_df %>%
     title = "Figure 1. Untransformed distribution of hate crimes per 100k population",
     x = "Hate Crimes Per 100k",
     y = "Density",
-    caption = "Data comes from FiveThirtyEight Hate Crimes data"
+    caption = "The distribution of hate crimes across the states is clearly right-skewed, with a majority of states between 0.1-0.5 hate crimes per 100k."
   )
 ```
 
@@ -230,7 +212,7 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
     x = "State",
     y = "Log Hate Crimes per 100,000 Population",
     title = "Figure 3. Log Hate Crimes Rate by State",
-    caption = "Data comes from FiveThirtyEight Hate Crimes data"
+    caption = "States are arranged in increasing order of log hate crime. DC's hate crime rate seems abnormally high"
   )
 ```
 
@@ -265,7 +247,7 @@ hate_crimes_df %>%
   corrplot::corrplot(method = "square", addCoef.col = "black", tl.col="black", tl.srt=60, insig = "blank", diag=FALSE, number.cex = .7, title = "Figure 5. Correlation Matrix", mar = c(0,0,1,0), caption = "Data comes from FiveThirtyEight Hate Crimes data")
 ```
 
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, results='asis'}
 # TABLE 2
 hate_crimes_vif =
   hate_crimes_df %>%
@@ -281,7 +263,7 @@ hate_crimes_vif =
 
 vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data = hate_crimes_vif)) %>%
   round(.,3) %>%
-  knitr::kable(col.names = "VIF", caption = "Table of variance inflation factors for each variable.")
+  knitr::kable(col.names = "VIF", format = "latex", caption = "Table of variance inflation factors for each variable.")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -352,8 +334,7 @@ title("Figure 8. Mallow's Cp and Adjusted R-Squared by # Parameters", side = 3, 
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
-# ADD TABLE FOR RMSE AND ADJ R SQUARED RESULTS
-#ADD FIGURE NUMBER
+# Table 3
 table_rmse_rsquare <- matrix(c(0.2541,0.5417445,0.2943289,0.5948853,0.2571, 0.5341956,0.2783783,0.6038494,0.1185,0.5367246,0.153031,0.5554347,0.125,0.5281813,0.1730294,0.560014),ncol=4,byrow=TRUE)
 colnames(table_rmse_rsquare) <- c("Model adjusted R^2","Model RMSE", "CV adjusted R^2", "CV RMSE")
 rownames(table_rmse_rsquare) <- c("Two predictors with DC","Three predictors with DC","Two predictors without DC","Three predictors without DC")
@@ -361,6 +342,10 @@ table_rmse_rsquare <- as.table(table_rmse_rsquare)
 table_rmse_rsquare %>%
   knitr::kable(caption = "Comparison of Adjusted R^2 and RMSE for All Models") 
 ```
+
+
+
+
 
 ## References
 
