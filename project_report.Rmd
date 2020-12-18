@@ -36,12 +36,10 @@ The data used for this project included state-level hate crime rates per 100,000
 
 The association between these socioeconomic factors and the hate crime rate outcome were examined using multivariable linear regression analysis. We then used automated and criterion-based approaches, considering the body of scientific evidence with regard to significant and practically important factors associated with hate crimes, to identify a regression model which optimizes parsimony and goodness of fit.
 
-Multicollinearity of covariates, outliers, and variable interaction were also tested for and considered in model development. 
-
-Model goodness of fit and predictive performance through model diagnostics and validation. All abovementioned steps were performed before and after removing any outlier in the data.
+Multicollinearity of covariates, outliers, and variable interaction were also tested for and considered in model development. Model goodness of fit and predictive performance were assessed through model diagnostics and validation. All abovementioned steps were performed before and after removing any outliers in the data.
 
 **Results and Conclusions:**\
-Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significant predictors of state-level hate crime rate when controlling for all other covariates.  When these two predictors are the only parameters included in the model they are both positively associated with the outcome. 
+Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significant predictors of state-level hate crime rate when controlling for all other covariates.  When these two predictors were the only parameters included in the model they were both positively associated with the outcome. 
 
 Multicollinearity tests showed possible correlation between median household income and percentage of population with a high school degree, as well as the percent non-citizen and percent non-white variables. No statistically significant interactions were identified between any variables in regression modeling. 
 
@@ -51,7 +49,7 @@ Our identified model optimizing goodness of fit and predictive performance conta
 
 As of 2020, the national rate of hate crimes in the United States is at its highest level in over a decade ["FBI Incidents and Offenses," 2019]. In the days following the 2016 US Presidential election, an average of 90 hate crimes per day were reported to the Southern Poverty Law Center (Miller et al., 2016). 
 
-Existing research suggests that community-level socioeconomic factors such as racial breakdown, population density, level of educational attainment, and economic considerations (median income, poverty level, job availability) may be significant predictors of regional and state-level rates of hate crimes (“FBI: Variables Affecting Crime,” 2012, Shively, 2005, Van Dyke et al., 2014). A 2017 FiveThirtyEight article titled, "Higher Rates Of Hate Crimes Are Tied To Income Inequality," used 2016 FBI and Southern Poverty Law Center data to assess the association between hate crime rate and select community-level variables (Majumder, 2017).  
+Existing research suggests that community-level socioeconomic factors such as racial breakdown, population density, level of educational attainment, and economic considerations (median income, poverty level, job availability) may be significant predictors of regional and state-level rates of hate crimes (“FBI: Variables Affecting Crime,” 2012, Shively, 2005, Van Dyke et al., 2014). A 2017 FiveThirtyEight article titled, "Higher Rates Of Hate Crimes Are Tied To Income Inequality," used 2016 FBI and Southern Poverty Law Center data to assess the association between state-level hate crime rate and select socioeconomic variables (Majumder, 2017).  
 
 For this project, we used this dataset to critically analyze this research team's findings to identify state-level variables associated with rates of hate crimes, and to generate a high performing predictive model for population-adjusted hate incidents in the United States.   
 
