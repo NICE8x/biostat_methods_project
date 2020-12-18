@@ -17,6 +17,7 @@ library(car)
 library(caret)
 ```
 
+Import Data
 
 ```{r load data}
 hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
@@ -29,9 +30,10 @@ hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
 ```
 
 4 Missing states (Hawaii, North Dakota, South Dakota, Wyoming)
-
 Percent Non Citizen Maine is missing
 
+
+Look at distribution of the outcome
 
 ```{r descriptive stats}
 hate_crimes_df %>%
@@ -45,6 +47,7 @@ hate_crimes_df %>%
   )
 ```
 
+Distribution of outcome after natural log transformation
 
 ```{r attempt transformation of outcome}
 hate_crimes_df %>%
@@ -55,13 +58,14 @@ hate_crimes_df %>%
 ```
 
 
-Add Box Cox Transformation Here
-
+Add natural log transform to dataset
 
 ```{r add log transform}
 hate_crimes_df <- hate_crimes_df %>%
   mutate(hate_crimes_log = log(hate_crimes_per_100k_splc))
 ```
+
+Plot outcome in order by state
 
 ```{r box plot}
 hate_crimes_df %>%
@@ -71,21 +75,15 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1))
 ```
 
-DESCRIPTIVE STATISTICS 
-Table 1
-More boxplots
-etc.
-Box Cox
-2 people:Stella, Vasili
-
-
-Regress given covariate (original model given by article)
+Remove any remaining missing data
 
 ```{r}
 hate_crimes_df = hate_crimes_df %>%
   drop_na()
 ```
 
+
+Regress given covariates (original model given by article)
 
 ```{r}
 summary(lm(hate_crimes_per_100k_splc ~ . - state - hate_crimes_log, data = hate_crimes_df))
@@ -94,22 +92,59 @@ summary(lm(hate_crimes_per_100k_splc ~ . - state - hate_crimes_log, data = hate_
 Yes, it does seem that the Gini index (income inequality) is the most significant predictor of hate crime and percent population with a HS degree is the only other significant predictor. Both of these results agree with the article.
 
 
+Regress given covariates now on the transformed outcome (natural log)
+
 ```{r}
 summary(lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc, data = hate_crimes_df))
 ```
 
-Here we re-ran the same model, but using log of the output. We obtain the same results in terms of sigificant variables. 
+Here we re-ran the same model, but using log of the output. We obtain the same results in terms of significant variables. 
 
-### Put modeling results for just gini index as variable and log hate crimes as outcome
 
-Lets do research to pick other covariates to include in our model
+Modeling results for just gini index as variable and log hate crimes as outcome
+
+```{r}
+summary(lm(hate_crimes_log ~ gini_index, data = hate_crimes_df))
+```
+
+Research to pick other covariates to potentially include in our model.
 
 Variables shown to be statistically significant in existent literature: 
 
 - Race, religion, sexual orientation - Source: Study of Literature And Legislation on Hate Crime in America (147 page report for the US Justice Department) (https://www.ncjrs.gov/pdffiles1/nij/grants/210300.pdf)
 - Urbanization/population density, economic considerations (median income, poverty level, job availability), cultural and education factors - Source: US FBI website (https://ucr.fbi.gov/hate-crime/2011/resources/variables-affecting-crime)
+-Article supports percent non-white as an important variable (for college campuses): https://journals-sagepub-com.proxy.lib.umich.edu/doi/full/10.1177/1043986214536666?utm_source=summon&utm_medium=discovery-provider
+-Anti-hispanic and religious hate crimes on the rise: https://apnews.com/article/hate-crimes-rise-fbi-data-ebbcadca8458aba96575da905650120d
 
-Can also do a backwards stepwise selection to come up with a preliminary model and then add/subtract from that too
+
+
+
+Correlation matrix of all numeric variables with each other and calculate VIFs:
+
+```{r cor mat}
+# correlation matrix
+hate_crimes_df %>% 
+  drop_na(perc_non_citizen) %>%
+  dplyr::select(!(state:urbanization)) %>% 
+  cor() %>% 
+  round(.,3) %>% knitr::kable()
+
+#VIF
+vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_df)) %>%
+  round(.,3) %>%
+  knitr::kable()
+```
+
+Out of the continuous variables, percent non-citizen and percent non-white has a correlation coefficient of 0.753, median household income and percentage of population with a HS degree has a correlation coefficient of 0.651, both of which may suggest multi-collinearity. All other variables do not suggest multi-collinearity.
+
+
+Drop either perc non citizen or per non white
+Drop median household income due to multicollinearity with perc pop with HS degree
+
+
+
+
+Backwards stepwise selection to come up with a preliminary model 
 
 ```{r model_stuff, message = FALSE, warning = FALSE}
 # backwards selection
@@ -126,13 +161,18 @@ summary(bw_mod)
 mult.fit.2 <- lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc -perc_pop_hs, data = hate_crimes_df)
 step(mult.fit.2, direction = 'backward')
 
+#Model with gini index and median household income
 bw_mod_no_hs = lm(formula = hate_crimes_log ~ median_household_income + gini_index, 
     data = hate_crimes_df)
 summary(bw_mod_no_hs)
 
+#Model with median household income, perc pop hs, and gini index
 summary(lm(formula = hate_crimes_log ~ median_household_income +perc_pop_hs + gini_index, 
     data = hate_crimes_df))
 ```
+
+
+Forward selection to find alternative preliminary model
 
 ```{r, message = FALSE, warning = FALSE}
 # forward selection
@@ -145,20 +185,29 @@ fw_mod = lm(formula = hate_crimes_log ~ perc_pop_hs + gini_index + unemployment 
 summary(fw_mod)
 ```
 
+Test backwards stepwise selection models including multicollinearity
+
 ```{r, message = FALSE, warning = FALSE}
 # multicollinearity stuff
+
+#Model with perc non white and perc non citizen (and perc pop hs and gini index)
 perc_race1 = lm(formula = hate_crimes_log ~ perc_pop_hs + gini_index + perc_non_white + perc_non_citizen, 
     data = hate_crimes_df)
 summary(perc_race1)
 
+#Model with just perc non citizen (and perc pop hs and gini index)
 perc_race2 = lm(formula = hate_crimes_log ~ perc_pop_hs + gini_index + perc_non_citizen, 
     data = hate_crimes_df)
 summary(perc_race2)
 
+#Model with just perc non white (and perc pop hs and gini index)
 perc_race3 = lm(formula = hate_crimes_log ~ perc_pop_hs + gini_index + perc_non_white, 
     data = hate_crimes_df)
 summary(perc_race3)
 ```
+
+
+Use Cp and Adjusted R^2 to find best models
 
 ```{r, message = FALSE, warning = FALSE}
 # Printing the best models of each size, using the Cp criterion:
@@ -209,6 +258,8 @@ data.frame(
 )
 ```
 
+Use ANOVA to compare the model with 2 covariates and the model with 3 covariates
+
 ```{r, message = FALSE, warning = FALSE}
 # ANOVA
 final_model <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df )
@@ -225,14 +276,18 @@ plot(final_model_unemploy)
 
 ```
 
+DC is an outlier and there is evidence that it may be an influential point.
+
+
 Test a model with interactions between each of the categorical variables and all the continuous variables-(pre-eliminate some continuous variables based on previous analysis).  Interaction between each categorical variable and the perc non white and perc non citizen
 
-Interaction graphs of unemployment with all continuous variables to help with testing interactions:
+Interaction graphs of unemployment with all continuous variables:
 
 ```{r}
 hate_crimes_df %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  ggplot(aes(x = value, y = hate_crimes_log, color = unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") 
 hate_crimes_df_no_DC %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  ggplot(aes(x = value, y = hate_crimes_log, color = unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") 
 ```
+
 
 Interaction graphs of urbanization with all continuous variables:
 
@@ -252,6 +307,7 @@ hate_crimes_df_no_DC %>%
   facet_wrap(~cont_var, scales = "free_x")
 ```
 
+Interaction models including DC
 
 ```{r, message = FALSE, warning = FALSE}}
 # Interactions with DC
@@ -303,7 +359,10 @@ summary(plot_mod_4)
 plot_mod_5 = lm(hate_crimes_log ~ perc_pop_hs*urbanization, data = hate_crimes_df)
 summary(plot_mod_5)
 ```
-There shows to be no significant interactions between either of the categorical variables and the continuous variables. Nor did removing median_household_income (because of multicollinearity) show any significant interactions. There also shows to be no interactions between either of the categorical variables and gini_index and perc_pop_hs in the smaller models. 
+
+
+
+Interaction models excluding DC
 
 ```{r DC code}
 #No DC code and interactions
@@ -360,6 +419,11 @@ plot_mod_3 = lm(hate_crimes_log ~ perc_pop_hs*urbanization, data = hate_crimes_d
 summary(plot_mod_3)
 ```
 
+There shows to be no significant interactions between either of the categorical variables and the continuous variables. Nor did removing median_household_income (because of multicollinearity) show any significant interactions. There also shows to be no interactions between either of the categorical variables and gini_index and perc_pop_hs in the smaller models. 
+
+
+Now find if best models based on Cp and Adjusted R^2 change when DC is removed
+
 ```{r, message = FALSE, warning = FALSE}
 # validation for no DC code
 hc = hate_crimes_df_no_DC %>%
@@ -394,6 +458,8 @@ data.frame(
 )
 ```
 
+Use ANOVA to compare the model with 2 covariates and the model with 3 covariates for the data excluding DC
+
 ```{r, message = FALSE, warning = FALSE}
 # ANOVA
 final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
@@ -411,111 +477,9 @@ plot(final_model_no_DC_unemploy)
 ```
 
 
-Article supports percent non-white as an important variable (for college campuses): https://journals-sagepub-com.proxy.lib.umich.edu/doi/full/10.1177/1043986214536666?utm_source=summon&utm_medium=discovery-provider
+Perform 5-fold Cross Validation looking at the Adjusted R^2 and the RMSE for the 2 covariates and 3 covariates models including DC:
 
-Anti-hispanic and religious hate crimes on the rise: https://apnews.com/article/hate-crimes-rise-fbi-data-ebbcadca8458aba96575da905650120d
-
-Make the association matrix and compare covariates-look for multicollinearity
-3 people: Lily, Caroline, Tessa
-
-Correlation matrix of all numeric variables with each other:
-
-```{r cor mat}
-# correlation matrix
-hate_crimes_df %>% 
-  drop_na(perc_non_citizen) %>%
-  dplyr::select(!(state:urbanization)) %>% 
-  cor() %>% 
-  round(.,3) %>% knitr::kable()
-
-#VIF
-vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_df)) %>%
-  round(.,3) %>%
-  knitr::kable()
-```
-
-Out of the continuous variables, percent non-citizen and percent non-white has a correlation coefficient of 0.753, median household income and percentage of population with a HS degree has a correlation coefficient of 0.651, both of which may suggest multi-collinearity. All other variables do not suggest multi-collinearity.
-
-Calculate VIFs for multicollinearity
-
-Drop either perc non citizen or per non white
-Drop either median household income or perc pop with HS degree-drop median household income due to multicollinearity
-
-
-
-```{r validate the model no DC}
-final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
-sm<-summary(final_model_no_DC)
-sm
-sqrt(mean(sm$residuals^2))
-
-
-set.seed(1)
-data_train<-trainControl(method="cv", number=5)
-
-
-model_caret<-train(hate_crimes_log ~ gini_index + perc_pop_hs,
-                   data=hate_crimes_df_no_DC,
-                   trControl=data_train,
-                   method='lm',
-                   na.action=na.pass)
-  
-
-model_caret
-
-
-
-model_caret$finalModel
-
-
-model_caret$resample
-
-sd(model_caret$resample$Rsquared)
-```
-
-Model adjusted R^2: 0.1185
-Model RMSE: 0.5367246
-
-CV adjusted R^2: 0.153031
-CV MSE: 0.5554347
-
-
-
-```{r model validation no DC part 2}
-final_model_no_DC_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df_no_DC)
-sm<-summary(final_model_no_DC_unemploy)
-sm
-sqrt(mean(sm$residuals^2))
-
-
-set.seed(1)
-data_train<-trainControl(method="cv", number=5)
-
-
-model_caret<-train(hate_crimes_log ~ gini_index + perc_pop_hs +unemployment,
-                   data=hate_crimes_df_no_DC,
-                   trControl=data_train,
-                   method='lm',
-                   na.action=na.pass)
-  
-
-model_caret
-
-
-model_caret$finalModel
-
-
-model_caret$resample
-
-sd(model_caret$resample$Rsquared)
-```
-
-Model adjusted R^2: 0.125
-Model RMSE: 0.5281813
-
-CV adjusted R^2: 0.1730294
-CV RMSE: 0.560014
-
+2 Covariates
 ```{r validate the model with DC part 1}
 final_model <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df)
 sm<-summary(final_model)
@@ -555,7 +519,7 @@ CV adjusted R^2: 0.2943289
 CV RMSE: 0.5948853
 
 
-
+3 Covariates
 ```{r with Dc model validation part 2}
 final_model_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df)
 sm<-summary(final_model_unemploy)
@@ -593,18 +557,81 @@ CV RMSE: 0.6038494
 
 
 
-Stratify based on significant interactions and comment
 
-Model diagnostics
+Perform 5-fold Cross Validation looking at the Adjusted R^2 and the RMSE for the 2 covariates and 3 covariates models excluding DC:
 
-Duplicate code with and without DC and comment on the effect of the outlier.
-
-Final writeup!
-
-
-
-
+2 Covariates
+```{r validate the model no DC}
+final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
+sm<-summary(final_model_no_DC)
+sm
+sqrt(mean(sm$residuals^2))
 
 
+set.seed(1)
+data_train<-trainControl(method="cv", number=5)
+
+
+model_caret<-train(hate_crimes_log ~ gini_index + perc_pop_hs,
+                   data=hate_crimes_df_no_DC,
+                   trControl=data_train,
+                   method='lm',
+                   na.action=na.pass)
+  
+
+model_caret
+
+
+
+model_caret$finalModel
+
+
+model_caret$resample
+
+sd(model_caret$resample$Rsquared)
+```
+
+Model adjusted R^2: 0.1185
+Model RMSE: 0.5367246
+
+CV adjusted R^2: 0.153031
+CV MSE: 0.5554347
+
+
+3 Covariates
+```{r model validation no DC part 2}
+final_model_no_DC_unemploy <- lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = hate_crimes_df_no_DC)
+sm<-summary(final_model_no_DC_unemploy)
+sm
+sqrt(mean(sm$residuals^2))
+
+
+set.seed(1)
+data_train<-trainControl(method="cv", number=5)
+
+
+model_caret<-train(hate_crimes_log ~ gini_index + perc_pop_hs +unemployment,
+                   data=hate_crimes_df_no_DC,
+                   trControl=data_train,
+                   method='lm',
+                   na.action=na.pass)
+  
+
+model_caret
+
+
+model_caret$finalModel
+
+
+model_caret$resample
+
+sd(model_caret$resample$Rsquared)
+```
+
+Model adjusted R^2: 0.125
+Model RMSE: 0.5281813
+
+CV adjusted R^2: 0.1730294
+CV RMSE: 0.560014
 
 
