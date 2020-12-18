@@ -266,7 +266,15 @@ vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 # FIGURE 6
-hate_crimes_df %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>% rename(Unemployment = "unemployment") %>% ggplot(aes(x = value, y = hate_crimes_log, color = Unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") + labs(title = "Figure 6. Interaction Plots Between Hate Crime and All Continuous Variables by Unemployment Level", y = "Hate Crime (log)", x = "Value")
+hate_crimes_df %>%
+  pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>% 
+  rename(Unemployment = "unemployment") %>% 
+  ggplot(aes(x = value, y = hate_crimes_log, color = Unemployment)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1)) +
+  geom_smooth(method='lm', se=FALSE) + 
+  facet_wrap(~cont_var, scales = "free_x") + 
+  labs(title = "Figure 6. Interaction Plots Between Hate Crime and All Continuous Variables by Unemployment Level", y = "Hate Crime (log)", x = "Value")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -276,6 +284,7 @@ hate_crimes_df %>%
   rename(Urbanization = "urbanization") %>%
   ggplot(aes(x = value, y = hate_crimes_log, color = Urbanization)) +
   geom_point() + 
+  theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1)) +
   geom_smooth(method='lm', se=FALSE) + 
   facet_wrap(~cont_var, scales = "free_x") + labs(title = "Figure 7. Interaction Plots Between Hate Crime and All Continuous Variables by Urbanization Level", y = "Hate Crime (log)", x = "Value")
 ```
