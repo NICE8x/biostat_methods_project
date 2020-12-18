@@ -1,5 +1,5 @@
 ---
-title: "Project Report"
+title: "Factors Influencing State-Level Hate Crime Rates in the United States"
 author: "Caroline Andy, Vasili Fokaidis, Stella Li, Tessa Senders, Lily Wang"
 output: pdf_document
 ---
