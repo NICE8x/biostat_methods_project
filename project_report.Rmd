@@ -260,6 +260,22 @@ vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
+# FIGURE
+hate_crimes_df %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  ggplot(aes(x = value, y = hate_crimes_log, color = unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") 
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+# FIGURE
+hate_crimes_df %>% 
+  pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  
+  ggplot(aes(x = value, y = hate_crimes_log, color = urbanization)) +
+  geom_point() + 
+  geom_smooth(method='lm', se=FALSE) + 
+  facet_wrap(~cont_var, scales = "free_x")
+```
+
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 ## FIGURE 8
 # Printing the 2 best models of each size, using the Cp criterion:
 hc = hate_crimes_df %>%
