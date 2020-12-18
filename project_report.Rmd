@@ -204,6 +204,14 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
 par(mfrow = c(2,2))
 plot(mult_fit_1)
 title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
+
+hate_crimes_df_no_DC <- hate_crimes_df %>%
+  filter(state != "District of Columbia") %>%
+  mutate(hate_crimes_log = log(hate_crimes_per_100k_splc))
+
+final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
+plot(final_model_no_DC)
+title("Figure #. Two predictors without DC model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -319,8 +327,10 @@ table_rmse_rsquare %>%
 
 ## References
 
+- Dyke, Nella Van, and Griff Tester. “Dangerous Climates.” Journal of Contemporary Criminal Justice, vol. 30, no. 3, 2014, pp. 290–309., doi:10.1177/1043986214536666. 
 - “Incidents and Offenses.” FBI, FBI, 29 Oct. 2019, ucr.fbi.gov/hate-crime/2019/topic-pages/incidents-and-offenses. 
 - Majumder, M. “Higher Rates Of Hate Crimes Are Tied To Income Inequality.” FiveThirtyEight, FiveThirtyEight, 23 Jan. 2017, fivethirtyeight.com/features/higher-rates-of-hate-crimes-are-tied-to-income-inequality/. 
 - Miller, C., Werner-Winslow, A. “Ten Days After: Harassment and Intimidation in the Aftermath of the Election.” Southern Poverty Law Center, 29 Nov. 2016, www.splcenter.org/20161129/ten-days-after-harassment-and-intimidation-aftermath-election.  
 - Shively, Michael. Abt Associates Inc, 2005, Study of Literature and Legislation on Hate Crime in America. 
 - “Variables Affecting Crime.” FBI, FBI, 5 Nov. 2012, ucr.fbi.gov/hate-crime/2011/resources/variables-affecting-crime. 
+
