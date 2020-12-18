@@ -34,7 +34,7 @@ hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
 ```
 
 4 Missing states (Hawaii, North Dakota, South Dakota, Wyoming)
-Percent Non Citizen Maine is missing
+Percent Non Citizen Maine, Mississippi, and South Dakota are missing
 
 
 Descriptive Statistics:
