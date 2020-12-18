@@ -201,16 +201,17 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 ## FIGURES 4
 par(mfrow = c(2,2))
-plot(mult_fit_1, caption = "Data comes from FiveThirtyEight Hate Crimes data")
-title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
+plot(mult_fit_1)
+title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE, sub = "Data comes from FiveThirtyEight Hate Crimes data")
+
 
 hate_crimes_df_no_DC <- hate_crimes_df %>%
   filter(state != "District of Columbia") %>%
   mutate(hate_crimes_log = log(hate_crimes_per_100k_splc))
 
 final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
-plot(final_model_no_DC, caption = "Data comes from FiveThirtyEight Hate Crimes data")
-title("Figure #. Two predictors without DC model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
+plot(final_model_no_DC)
+title("Figure #. Two predictors without DC model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE, sub = "Data comes from FiveThirtyEight Hate Crimes data")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -251,7 +252,14 @@ summary(tab1) %>%
 ## Figure 5
 hate_crimes_df %>% 
   drop_na(perc_non_citizen) %>%
-  dplyr::select(!(state:urbanization)) %>% 
+  dplyr::select(!(state:urbanization), -hate_crimes_per_100k_splc) %>%
+  rename(
+    "Median Hh Income" = "median_household_income",
+    "% Adults >25yrs With HS Degree" = "perc_pop_hs",
+    "% Pop. Not U.S. Citizens" = "perc_non_citizen",
+    "% Pop. Not White" = "perc_non_white",
+    "Gini Index" = "gini_index",
+    "Hate Crimes Rate (log)" = "hate_crimes_log") %>%
   cor() %>% 
   corrplot::corrplot(method = "square", addCoef.col = "black", tl.col="black", tl.srt=45, insig = "blank", diag=FALSE, number.cex = .7, title = "Figure 5. Correlation Matrix", mar = c(0,0,1,0), caption = "Data comes from FiveThirtyEight Hate Crimes data")
 ```
@@ -287,7 +295,7 @@ hate_crimes_df %>%
          "% Population Non-White" = "perc_non_white",
          "Gini Index" = "gini_index") %>% 
   pivot_longer("Median Household Income":"% Population Non-White", names_to = "cont_var", values_to = "value") %>% 
-  mutate(cont_var = str_wrap(cont_var, width = 15)) %>% 
+  mutate(cont_var = stringr::str_wrap(cont_var, width = 15)) %>% 
   ggplot(aes(x = value, y = hate_crimes_log, color = Unemployment)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1)) +
@@ -306,7 +314,7 @@ hate_crimes_df %>%
          "% Population Non-White" = "perc_non_white",
          "Gini Index" = "gini_index") %>% 
   pivot_longer("Median Household Income":"% Population Non-White", names_to = "cont_var", values_to = "value") %>% 
-  mutate(cont_var = str_wrap(cont_var, width = 15)) %>% 
+  mutate(cont_var = stringr::str_wrap(cont_var, width = 15)) %>% 
   ggplot(aes(x = value, y = hate_crimes_log, color = Urbanization)) + 
   geom_point() + 
   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1)) +
