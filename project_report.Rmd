@@ -164,8 +164,7 @@ hate_crimes_df %>%
   labs(
     title = "Figure 1. Untransformed distribution of hate crimes per 100k population",
     x = "Hate Crimes Per 100k",
-    y = "Density",
-    caption = "Data comes from [where it comes from]"
+    y = "Density"
   )
 ```
 
@@ -191,8 +190,7 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
   labs(
     x = "State",
     y = "Log Hate Crimes per 100,000 Population",
-    title = "Figure 3. Log Hate Crimes Rate by State",
-    caption = "States in Increasing Order by Log Hate Crime Rate"
+    title = "Figure 3. Log Hate Crimes Rate by State"
   )
 ```
 
@@ -234,7 +232,7 @@ my_controls = tableby.control(
 tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
 
 summary(tab1) %>% 
-  knitr::kable(caption = "Table 1: Descriptive Statistics of States Reporting Hate Crimes")
+  knitr::kable(caption = "Descriptive Statistics of States Reporting Hate Crimes")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -250,7 +248,7 @@ hate_crimes_df %>%
 # TABLE 2
 vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_df)) %>%
   round(.,3) %>%
-  knitr::kable(col.names = "VIF", caption = "Table 2. VIF Values")
+  knitr::kable(col.names = "VIF", caption = "VIF Values")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
