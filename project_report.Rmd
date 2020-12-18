@@ -326,7 +326,7 @@ plot(1:7, rs$adjr2, xlab="No. of parameters", ylab="Adj R2", caption = "Data com
 title("Figure 8. Mallow's Cp and Adjusted R-Squared by # Parameters", side = 3, line = -2, outer = TRUE)
 ```
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 # FIGURE 9
 final_model_w_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df)
 plot(final_model_w_DC)
