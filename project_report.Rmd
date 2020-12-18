@@ -69,9 +69,9 @@ The data used for this project included state-level hate crime rates (hate crime
 - Income Gini coefficient (a measure of the extent to which the distribution of income among individuals within an economy deviates from a perfectly equal distribution; as of 2015)
 - Percent of residents who are non-White (as of 2015)
 
-First, we investigated the extent of missing data in our dataset. Four states--Hawaii, North Dakota, South Dakota, and Wyoming--did not report hate crime rate data, and thus were excluded from subsequent analyses. Three states--Maine, Mississippi, and South Dakota did not report their percent of residents who were non-citizens. The District of Columbia was included as a state for the purposes of these analyses. 
+First, we investigated the extent of missing data in our dataset. Four states -- Hawaii, North Dakota, South Dakota, and Wyoming -- did not report hate crime rate data, and thus were excluded from subsequent analyses. Three states -- Maine, Mississippi, and South Dakota -- did not report their percent of residents who were non-citizens. The District of Columbia was included as a state for the purposes of these analyses. 
 
-Using these data, our goal was to construct our own multivariable linear regression models to assess which of the collected variables, if any, are statistically significantly associated (at a 0.05 significance level) with population-adjusted hate incidents in the United States, to altogether critically examine the article's findings. To do so, we first generated descriptive statistics that we reported in a table which includes the mean, median, range (min-max), interquartile range, and count of missing entries for each numeric variable, and category percent breakdowns and count of missing entries for categorical variables (Table 1). The variable Gini Index was particularly interesting as it indicated income inequality in each state. The mean Gini Index value was 0.456 with a standard deviation of 0.021, and the range of these values was from 0.419 to 0.532. Together, these values indicated great income inequality in the overall dataset. Additionally, hate crime rate per 100,000 individuals had a mean and standard deviation of 0.315 and 0.150, respectively. The range of rates was from 0.067 to 1.522 indicating considerable variation in hate crime crimes per 100,000 individuals on a state-level. For categorical variables, the data showed that majority of states had high unemployment and high urbanization at 51.1% each.
+Using these data, our goal was to assess which of the collected variables, if any, are statistically significantly associated (at a 0.05 significance level) with population-adjusted hate incidents in the United States, to altogether critically examine the article's findings. To do so, we first generated descriptive statistics, including the mean, median, range (min-max), interquartile range, and count of missing entries for each numeric variable, and category percent breakdowns and count of missing entries for categorical variables (Table 1). Notably, the hate crime rate per 100,000 individuals had a mean of 0.315 and range of 0.067 to 1.522, indicating considerable variation in hate crime crimes per 100,000 individuals on a state-level. The mean Gini Index value was 0.456, ranged from 0.419 to 0.532 across the included states, together indicating substantial state-level income inequality in the overall dataset. For categorical variables, the data showed that majority of states had high unemployment and high urbanization at 51.1% each.
 
 
 In order to determine whether any data transformations would be necessary we visualized the distribution of the outcome (population-adjusted hate incidents per 100,000 population) by generating an overlaid density and histogram plot (Figure 1). Multivariable linear regression modeling operates under several assumptions, which include residual homoscedasticity (constant variance) and normality. Initial exploration of the distribution of the hate crimes rate data showed a strong departure from standard normal distribution with significant right skewness. Thus, we performed a Box Cox transformation to isolate the 'best' power transformation on the hate crimes rate variable to achieve normal residuals. 
@@ -83,7 +83,7 @@ To elucidate the existence of outliers and thus potential influential points, we
 
 In order to investigate the existence of multicollinearity between each of the continuous variables, we generated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multicollinearity; thus, in these instances, at least one of those correlated variables were dropped during subsequent model development. Additionally, we calculated the variance inflation factors (VIFs) for all variables, which quantify the degree of multicollinearity between the given predictor all other remaining covariates. 
 
-Next, we plotted potential interactions between the continuous variables and each categorical variable: urbanization and unemployment. These plots were created once including outliers and once excluding outliers. We then formally tested for significant interactions between any variable pairs with intersecting lines. All interaction tests were performed on datasets containing and not containing any observed outliers. 
+Next, we plotted potential interactions between the continuous variables and each categorical variable, urbanization and unemployment, to see if the effect of each continuosu variable on the log rate of hate crimes is different with respect to the levels of either urbanization or unemployment. These plots were created once including outliers and once excluding outliers. We then formally tested for significant interactions between any variable pairs with intersecting lines. All interaction tests were performed on datasets containing and not containing any observed outliers. 
 
 #### Model Development and Validation
 
@@ -258,9 +258,23 @@ hate_crimes_df %>%
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 # TABLE 2
-vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_df)) %>%
+hate_crimes_vif =
+  hate_crimes_df %>%
+    rename(
+      "Unemployment " = "unemployment",
+      "Urbanization " = "urbanization",
+      "Median Household Income" = "median_household_income",
+      "% Adults >25yrs With HS Degree" = "perc_pop_hs",
+      "% of Population Not U.S. Citizens" = "perc_non_citizen",
+      "% of Population Not White" = "perc_non_white",
+      "Gini Index" = "gini_index"
+    )
+
+vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data = hate_crimes_vif)) %>%
   round(.,3) %>%
-  knitr::kable(col.names = "VIF", caption = "VIF Values") 
+  knitr::kable(col.names = "VIF", caption = "VIF Values") %>%
+  kableExtra::kable_styling(full_width = F) %>%
+  kableExtra::footnote(general = "This table shows the variance inflation factors for each variable.")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
