@@ -201,16 +201,17 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 ## FIGURES 4
 par(mfrow = c(2,2))
-plot(mult_fit_1, caption = "Data comes from FiveThirtyEight Hate Crimes data")
-title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
+plot(mult_fit_1)
+title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE, sub = "Data comes from FiveThirtyEight Hate Crimes data")
+
 
 hate_crimes_df_no_DC <- hate_crimes_df %>%
   filter(state != "District of Columbia") %>%
   mutate(hate_crimes_log = log(hate_crimes_per_100k_splc))
 
 final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
-plot(final_model_no_DC, caption = "Data comes from FiveThirtyEight Hate Crimes data")
-title("Figure #. Two predictors without DC model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
+plot(final_model_no_DC)
+title("Figure #. Two predictors without DC model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE, sub = "Data comes from FiveThirtyEight Hate Crimes data")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
