@@ -258,9 +258,23 @@ hate_crimes_df %>%
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 # TABLE 2
-vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_df)) %>%
+hate_crimes_vif =
+  hate_crimes_df %>%
+    rename(
+      "Unemployment " = "unemployment",
+      "Urbanization " = "urbanization",
+      "Median Household Income" = "median_household_income",
+      "% Adults >25yrs With HS Degree" = "perc_pop_hs",
+      "% of Population Not U.S. Citizens" = "perc_non_citizen",
+      "% of Population Not White" = "perc_non_white",
+      "Gini Index" = "gini_index"
+    )
+
+vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data = hate_crimes_vif)) %>%
   round(.,3) %>%
-  knitr::kable(col.names = "VIF", caption = "VIF Values") 
+  knitr::kable(col.names = "VIF", caption = "VIF Values") %>%
+  kableExtra::kable_styling(full_width = F) %>%
+  kableExtra::footnote(general = "This table shows the variance inflation factors for each variable.")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
