@@ -92,9 +92,9 @@ Next, we plotted potential interactions between the continuous variables and eac
 
 We began by performing two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP and adjusted r-squared). Using these results, we then identified two models which maximize parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature. 
  
-Model goodness of fit was also assessed on a dataset excluding any observed outliers. 
+We repeated this process of model selection on the dataset excluding any observed outliers. 
 
-We additionally sought to generate a high performing predictive model for state-level hate crime rate. For validation, we performed 5-fold Cross Validation to check the performance of our two models.  One model included the covariates gini_index, perc_pop_hs, and unemployment and the other model included just gini_index and perc_pop_hs.  We performed 5-fold Cross Validation of both models including and excluding outliers to see if the they impacted our results.  
+To assess the model's predictive performance, we performed 5-fold Cross Validation when including and excluding outliers.
 
 ## Results
 
@@ -104,7 +104,7 @@ To visualize the distribution of the hate crimes rate data, we first generated a
 
 The generated Box Cox plot results suggest that a natural logarithmic transformation of the hate crimes rate data would most closely approximate normal distribution (Figure 2). Thus, we operated moving forward in model development using the natural log of hate crimes rate as the outcome of interest. 
 
-To investigate for any outliers in the data, we then plotted the hate crimes rate by state, and generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots (Figures 3-4). As Washington DC is clearly outside of the Cook's distance line in the residuals vs leverage plot, we concluded that this point is an outlier. This data point was included in any subsequent analyses, though all analyses were also rerun on this dataset excluding Washington DC for comparison.
+To identify any outliers in the data, we then plotted the hate crimes rate by state, and generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots (Figures 3-4). As Washington DC is clearly outside of the Cook's distance line in the residuals vs leverage plot, we concluded that this point is an outlier. This data point was included in any subsequent analyses, though all analyses were also rerun on this dataset excluding Washington DC for comparison.
 
 A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). 
 
@@ -116,15 +116,15 @@ Out of the continuous variables, percent non-citizen and percent non-white has a
 
 Use of variance inflation factors (VIFs) showed that the percent population without a high school degree (3.895), percent non-citizen (3.728), percent non-white (3.236) and median household income (3.108) had the highest degrees of multicollinearity between all other predictors. These values approach but do not exceed 4, the generally accepted value which denotes the need for further investigation and/or consideration of multicollinearity corrections. 
 
-Looking at the interaction plots for unemployment for the data containing the outlier(District of Columbia i.e. DC), there seemed to be potential interaction between unemployment and median household income as well as between unemployment and perc pop HS due to the differing directions in slope (the "lines crossing").
+For the dataset containing Washington DC, the interaction plots suggest potential interactions between unemployment and median household income, as well as between unemployment and percent population of high school graduates, as seen by the differing directions in slope (crossing lines). 
 
-Looking at the interaction plots for urbanization for the data containing DC, there seemed to be potential interaction between urbanization and the following variables: gini index, median household income, perc non citizen, and perc pop HS. 
+The urbanization interaction plots for these data suggest that there may be potential interaction bewteen urbanization and each of the following variables: gini index, median household income, percent non-citizen, and percent population of high school graduates.
 
-Looking at the interaction plots for unemployment for the data excluding DC, there seemed to be potential interaction between unemployment and gini index as well as between unemployment and perc pop HS.
+For the dataset excluding Washington DC, the interaction plots show potential interaction between unemployment and gini index as well as between unemployment and percent population of high school graduates.
 
-Looking at the interaction plots for urbanization for the data excluding DC, there seemed to be potential interaction between urbanization and median household income as well as between urbanization and perc pop HS.
+The urbanization interaction plots for these data suggest potential interaction between urbanization and median household income as well as between urbanization and percent population of high school graduates.
 
-When performing regression analyses for all of the above interactions for each dataset, none of the interactions were statistically significant at a 0.05 significance level.
+When performing regression analyses for all of the above interactions for each dataset, no interactions were found to be statistically significant at a 0.05 significance level.
 
 #### Model Development and Validation
 
