@@ -40,7 +40,7 @@ Gini Index (an indicator of wealth inequality) and percent population with a hig
 
 Multicollinearity tests showed possible correlation between median household income and percentage of population with a high school degree, as well as the percent non-citizen and percent non-white variables.
 
-Our identified model optimizing goodness of fit and predictive performance contained only the Gini Index and percent population with a high school degree as parameters, both of which were significant. Washington DC, the single outlier in the data, was found to be an influential point, as its absence from the data nullified the significance of the Gini Index predictor in the two-parameter model. 
+Our identified model optimizing goodness of fit and predictive performance contained only the Gini Index and percent population with a high school degree as parameters, both of which were significant. District of Columbia, the single outlier in the data, was found to be an influential point, as its absence from the data nullified the significance of the Gini Index predictor in the two-parameter model. 
 
 ## Introduction
 Hate crimes are a growing public health threat in the United States; as of 2020, the national rate of hate crimes in the United States is at its highest level in over a decade ["FBI Incidents and Offenses," 2019]. Existing research suggests that community-level socioeconomic factors such as racial breakdown, population density, level of educational attainment, and economic considerations (median income, poverty level, job availability) may be significant predictors of regional and state-level rates of hate crimes (“FBI: Variables Affecting Crime,” 2012, Shively, 2005, Van Dyke et al., 2014). A 2017 FiveThirtyEight article titled, "Higher Rates Of Hate Crimes Are Tied To Income Inequality," used 2016 FBI and Southern Poverty Law Center data to assess the association between state-level hate crime rate and select socioeconomic variables (Majumder, 2017).  
@@ -92,7 +92,7 @@ To assess the predictive performance of the top two identified models, we perfor
 #### Data Exploration
 The generated Box Cox transformation plot indicates that a lambda of 0 (i.e. a natural logarithmic transformation of the hate crimes rate outcome) would most closely approximate normal distribution (Figure 2). Thus, we operated moving forward in model development using the natural log of hate crimes rate as the outcome of interest. 
 
-Examining the Residuals vs Leverage plot generated from the regression model including all possible covariates, we see that District of Columbia is clearly outside of the Cook's Distance line; thus we concluded that this point is an outlier and a potential influential point (Figure 4).
+Examining the Residuals vs Leverage plot generated from the regression model including all possible covariates, we see that DC is clearly outside of the Cook's Distance line; thus we concluded that this point is an outlier and a potential influential point (Figure 4).
 
 A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). Notably, the hate crime rate per 100,000 individuals had a mean of 0.315 and range of 0.067 to 1.522, indicating considerable variation in state-level hate crime rates per 100,000 individuals. The Gini Index values, ranging from 0.419 to 0.532 across the included states, indicating substantial state-level income inequality in the overall dataset. A majority of states had both high urbanization and unemployment (51.1% each) (Table 1). 
 
