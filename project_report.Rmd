@@ -158,6 +158,40 @@ It is important to note that a natural logarithmic transformation of the outcome
 ## Figures and Tables
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
+## TABLE 1
+h_c_df =
+  hate_crimes_df %>%
+  rename(
+    Unemployment = "unemployment",
+    Urbanization = "urbanization",
+    "Median Household Income" = "median_household_income",
+    "% Adults >25yrs With HS Degree" = "perc_pop_hs",
+    "% of Population Not U.S. Citizens" = "perc_non_citizen",
+    "% of Population Not White" = "perc_non_white",
+    "Gini Index" = "gini_index",
+    "Hate Crime Rate Per 100k" = "hate_crimes_per_100k_splc"
+  ) %>%
+  dplyr::select(-state, -hate_crimes_log)
+
+my_controls = tableby.control(
+               total = T,
+               test=F,  
+               numeric.stats = c("meansd", "medianq1q3", "range", "Nmiss2"),
+               cat.stats = c("countpct", "Nmiss2"),
+               stats.labels = list(
+               meansd = "Mean (SD)",
+               medianq1q3 = "Median (Q1, Q3)",
+               range = "Min - Max",
+               Nmiss2 = "Missing",
+               countpct = "N (%)"))
+
+tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
+
+summary(tab1) %>% 
+  knitr::kable(caption = "Descriptive Statistics of States Reporting Hate Crimes")
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 ## FIGURE 1
 hate_crimes_df %>%
   ggplot(aes(x = hate_crimes_per_100k_splc)) +
@@ -202,7 +236,9 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
 ## FIGURES 4
 par(mfrow = c(2,2))
 plot(mult_fit_1)
-title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE, sub = "Data comes from FiveThirtyEight Hate Crimes data")
+title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
+mysubtitle = "Data comes from FiveThirtyEight Hate Crimes data"
+mtext(side=3, line=2, at=-0.07, adj=0, cex=0.7, mysubtitle)
 
 
 hate_crimes_df_no_DC <- hate_crimes_df %>%
@@ -211,41 +247,9 @@ hate_crimes_df_no_DC <- hate_crimes_df %>%
 
 final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
 plot(final_model_no_DC)
-title("Figure #. Two predictors without DC model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE, sub = "Data comes from FiveThirtyEight Hate Crimes data")
-```
-
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-## TABLE 1
-h_c_df =
-  hate_crimes_df %>%
-  rename(
-    Unemployment = "unemployment",
-    Urbanization = "urbanization",
-    "Median Household Income" = "median_household_income",
-    "% Adults >25yrs With HS Degree" = "perc_pop_hs",
-    "% of Population Not U.S. Citizens" = "perc_non_citizen",
-    "% of Population Not White" = "perc_non_white",
-    "Gini Index" = "gini_index",
-    "Hate Crime Rate Per 100k" = "hate_crimes_per_100k_splc"
-  ) %>%
-  dplyr::select(-state, -hate_crimes_log)
-
-my_controls = tableby.control(
-               total = T,
-               test=F,  
-               numeric.stats = c("meansd", "medianq1q3", "range", "Nmiss2"),
-               cat.stats = c("countpct", "Nmiss2"),
-               stats.labels = list(
-               meansd = "Mean (SD)",
-               medianq1q3 = "Median (Q1, Q3)",
-               range = "Min - Max",
-               Nmiss2 = "Missing",
-               countpct = "N (%)"))
-
-tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
-
-summary(tab1) %>% 
-  knitr::kable(caption = "Descriptive Statistics of States Reporting Hate Crimes")
+title("Figure #. Two predictors without DC model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
+mysubtitle = "Data comes from FiveThirtyEight Hate Crimes data"
+mtext(side=3, line=2, at=-0.07, adj=0, cex=0.7, mysubtitle)
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -280,9 +284,7 @@ hate_crimes_vif =
 
 vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data = hate_crimes_vif)) %>%
   round(.,3) %>%
-  knitr::kable(col.names = "VIF", caption = "VIF Values") %>%
-  kableExtra::kable_styling(full_width = F) %>%
-  kableExtra::footnote(general = "This table shows the variance inflation factors for each variable.")
+  knitr::kable(col.names = "VIF", caption = "VIF Values") 
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
