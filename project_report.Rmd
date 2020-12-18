@@ -33,9 +33,9 @@ We aimed to analyze the association between community-level variables and state-
 **Methods:**\
 The data used for this project included state-level hate crime rates per 100,000 individuals in the population, as reported by the Southern Poverty Law Center during the first weeks of November, 2016. Data elements also included socioeconomic factors that are hypothesized to be associated with hate crime. 
 
-The association between these socioeconomic factors and the hate crime rate outcome were examined using multivariable linear regression analysis. The outcome variable was first natural log transformed to adhere to the linear regression assumption of normal distribution. After identifying the significant predictors of state-level hate crime rate when controlling for all other covariates, we used automated and criterion-based approaches to generate a parsimonious high-performing predictive model. 
+The association between these socioeconomic factors and the hate crime rate outcome were examined using multivariable linear regression analysis. The outcome variable was first natural log transformed to adhere to the linear regression assumption of normal distribution. After identifying the statistically significant predictors of state-level hate crime rate when controlling for all other covariates, we used automated and criterion-based approaches to generate a parsimonious model that fit our data well. 
 
-Multicollinearity of covariates, outliers and variable interaction were also tested for and considered in model development. 
+Multicollinearity of covariates, outliers, and variable interaction were also tested for and considered in model development. 
 
 Finally, we assessed model goodness of fit and predictive performance through model validation. All steps of model development and validation were performed before and after removing Washington DC, an outlier in the data. 
 
