@@ -163,7 +163,10 @@ Yes, it does seem that the Gini index (income inequality) is the most significan
 Regress given covariates now on the transformed outcome (natural log)
 
 ```{r}
-summary(lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc, data = hate_crimes_df))
+transformed_mod <- lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc, data = hate_crimes_df)
+summary(transformed_mod)
+par(mfrow=c(2,2))
+plot(transformed_mod)
 ```
 
 Here we re-ran the same model, but using log of the output. We obtain the same results in terms of significant variables. 
