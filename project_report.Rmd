@@ -90,9 +90,7 @@ Next, we plotted potential interactions between the continuous variables and eac
 
 #### Model Development and Validation
 
-We began by performing two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP, adjusted r-squared and SSE/RSS). We also ran an analysis of variance (ANOVA) test to identify the most optimal model subset. 
-
-Using these results, we then identified two models which maximize parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature. 
+We began by performing two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP and adjusted r-squared). Using these results, we then identified two models which maximize parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature. 
  
 Model goodness of fit was also assessed on a dataset excluding any observed outliers. 
 
