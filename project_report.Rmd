@@ -81,7 +81,7 @@ The next approach used adjusted r-squared which favors models with a smaller sum
 
 Using these results, we then identified the two best models which maximize parsimony, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature.  We then compared these two models using an analysis of variance (a partial F-test for nested models). 
 
-We ensured that the model selected after this test did not violate any of the assumptions of linear regression by considering four main diagnostic plots: residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage. 
+We ensured that the model selected after this test did not violate any of the assumptions of linear regression by considering four main diagnostic plots: residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage (Figure 9). 
  
 We repeated this process of model selection on the dataset excluding any observed outliers. 
 
