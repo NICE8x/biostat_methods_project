@@ -106,9 +106,7 @@ To assess the predictive performance of the top two identified models, we perfor
 
 The generated Box Cox transformation plot indicates that a lambda of 0 (i.e. a natural logarithmic transformation of the hate crimes rate outcome) would most closely approximate normal distribution (Figure 2). Thus, we operated moving forward in model development using the natural log of hate crimes rate as the outcome of interest. 
 
-Since the District of Columbia is clearly outside of the Cook's Distance line in the Residuals vs Leverage plot, we concluded that this point is an outlier and a potential influential point (Figure #).
-
-Examining the Residuals vs Leverage plot generated from the regression model including all possible covariates, we see that DC is clearly outside of the Cook's Distance line; thus we concluded that this point is an outlier and a potential influential point.
+Examining the Residuals vs Leverage plot generated from the regression model including all possible covariates, we see that District of Columbia is clearly outside of the Cook's Distance line; thus we concluded that this point is an outlier and a potential influential point (Figure #).
 
 A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). Notably, the hate crime rate per 100,000 individuals had a mean of 0.315 and range of 0.067 to 1.522, indicating considerable variation in state-level hate crime rates per 100,000 individuals. The Gini Index values, ranging from 0.419 to 0.532 across the included states, indicating substantial state-level income inequality in the overall dataset. A majority of states had both high urbanization and unemployment (51.1% each) (Table 1). 
 
