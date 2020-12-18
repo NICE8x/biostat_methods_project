@@ -15,7 +15,11 @@ library(stringr)
 library(leaps)
 library(car)
 library(caret)
+library(arsenal)
+library(MASS)
+library(patchwork)
 ```
+
 
 Import Data
 
@@ -33,6 +37,45 @@ hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
 Percent Non Citizen Maine is missing
 
 
+Descriptive Statistics:
+
+```{r}
+h_c_df =
+  hate_crimes_df %>%
+  rename(
+    Unemployment = "unemployment",
+    Urbanization = "urbanization",
+    "Median Household Income" = "median_household_income",
+    "% Adults >25yrs With HS Degree" = "perc_pop_hs",
+    "% of Population Not U.S. Citizens" = "perc_non_citizen",
+    "% of Population Not White" = "perc_non_white",
+    "Gini Index" = "gini_index",
+    "Hate Crime Rate Per 100k" = "hate_crimes_per_100k_splc"
+  ) %>%
+  dplyr::select(-state)
+
+my_controls = tableby.control(
+               total = T,
+               test=F,  
+               numeric.stats = c("meansd", "medianq1q3", "range", "Nmiss2"),
+               cat.stats = c("countpct", "Nmiss2"),
+               stats.labels = list(
+               meansd = "Mean (SD)",
+               medianq1q3 = "Median (Q1, Q3)",
+               range = "Min - Max",
+               Nmiss2 = "Missing",
+               countpct = "N (%)"))
+
+tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
+
+summary(tab1) %>% 
+  knitr::kable()
+
+xtabs(~ Unemployment + Urbanization, data = h_c_df)
+```
+
+
+
 Look at distribution of the outcome
 
 ```{r descriptive stats}
@@ -46,6 +89,23 @@ hate_crimes_df %>%
     caption = "Figure 1: Untransformed distribution of hate crimes per 100k"
   )
 ```
+
+
+Box-Cox Transformation
+
+```{r}
+# Box Cox for multiple regression
+mult_fit_1 = lm(hate_crimes_per_100k_splc ~ unemployment + urbanization + median_household_income + perc_pop_hs + perc_non_citizen + gini_index + perc_non_white, data = hate_crimes_df)
+summary(mult_fit_1)
+
+boxcox(mult_fit_1)
+
+par(mfrow=c(2,2))
+plot(mult_fit_1)
+```
+
+
+
 
 Distribution of outcome after natural log transformation
 
