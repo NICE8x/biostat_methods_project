@@ -108,7 +108,7 @@ median_dist =
 gini_dist + median_dist
 ```
 
-Stratify based on unemployment, and urbanization just to see...
+Stratify based on unemployment, and urbanization to check for confounders
 
 ```{r}
 unemploy_high =
