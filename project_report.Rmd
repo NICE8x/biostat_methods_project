@@ -185,7 +185,7 @@ hate_crimes_df %>%
     title = "Figure 1. Untransformed distribution of hate crimes per 100k population",
     x = "Hate Crimes Per 100k",
     y = "Density",
-    caption = "Data comes from FiveThirtyEight Hate Crimes data"
+    caption = "The distribution of hate crimes across the states is clearly right-skewed, with a majority of states between 0.1-0.5 hate crimes per 100k."
   )
 ```
 
@@ -212,7 +212,7 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
     x = "State",
     y = "Log Hate Crimes per 100,000 Population",
     title = "Figure 3. Log Hate Crimes Rate by State",
-    caption = "Data comes from FiveThirtyEight Hate Crimes data"
+    caption = "States are arranged in increasing order of log hate crime. DC's hate crime rate seems abnormally high"
   )
 ```
 
