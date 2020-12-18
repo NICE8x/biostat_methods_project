@@ -221,14 +221,6 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
 par(mfrow = c(2,2))
 plot(mult_fit_1)
 title("Figure 4. Full Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
-
-hate_crimes_df_no_DC <- hate_crimes_df %>%
-  filter(state != "District of Columbia") %>%
-  mutate(hate_crimes_log = log(hate_crimes_per_100k_splc))
-
-final_model_no_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df_no_DC )
-plot(final_model_no_DC)
-title("Figure #. Two predictors without DC model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -282,7 +274,7 @@ hate_crimes_df %>%
   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1)) +
   geom_smooth(method='lm', se=FALSE) + 
   facet_wrap(~cont_var, scales = "free_x") + 
-  labs(title = "Figure 6. Interaction Plots Between Hate Crime and All Continuous Variables by Unemployment Level", y = "Hate Crime (log)", x = "Value", caption = "Data comes from FiveThirtyEight Hate Crimes data")
+  labs(title = "Figure 6. Interaction Plots Between Hate Crime and All Continuous Variables by Unemployment Level", y = "Hate Crime (log)", x = "Value", caption = "The interaction plots show interaction based on unemployment level. The plots show that\n percent adults over 25 years old with a high school degree shows a potentially strong\n interaction between high and low unemployment. Median household income also shows a\n potentially strong interaction between high and low unemployment while the remaining\n variables do show more parallel trends where unemployment level shows to have no\n interaction effect.")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -301,7 +293,8 @@ hate_crimes_df %>%
   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=1)) +
   geom_smooth(method='lm', se=FALSE) + 
   facet_wrap(~cont_var, scales = "free_x") + 
-  labs(title = "Figure 7. Interaction Plots Between Hate Crime and All Continuous Variables by Urbanization Level", y = "Hate Crime (log)", x = "Value", caption = "Data comes from FiveThirtyEight Hate Crimes data")
+  labs(title = "Figure 7. Interaction Plots Between Hate Crime and All Continuous Variables by Urbanization Level", y = "Hate Crime (log)", x = "Value", caption = "The interaction plots show interaction based on urbanization level. All variables show potential\n for interaction between high and low urbanization levels. Gini index shows potential for\n strongest interaction while percent adults over 25 years old with a high school degree show\n potential for weakest interaction, based on urbanization levels.
+")
 ```
 
 
@@ -331,6 +324,13 @@ abline(0,1)
 
 plot(1:7, rs$adjr2, xlab="No. of parameters", ylab="Adj R2", caption = "Data comes from FiveThirtyEight Hate Crimes data")
 title("Figure 8. Mallow's Cp and Adjusted R-Squared by # Parameters", side = 3, line = -2, outer = TRUE)
+```
+
+```{r}
+# FIGURE 9
+final_model_w_DC <- lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = hate_crimes_df)
+plot(final_model_w_DC)
+title("Figure 9. Two Predictors Model Hate Crime Diagnostic Plots", side = 3, line = -2, outer = TRUE)
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
