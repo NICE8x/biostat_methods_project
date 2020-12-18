@@ -1,6 +1,6 @@
 ---
-title: "Exploratory Analysis"
-author: "Tessa Senders"
+title: "Analysis"
+author: "Caroline Andy, Vasili Fokaidis, Stella Li, Tessa Senders, Lily Wang"
 date: "12/11/2020"
 output: html_document
 ---
