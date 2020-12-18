@@ -11,6 +11,7 @@ library(arsenal)
 library(MASS)
 library(patchwork)
 library(modelr)
+library(car)
 set.seed(1)
 
 hate_crimes_df <- read.csv("./data/HateCrimes.csv") %>%
@@ -39,10 +40,12 @@ Gini Index (an indicator of wealth inequality) and percent population with a hig
 
 Of the continuous variables, percent non-citizen and percent non-white were found to have a correlation coefficient of 0.753; median household income and percentage of population with a HS degree had a correlation coefficient of 0.651, both of which may suggest multicollinearity. No statistically significant interactions were identified between any variables in regression modeling. 
 
-Using automated and criterion-based approaches, and considering the body of scientific evidence with regard to significant and practically important socioeconomic factors associated with hate crimes, we identified one regression model which maximizes parsimony and predictive performance. This model includes the following predictors: [ADD FINAL PREDICTORS]
+Using automated and criterion-based approaches, and considering the body of scientific evidence with regard to significant and practically important socioeconomic factors associated with hate crimes, we identified several regression model which optimize parsimony and goodness of fit. This model includes the following predictors: [ADD FINAL PREDICTORS]
+
+[DC AS OUTLIER AND INFLUENTIAL POINT - NOTHING IS SIGNIFICANT ANYMORE AFTER REMOVING DC FOR MODEL WITH ALL VARIABLES; FOR SMALL MODEL, ONLY HS EDUCATION IS SIGNIFICANT]
 
 **Conclusions:**\
-Based on the November 2016 Southern Poverty Law Center data, Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significantly and independently associated of state-level hate crime rate.
+Based on the November 2016 Southern Poverty Law Center data, Gini Index (an indicator of wealth inequality) and percent population with a high school degree were both significantly and independently associated of state-level hate crime rate. 
 
 ## Introduction
 
@@ -55,7 +58,7 @@ For this project, we used this dataset to critically analyze this research team'
 
 ## Methods
 
-### Data Exploration
+#### Data Exploration
 
 The data used for this project included state-level hate crime rates (hate crimes per 100,000 population), as reported by the Southern Poverty Law Center during the first weeks of November, 2016. Collected state-level demographic variables include: 
 
@@ -79,17 +82,17 @@ To report basic descriptive statistics, we generated a table which includes the 
 
 In order to investigate the existence of multicollinearity between each of the continuous variables, we generated a correlation matrix. We decided that any correlation coefficient of 0.6 and above may suggest multicollinearity; thus, in these instances, at least one of those correlated variables were dropped during subsequent model development. Furthermore, we calculated the variance inflation factors (VIFs) for all variables, which quantify the degree of multicollinearity between the given predictor all other remaining covariates. 
 
-Next, we tested for significant interactions between each of the two categorical variables, unemployment and urbanization, and all other continuous variables. Any variables with significant interactions were then stratified and analyzed again.
+Next, we plotted potential interactions between the continuous variables and each categorical variable, urbanization and unemployment. We then formally tested for significant interactions between each of the two categorical variables and all other continuous variables. All interaction tests were performed on datasets containing and not containing any observed outliers. 
 
 #### Model Development and Validation
 
-To generate a high performing predictive model, we then performed two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP, r-squared and SSE/RSS). We also ran an analysis of variance (ANOVA) test to identify the most optimal model subset. 
+We began by performing two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP, adjusted r-squared and SSE/RSS). We also ran an analysis of variance (ANOVA) test to identify the most optimal model subset. 
 
-Using these results, we then identified a model which maximizes parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature. 
+Using these results, we then identified two models which maximize parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature. 
  
-Model goodness of fit was also assessed on a dataset excluding Washington DC, a previously noted outlier. 
+Model goodness of fit was also assessed on a dataset excluding any observed outliers. 
 
-For validation, we performed 5-fold Cross Validation to check the performance of our two models.  One model included the covariates gini_index, perc_pop_hs, and unemployment and the other model included just gini_index and perc_pop_hs.  We performed 5-fold Cross Validation of both models including the entry "District of Columbia" and excluding the entry "District fo Columbia" to see if the outlier impacted our results.  
+We additionally sought to generate a high performing predictive model for state-level hate crime rate. For validation, we performed 5-fold Cross Validation to check the performance of our two models.  One model included the covariates gini_index, perc_pop_hs, and unemployment and the other model included just gini_index and perc_pop_hs.  We performed 5-fold Cross Validation of both models including and excluding outliers to see if the they impacted our results.  
 
 ## Results
 
@@ -97,11 +100,13 @@ For validation, we performed 5-fold Cross Validation to check the performance of
 
 To visualize the distribution of the hate crimes rate data, we first generated an overlaid density and histogram plot (Figure 1). Multivariable linear regression modeling operates under several assumptions, which include residual homoscedasticity (constant variance) and normality. Initial exploration of the distribution of the hate crimes rate data showed a strong departure from standard normal distribution with significant right skewness. Thus, we performed a Box Cox test to isolate the 'best' power transformation on the hate crimes rate variable to achieve normal residuals. 
 
-The generated Box Cox plot results suggest that a logarithmic transformation of the hate crimes rate data would most closely approximate normal distribution (Figure 2). Thus, we operated moving forward in model development using the log hate crimes rate as the outcome of interest. 
+The generated Box Cox plot results suggest that a natural logarithmic transformation of the hate crimes rate data would most closely approximate normal distribution (Figure 2). Thus, we operated moving forward in model development using the natural log of hate crimes rate as the outcome of interest. 
 
-To investigate for any outliers in the data, we then plotted the hate crimes rate by state, and generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots (Figures 3-7). As Washington DC is clearly outside of the Cook's distance line in the residuals vs leverage plot, we concluded that this point is an outlier. This data point was included in any subsequent analyses, though all analyses were also rerun on this dataset excluding Washington DC for comparison.
+To investigate for any outliers in the data, we then plotted the hate crimes rate by state, and generated residuals vs fitted, normal Q-Q, scale-location, and residuals vs leverage plots (Figures 3-4). As Washington DC is clearly outside of the Cook's distance line in the residuals vs leverage plot, we concluded that this point is an outlier. This data point was included in any subsequent analyses, though all analyses were also rerun on this dataset excluding Washington DC for comparison.
 
-A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1).
+A table of basic descriptive statistics for the collected socioeconomic variables is included in the appendix (Table 1). 
+
+[WRITE SUMMARY OF TABLE RESULTS - Vasili]
 
 #### Multicollinearity and Interactions
 
@@ -109,30 +114,40 @@ Out of the continuous variables, percent non-citizen and percent non-white has a
 
 Use of variance inflation factors (VIFs) showed that the percent population without a high school degree (3.895), percent non-citizen (3.728), percent non-white (3.236) and median household income (3.108) had the highest degrees of multicollinearity between all other predictors. These values approach but do not exceed 4, the generally accepted value which denotes the need for further investigation and/or consideration of multicollinearity corrections. 
 
+[NEED TO ADD INTERACTIONS!!! - Tessa]
+
 #### Model Development and Validation
 
 We began our regression analyses by running linear regression models containing all possible predictors for both the untransformed hate crime rate and the log hate crime rate. Our results support the conclusions drawn in the FiveThirtyEight article: that the Gini Index was the most significant independent predictor of state hate crime rate when controlling for all other covariates; percent high school graduates variables was the only other statistically and independently significant variable. 
 
-To generate our own predictive model maximizing model parsimony and predictive performance, we employed two automated procedures: backward and forward selection. While the model proposed during forward selection contained all provided variables (Adjusted R-squared = 0.1849), the model generated through backwards selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = 0.2868). The only included predictors were the Gini Index, and the percent of high school graduates variables. 
+To generate our own models maximizing model parsimony and predictive performance, we employed two automated procedures: backward and forward selection. While the model proposed during forward selection contained all provided variables (Adjusted R-squared = 0.1849), the model generated through backwards selection was much more parsimonious and had a substantially higher adjusted R squared (Adjusted R-squared = 0.2868). The only included predictors were the Gini Index, and the percent of high school graduates variables. 
 
 We then employed three criterion based approaches in R, each of which generated the two best performing models which optimize the given criterion for each possible number of predictors. The first of these approaches used the Cp criterion, which compares the predictive ability of model subsets to the full model. To visualize these results, we generated a plot containing the Cp criterion distribution for the top performing model for each number of predictors (Figure 8). This shows that the best performing model with 3 covariates (Gini Index, percent high school graduates, and unemployment) had the best predictive performance as compared to the top performing models of all other possible sizes. 
 
 We also isolated the top two best performing models per number of predictors using the adjusted R squared criterion. We then generated a plot of the distribution of the adjusted R squared statistic for the top performing model for each number of included predictors (Figure 9). Results show that the model with three predictors performed the best while maximizing parsimony. 
 
-We generated the same outputs using the SSE/RSS criterion. The plot can be found in Figure 10. Results show that [INPUT RESULTS HERE FOR SSE/RSS CRITERION]. 
+We generated the same outputs using the SSE/RSS criterion. The plot can be found in Figure 10. Results show that [INPUT RESULTS HERE FOR SSE/RSS CRITERION - Tessa]. 
 
-To help distinguish the most optimal model between one with three predictors (Gini Index, percent high school graduates, and unemployment), and one with two (Gini Index and percent high school graduates), we ran an analysis of variance (ANOVA) test. Results suggest that the model containing two parameters is most optimal. The adjusted R-squared of the two-predictor model was 0.2541, while that of the three-predictor model was 0.2571, which is not a large enough increase in proportion of variance explained to justify keeping unemployment in the model.
+To help distinguish the most optimal model between one with three predictors (Gini Index, percent high school graduates, and unemployment), and one with two (Gini Index and percent high school graduates), we ran an analysis of variance (ANOVA) test. Results suggest that the model containing two parameters is most optimal. [TESSA HELP!] The adjusted R-squared of the two-predictor model was 0.2541, while that of the three-predictor model was 0.2571, which is not a large enough increase in proportion of variance explained to justify keeping unemployment in the model.
 
 Through cross-validation, we determined that the aforementioned two-predictor model also had better predictive value (RMSE = 0.5949, MAE = 0.5050) than the  three-predictor model (RMSE = 0.6038, MAE = 0.5067) (Figure 11). 
 
 Finally, because Washington DC was deemed to be an outlier previously, we re-ran our final model excluding it. Gini index became an insignificant predictor and adjusted R-squared of the total model decreased as well (from 0.2541 to 0.1185). However, predictive value increased (RMSE = 0.5554, MAE = 0.4741).
 
+[INCLUDE TABLE OF RMSE AND ADJUSTED R SQUARED FOR MODELS CONTAINING DC AND NOT CONTAINING DC - TESSA]
 
 ## Discussion/Conclusion
 
-After extensive analyses and modeling, we found that the optimal model in terms of goodness of fit and predictive value contained Gini index and percent population with a high school degree, with the latter variable being a more significant predictor of hate crime. However, these two predictors only accounted for 25.4% of the variability in the data. We believe that other factors not included in our dataset, such as percentage of the population who are LGBTQ+ or religious minorities, may also be important predictors of hate crime.
+After extensive analyses and modeling, we found that the optimal models in terms of goodness of fit and predictive value contained Gini index and percent population with a high school degree, with the latter variable being a more significant predictor of hate crime. However, these two predictors only accounted for 25.4% of the variability in the data. 
+
+[ADD IN MODEL W 3 PARAMETERS TOO]. 
 
 The drastic changes in predictor significance and adjusted R-squared between the model including and excluding Washington DC suggest that the district is indeed an influential point. The district has the highest hate crime rate and the highest income inequality out of all the states. 
+
+It is possible that other factors not included in our dataset, such as percentage of the population who are LGBTQ+ or religious minorities, may also be important predictors of hate crime.
+
+- limitations
+- suggestions for possible future studies 
 
 ## Figures and Tables
 
@@ -143,17 +158,22 @@ hate_crimes_df %>%
   geom_histogram(aes(y=..density..)) +
   geom_density(alpha=.1, fill="#FF6666") + 
   labs(
+    title = "Figure 1. Untransformed distribution of hate crimes per 100k population",
     x = "Hate Crimes Per 100k",
     y = "Density",
-    caption = "Figure 1: Untransformed distribution of hate crimes per 100k"
+    caption = "Data comes from [where it comes from]"
   )
 ```
+
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 ## FIGURE 2
 mult_fit_1 = lm(hate_crimes_per_100k_splc ~ unemployment + urbanization + median_household_income + perc_pop_hs + perc_non_citizen + gini_index + perc_non_white, data = hate_crimes_df)
 
 boxcox(mult_fit_1)
+
+# add title here!!!!!!!
 ```
+
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 ## FIGURE 3
 hate_crimes_df = hate_crimes_df %>%
@@ -168,13 +188,17 @@ ggplot(aes(x = state, y = hate_crimes_log)) +
   labs(
     x = "State",
     y = "Log Hate Crimes per 100,000 Population",
-    title = "Figure 3. Log Hate Crimes Rate by State"
+    title = "Figure 3. Log Hate Crimes Rate by State",
+    caption = "comment on trends/what's going on"
   )
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
-## FIGURES 4-7
+## FIGURES 4
+par(mfrow = c(2,2))
 plot(mult_fit_1)
+
+# see if we can add a title to this cluster of 4 plots? 
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -208,7 +232,7 @@ my_controls = tableby.control(
 tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
 
 summary(tab1) %>% 
-  knitr::kable(caption = "Table 1: Descriptive Statistics of Tidied Dataset")
+  knitr::kable(caption = "Table 1: Descriptive Statistics of States Reporting Hate Crimes")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -218,6 +242,17 @@ hate_crimes_df %>%
   dplyr::select(!(state:urbanization)) %>% 
   cor() %>% 
   round(.,3)
+
+# try to tidy/add title if possible? 
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+# TABLE 3
+vif(lm(hate_crimes_log ~. - hate_crimes_per_100k_splc - state, data=hate_crimes_df)) %>%
+  round(.,3) %>%
+  knitr::kable()
+
+# use kableextra package to rename column 
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
@@ -242,45 +277,17 @@ par(mar=c(4,4,1,1))
 par(mfrow=c(1,2))
 
 plot(2:8, rs$cp, xlab="No of parameters", ylab="Cp Statistic")
+abline(0,1)
 
 plot(2:8, rs$adjr2, xlab="No of parameters", ylab="Adj R2")
+
+# title? 
 ```
+^^^ check these plots since the numbers seem weird 
 
-```{r message=FALSE, warning=FALSE, echo = FALSE}
-# FIGURE 11
-cv_df =
-  crossv_mc(hate_crimes_df, 100) %>% 
-  mutate(
-    train = map(train, as_tibble),
-    test = map(test, as_tibble))
-
-cv_df = 
-  cv_df %>% 
-  mutate(
-    two_cov_model = map(train, ~lm(hate_crimes_log ~ gini_index + perc_pop_hs, data = .x)),
-    three_cov_model = map(train, ~lm(hate_crimes_log ~ gini_index + perc_pop_hs + unemployment, data = .x))
-  ) %>%
-    
-  mutate(
-    rmse_two_cov = map2_dbl(two_cov_model, test, ~rmse(model = .x, data = .y)),
-    rmse_three_cov = map2_dbl(three_cov_model, test, ~rmse(model = .x, data = .y))
-    )
-
-cv_df %>% 
-  dplyr::select(starts_with("rmse")) %>% 
-  pivot_longer(
-    everything(),
-    names_to = "model", 
-    values_to = "rmse",
-    names_prefix = "rmse_") %>% 
-  mutate(model = fct_inorder(model)) %>% 
-  ggplot(aes(x = model, y = rmse)) + geom_violin() + 
-  labs(
-    title = "RMSE for Two- and Three-Predictor Models",
-    x = "Model",
-    y = "RMSE"
-  )
-```
+[ADD DIAGNOSTIC PLOTS FOR DIFFERENT MODELS (2 and 3 covariate models for both DC and not DC) (stella/vasili), ADD TABLE FOR RMSE AND ADJ R SQUARED RESULTS (lily) AND LILY'S INTERACTION PLOTS]
 
 
 ## References
+
+(caroline)
