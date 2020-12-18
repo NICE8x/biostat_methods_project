@@ -225,6 +225,34 @@ plot(final_model_unemploy)
 
 ```
 
+Test a model with interactions between each of the categorical variables and all the continuous variables-(pre-eliminate some continuous variables based on previous analysis).  Interaction between each categorical variable and the perc non white and perc non citizen
+
+Interaction graphs of unemployment with all continuous variables to help with testing interactions:
+
+```{r}
+hate_crimes_df %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  ggplot(aes(x = value, y = hate_crimes_log, color = unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") 
+hate_crimes_df_no_DC %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  ggplot(aes(x = value, y = hate_crimes_log, color = unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") 
+```
+
+Interaction graphs of urbanization with all continuous variables:
+
+```{r}
+hate_crimes_df %>% 
+  pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  
+  ggplot(aes(x = value, y = hate_crimes_log, color = urbanization)) +
+  geom_point() + 
+  geom_smooth(method='lm', se=FALSE) + 
+  facet_wrap(~cont_var, scales = "free_x") 
+
+hate_crimes_df_no_DC %>% 
+  pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  
+  ggplot(aes(x = value, y = hate_crimes_log, color = urbanization)) +
+  geom_point() + 
+  geom_smooth(method='lm', se=FALSE) + 
+  facet_wrap(~cont_var, scales = "free_x")
+```
+
+
 ```{r, message = FALSE, warning = FALSE}}
 # Interactions with DC
 
@@ -253,14 +281,32 @@ small_mod_2 = lm(hate_crimes_log ~ gini_index + perc_pop_hs + gini_index*urbaniz
 
 summary(small_mod_2)
 
-#Checking just interactions that appeared significant in the plot
+#Checking just interactions that appeared significant in the plot for unemployment:
 
-plot_mod = lm(hate_crimes_log ~ gini_index + perc_pop_hs + gini_index*urbanization + perc_pop_hs*urbanization, data = hate_crimes_df)
+plot_mod = lm(hate_crimes_log ~ median_household_income*unemployment, data = hate_crimes_df)
+summary(plot_mod)
+
+plot_mod_1 = lm(hate_crimes_log ~ perc_pop_hs*unemployment, data = hate_crimes_df)
+summary(plot_mod_1)
+
+#Checking just interactions that appeared significant in the plot for urbanization:
+
+plot_mod_2 = lm(hate_crimes_log ~ gini_index*urbanization, data = hate_crimes_df)
+summary(plot_mod_2)
+
+plot_mod_3 = lm(hate_crimes_log ~ median_household_income*urbanization, data = hate_crimes_df)
+summary(plot_mod_3)
+
+plot_mod_4 = lm(hate_crimes_log ~ perc_non_citizen*urbanization, data = hate_crimes_df)
+summary(plot_mod_4)
+
+plot_mod_5 = lm(hate_crimes_log ~ perc_pop_hs*urbanization, data = hate_crimes_df)
+summary(plot_mod_5)
 ```
 There shows to be no significant interactions between either of the categorical variables and the continuous variables. Nor did removing median_household_income (because of multicollinearity) show any significant interactions. There also shows to be no interactions between either of the categorical variables and gini_index and perc_pop_hs in the smaller models. 
 
 ```{r DC code}
-#DC code and interactions
+#No DC code and interactions
 hate_crimes_df_no_DC <- hate_crimes_df %>%
   filter(state != "District of Columbia") %>%
   mutate(hate_crimes_log = log(hate_crimes_per_100k_splc))
@@ -268,24 +314,50 @@ hate_crimes_df_no_DC <- hate_crimes_df %>%
 hate_crimes_df = hate_crimes_df %>%
   mutate(hate_crimes_log = log(hate_crimes_per_100k_splc))
 
+#All variables
 mod = lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc, data = hate_crimes_df_no_DC)
 summary(mod)
 
+#All interactions
 full_mod = lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc + unemployment*perc_pop_hs + unemployment*median_household_income + unemployment*perc_non_citizen + unemployment*gini_index + unemployment*perc_non_white + urbanization*perc_pop_hs + urbanization*median_household_income + urbanization*perc_non_citizen + urbanization*gini_index + urbanization*perc_non_white, data = hate_crimes_df_no_DC)
 
 summary(full_mod)
 
+#All interactions but removing median household income
 full_mod_1 = lm(hate_crimes_log ~ . - state - hate_crimes_per_100k_splc + unemployment*perc_pop_hs + unemployment*perc_non_citizen + unemployment*gini_index + unemployment*perc_non_white + urbanization*perc_pop_hs + urbanization*perc_non_citizen + urbanization*gini_index + urbanization*perc_non_white, data = hate_crimes_df_no_DC)
 
 summary(full_mod_1)
 
+#Small model with unemployment interaction
 small_mod = lm(hate_crimes_log ~ gini_index + perc_pop_hs + gini_index*unemployment + perc_pop_hs*unemployment, data = hate_crimes_df_no_DC)
 
 summary(small_mod)
 
+#Small model with urbanization interaction
 small_mod_1 = lm(hate_crimes_log ~ gini_index + perc_pop_hs + gini_index*urbanization + perc_pop_hs*urbanization, data = hate_crimes_df_no_DC)
 
 summary(small_mod_1)
+
+#Small model and urbanization and unemployment
+small_mod_2 = lm(hate_crimes_log ~ gini_index + perc_pop_hs + gini_index*urbanization + perc_pop_hs*urbanization+ gini_index*unemployment + perc_pop_hs*unemployment, data = hate_crimes_df_no_DC)
+
+summary(small_mod_2)
+
+#Checking just interactions that appeared significant in the plot for unemployment:
+
+plot_mod = lm(hate_crimes_log ~ gini_index*unemployment, data = hate_crimes_df_no_DC)
+summary(plot_mod)
+
+plot_mod_1 = lm(hate_crimes_log ~ perc_pop_hs*unemployment, data = hate_crimes_df_no_DC)
+summary(plot_mod_1)
+
+#Checking just interactions that appeared significant in the plot for urbanization:
+
+plot_mod_2 = lm(hate_crimes_log ~ median_household_income*urbanization, data = hate_crimes_df_no_DC)
+summary(plot_mod_2)
+
+plot_mod_3 = lm(hate_crimes_log ~ perc_pop_hs*urbanization, data = hate_crimes_df_no_DC)
+summary(plot_mod_3)
 ```
 
 ```{r, message = FALSE, warning = FALSE}
@@ -369,32 +441,6 @@ Calculate VIFs for multicollinearity
 Drop either perc non citizen or per non white
 Drop either median household income or perc pop with HS degree-drop median household income due to multicollinearity
 
-Test a model with interactions between each of the categorical variables and all the continuous variables-(pre-eliminate some continuous variables based on previous analysis).  Interaction between each categorical variable and the perc non white and perc non citizen
-
-Interaction graphs of unemployment with all continuous variables to help with testing interactions:
-
-```{r}
-hate_crimes_df %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  ggplot(aes(x = value, y = hate_crimes_log, color = unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") 
-hate_crimes_df_no_DC %>% pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  ggplot(aes(x = value, y = hate_crimes_log, color = unemployment)) + geom_point() + geom_smooth(method='lm', se=FALSE) + facet_wrap(~cont_var, scales = "free_x") 
-```
-
-Interaction graphs of urbanization with all continuous variables:
-
-```{r}
-hate_crimes_df %>% 
-  pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  
-  ggplot(aes(x = value, y = hate_crimes_log, color = urbanization)) +
-  geom_point() + 
-  geom_smooth(method='lm', se=FALSE) + 
-  facet_wrap(~cont_var, scales = "free_x") 
-
-hate_crimes_df_no_DC %>% 
-  pivot_longer(median_household_income:perc_non_white, names_to = "cont_var", values_to = "value") %>%  
-  ggplot(aes(x = value, y = hate_crimes_log, color = urbanization)) +
-  geom_point() + 
-  geom_smooth(method='lm', se=FALSE) + 
-  facet_wrap(~cont_var, scales = "free_x")
-```
 
 
 ```{r validate the model no DC}
