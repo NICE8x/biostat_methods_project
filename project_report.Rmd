@@ -228,7 +228,7 @@ h_c_df =
     "Gini Index" = "gini_index",
     "Hate Crime Rate Per 100k" = "hate_crimes_per_100k_splc"
   ) %>%
-  dplyr::select(-state)
+  dplyr::select(-state, -hate_crimes_log)
 
 my_controls = tableby.control(
                total = T,
