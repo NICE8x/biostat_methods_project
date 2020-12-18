@@ -90,9 +90,7 @@ Next, we plotted potential interactions between the continuous variables and eac
 
 #### Model Development and Validation
 
-We began by performing two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP, adjusted r-squared and SSE/RSS). We also ran an analysis of variance (ANOVA) test to identify the most optimal model subset. 
-
-Using these results, we then identified two models which maximize parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature. 
+We began by performing two automated procedures for model variable selection (forward and backward selection) and several criterion based approaches (CP and adjusted r-squared). Using these results, we then identified two models which maximize parsimony, predictive performance, interpretability and practical application, which takes into account variables deemed to be significant and practically important in existing literature. 
  
 Model goodness of fit was also assessed on a dataset excluding any observed outliers. 
 
@@ -329,8 +327,10 @@ table_rmse_rsquare %>%
 
 ## References
 
+- Dyke, Nella Van, and Griff Tester. “Dangerous Climates.” Journal of Contemporary Criminal Justice, vol. 30, no. 3, 2014, pp. 290–309., doi:10.1177/1043986214536666. 
 - “Incidents and Offenses.” FBI, FBI, 29 Oct. 2019, ucr.fbi.gov/hate-crime/2019/topic-pages/incidents-and-offenses. 
 - Majumder, M. “Higher Rates Of Hate Crimes Are Tied To Income Inequality.” FiveThirtyEight, FiveThirtyEight, 23 Jan. 2017, fivethirtyeight.com/features/higher-rates-of-hate-crimes-are-tied-to-income-inequality/. 
 - Miller, C., Werner-Winslow, A. “Ten Days After: Harassment and Intimidation in the Aftermath of the Election.” Southern Poverty Law Center, 29 Nov. 2016, www.splcenter.org/20161129/ten-days-after-harassment-and-intimidation-aftermath-election.  
 - Shively, Michael. Abt Associates Inc, 2005, Study of Literature and Legislation on Hate Crime in America. 
 - “Variables Affecting Crime.” FBI, FBI, 5 Nov. 2012, ucr.fbi.gov/hate-crime/2011/resources/variables-affecting-crime. 
+
