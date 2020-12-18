@@ -196,8 +196,7 @@ my_controls = tableby.control(
 tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
 
 summary(tab1) %>% 
-  knitr::kable(caption = "Descriptive Statistics of States Reporting Hate Crimes") %>%
-  kableExtra::kable_styling(full_width = F) 
+  knitr::kable(caption = "Descriptive Statistics of States Reporting Hate Crimes")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
