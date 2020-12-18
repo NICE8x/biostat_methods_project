@@ -2,8 +2,7 @@
 title: "Project Report"
 author: "Caroline Andy, Vasili Fokaidis, Stella Li, Tessa Senders, Lily Wang"
 date: "12/11/2020"
-output: pdf_document:
-  always_allow_html: true
+output: pdf_document
 ---
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE}
@@ -193,8 +192,7 @@ tab1 = tableby( ~ ., data = h_c_df, control = my_controls)
 
 summary(tab1) %>% 
   knitr::kable(caption = "Descriptive Statistics of States Reporting Hate Crimes") %>%
-  kableExtra::kable_styling(full_width = F) %>%
-  kableExtra::footnote(general = "This table shows the adjusted R^2 and RMSE values for two models with DC and two models without DC for two and three predictors in each type of model.")
+  kableExtra::kable_styling(full_width = F) 
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
