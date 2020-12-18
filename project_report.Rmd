@@ -236,7 +236,7 @@ hate_crimes_df %>%
     "Gini Index" = "gini_index",
     "Hate Crimes Rate (log)" = "hate_crimes_log") %>%
   cor() %>% 
-  corrplot::corrplot(method = "square", addCoef.col = "black", tl.col="black", tl.srt=60, insig = "blank", diag=FALSE, number.cex = .7, title = "Figure 5. Correlation Matrix", mar = c(0,0,1,0), caption = "Data comes from FiveThirtyEight Hate Crimes data")
+  corrplot::corrplot(method = "square", addCoef.col = "black", tl.col="black", tl.srt=60, insig = "blank", diag=FALSE, number.cex = .7, title = "Figure 5. Correlation Matrix", mar = c(0,0,1,0), caption = "Percent not White and percent not citizen  have the largest correlation coefficient, followed by median household income and percent of adults having a HS degree")
 ```
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE, results='asis'}
